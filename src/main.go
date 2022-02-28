@@ -4,7 +4,7 @@ import (
   "flag"
   "fmt"
   "os"
-  "github.com/carnegierobotics/greenhouse-client-go/internal/greenhouse"
+  "github.com/carnegierobotics/greenhouse-client-go/greenhouse"
   "github.com/carnegierobotics/greenhouse-client-go/internal/http"
   "github.com/carnegierobotics/greenhouse-client-go/internal/utils"
 )
