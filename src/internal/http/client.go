@@ -13,6 +13,7 @@ type Client struct {
   Token string
   OnBehalfOf string
   Client *resty.Client
+  // At some point, also need to implement the job board API stuff.
 }
 
 func (c *Client) BuildResty() (error) {
