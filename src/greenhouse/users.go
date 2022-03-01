@@ -1,6 +1,7 @@
 package greenhouse
 
 import (
+  "fmt"
   "github.com/carnegierobotics/greenhouse-client-go/internal/http"
   "github.com/carnegierobotics/greenhouse-client-go/internal/utils"
 )
@@ -10,7 +11,7 @@ type UserBasics struct {
   Name string `json:"name"`
   FirstName string `json:"first_name"`
   LastName string `json:"last_name"`
-  EmployeeId string `json:"employee_id"`
+  EmployeeId string `json:"employee_id,omitempty"`
 }
 
 type User struct {
@@ -43,7 +44,7 @@ func CreateUser(c *http.Client, obj *User) error {
 
 func EnableUser(c *http.Client, obj *User) error {
   lookupInfo := GetLookupInfo(obj)
-  err := utils.Update(c, "users/enable", lookupInfo)
+  err := utils.Update(c, "users/enable", obj.Id, lookupInfo)
   if err != nil {
     return err
   }
@@ -52,7 +53,7 @@ func EnableUser(c *http.Client, obj *User) error {
 
 func DisableUser(c *http.Client, obj *User) error {
   lookupInfo := GetLookupInfo(obj)
-  err := utils.Update(c, "users/disable", lookupInfo)
+  err := utils.Update(c, "users/disable", obj.Id, lookupInfo)
   if err != nil {
     return err
   }
@@ -60,7 +61,7 @@ func DisableUser(c *http.Client, obj *User) error {
 }
 
 func UpdateUser(c *http.Client, obj *UserBasics) error {
-  err := utils.Update(c, "users", obj)
+  err := utils.Update(c, "users", obj.Id, obj)
   if err != nil {
     return err
   }

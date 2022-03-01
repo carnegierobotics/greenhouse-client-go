@@ -35,7 +35,7 @@ func CreateDepartment(c *http.Client, deptObj *Department) error {
 }
 
 func UpdateDepartment(c *http.Client, deptObj *Department) error {
-  err := utils.Update(c, "departments", deptObj)
+  err := utils.Update(c, "departments", deptObj.Id, deptObj)
   if err != nil {
     return err
   }
