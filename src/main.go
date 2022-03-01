@@ -4,8 +4,7 @@ import (
   "flag"
   "fmt"
   "os"
-  // "github.com/carnegierobotics/greenhouse-client-go/greenhouse"
-  "github.com/carnegierobotics/greenhouse-client-go/internal/http"
+  "github.com/carnegierobotics/greenhouse-client-go/greenhouse"
 )
 
 func main() {
@@ -26,6 +25,6 @@ func main() {
     fmt.Printf("Please provide a On-Behalf-Of user.")
     os.Exit(1)
   }
-  harvestClient := http.Client{BaseUrl: harvestUrl, Token: token, OnBehalfOf: onBehalfOf}
+  harvestClient := greenhouse.Client{BaseUrl: harvestUrl, Token: token, OnBehalfOf: onBehalfOf}
   harvestClient.BuildResty()
 }

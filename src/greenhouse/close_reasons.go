@@ -1,8 +1,6 @@
 package greenhouse
 
 import (
-  "github.com/carnegierobotics/greenhouse-client-go/internal/http"
-  "github.com/carnegierobotics/greenhouse-client-go/internal/utils"
 )
 
 type CloseReason struct {
@@ -10,9 +8,9 @@ type CloseReason struct {
   Name string `json:"name"`
 }
 
-func GetCloseReason(c *http.Client, id int) (*CloseReason, error) {
+func GetCloseReason(c *Client, id int) (*CloseReason, error) {
   var obj CloseReason
-  err := utils.GetById(c, "close_reasons", id, obj)
+  err := GetById(c, "close_reasons", id, obj)
   if err != nil {
     return nil, err
   }

@@ -2,8 +2,6 @@ package greenhouse
 
 import (
   "fmt"
-  "github.com/carnegierobotics/greenhouse-client-go/internal/http"
-  "github.com/carnegierobotics/greenhouse-client-go/internal/utils"
 )
 
 type UserBasics struct {
@@ -25,43 +23,43 @@ type User struct {
   LinkedCandidateIds []int `json:"linked_candidate_ids"`
 }
 
-func GetUser(c *http.Client, id int) (*User, error) {
+func GetUser(c *Client, id int) (*User, error) {
   var obj User
-  err := utils.GetById(c, "users", id, obj)
+  err := GetById(c, "users", id, obj)
   if err != nil {
     return nil, err
   }
   return &obj, nil
 }
 
-func CreateUser(c *http.Client, obj *User) error {
-  err := utils.Create(c, "users", obj)
+func CreateUser(c *Client, obj *User) error {
+  err := Create(c, "users", obj)
   if err != nil {
     return err
   }
   return nil
 }
 
-func EnableUser(c *http.Client, obj *User) error {
+func EnableUser(c *Client, obj *User) error {
   lookupInfo := GetLookupInfo(obj)
-  err := utils.Update(c, "users/enable", obj.Id, lookupInfo)
+  err := Update(c, "users/enable", obj.Id, lookupInfo)
   if err != nil {
     return err
   }
   return nil
 }
 
-func DisableUser(c *http.Client, obj *User) error {
+func DisableUser(c *Client, obj *User) error {
   lookupInfo := GetLookupInfo(obj)
-  err := utils.Update(c, "users/disable", obj.Id, lookupInfo)
+  err := Update(c, "users/disable", obj.Id, lookupInfo)
   if err != nil {
     return err
   }
   return nil
 }
 
-func UpdateUser(c *http.Client, obj *UserBasics) error {
-  err := utils.Update(c, "users", obj.Id, obj)
+func UpdateUser(c *Client, obj *UserBasics) error {
+  err := Update(c, "users", obj.Id, obj)
   if err != nil {
     return err
   }

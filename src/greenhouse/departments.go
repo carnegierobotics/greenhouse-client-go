@@ -1,9 +1,6 @@
 package greenhouse
 
-import (
-  "github.com/carnegierobotics/greenhouse-client-go/internal/http"
-  "github.com/carnegierobotics/greenhouse-client-go/internal/utils"
-)
+import ()
 
 type Department struct {
   Id int `json:"id"`
@@ -17,25 +14,25 @@ type Department struct {
   */
 }
 
-func GetDepartment(c *http.Client, id int) (*Department, error) {
+func GetDepartment(c *Client, id int) (*Department, error) {
   var obj Department
-  err := utils.GetById(c, "departments", id, obj)
+  err := GetById(c, "departments", id, obj)
   if err != nil {
     return nil, err
   }
   return &obj, nil
 }
 
-func CreateDepartment(c *http.Client, deptObj *Department) error {
-  err := utils.Create(c, "departments", deptObj)
+func CreateDepartment(c *Client, deptObj *Department) error {
+  err := Create(c, "departments", deptObj)
   if err != nil {
     return err
   }
   return nil
 }
 
-func UpdateDepartment(c *http.Client, deptObj *Department) error {
-  err := utils.Update(c, "departments", deptObj.Id, deptObj)
+func UpdateDepartment(c *Client, deptObj *Department) error {
+  err := Update(c, "departments", deptObj.Id, deptObj)
   if err != nil {
     return err
   }

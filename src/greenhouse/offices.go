@@ -1,9 +1,6 @@
 package greenhouse
 
-import(
-  "github.com/carnegierobotics/greenhouse-client-go/internal/http"
-  "github.com/carnegierobotics/greenhouse-client-go/internal/utils"
-)
+import()
 
 type Office struct {
   Id int `json:"id"`
@@ -19,25 +16,25 @@ type Office struct {
   */
 }
 
-func GetOffice(c *http.Client, id int) (*Office, error) {
+func GetOffice(c *Client, id int) (*Office, error) {
   var obj Office
-  err := utils.GetById(c, "offices", id, obj)
+  err := GetById(c, "offices", id, obj)
   if err != nil {
     return nil, err
   }
   return &obj, nil
 }
 
-func CreateOffice(c *http.Client, obj *Office) error {
-  err := utils.Create(c, "offices", obj)
+func CreateOffice(c *Client, obj *Office) error {
+  err := Create(c, "offices", obj)
   if err != nil {
     return err
   }
   return nil
 }
 
-func UpdateOffice(c *http.Client, obj *Office) error {
-  err := utils.Update(c, "offices", obj.Id, obj)
+func UpdateOffice(c *Client, obj *Office) error {
+  err := Update(c, "offices", obj.Id, obj)
   if err != nil {
     return err
   }
