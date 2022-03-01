@@ -21,6 +21,14 @@ func Create(c *Client, itemType string, item interface{}) error {
   return nil
 }
 
+func Exists(c *Client, itemType string, id int) (bool, error) {
+  resp, err := c.Client.R().Get(fmt.Sprintf("v1/%s/%d", itemType, id))
+  if err != nil && resp.IsSuccess() {
+    return false, nil
+  }
+  return err == nil, err
+}
+
 func GetById(c *Client, itemType string, id int, item interface{}) error {
   resp, err := c.Client.R().Get(fmt.Sprintf("v1/%s/%d", itemType, id))
   if err != nil {
