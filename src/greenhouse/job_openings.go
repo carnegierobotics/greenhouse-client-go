@@ -2,7 +2,7 @@ package greenhouse
 
 import ()
 
-type Opening struct {
+type JobOpening struct {
   Id int `json:"id"`
   OpeningId string `json:"opening_id"`
   Status string `json:"status"`

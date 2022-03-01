@@ -1,21 +1,13 @@
 package greenhouse
 
 import (
-  "encoding/json"
-  "errors"
-  "fmt"
   "github.com/carnegierobotics/greenhouse-client-go/internal/http"
   "github.com/carnegierobotics/greenhouse-client-go/internal/utils"
 )
 
-const deptEndpoint = "v1/departments"
-
-type DepartmentBasics struct {
-  Name string `json:"name"`
-}
-
 type Department struct {
-  Id int `json:"id,omitempty"`
+  Id int `json:"id"`
+  Name string `json:"name"`
   ParentId int `json:"parent_id,omitempty"`
   ChildIds []int `json:"child_ids,omitempty"`
   /* Not in our product tier.
@@ -34,17 +26,18 @@ func GetDepartment(c *http.Client, id int) (*Department, error) {
   return &obj, nil
 }
 
-func CreateDepartment(c *http.Client, deptObj *DepartmentBasics) error {
-  jsonBody, err := json.Marshal(*deptObj)
+func CreateDepartment(c *http.Client, deptObj *Department) error {
+  err := utils.Create(c, "departments", deptObj)
   if err != nil {
     return err
   }
-  resp, err := c.Client.R().SetBody(jsonBody).Post(deptEndpoint)
+  return nil
+}
+
+func UpdateDepartment(c *http.Client, deptObj *Department) error {
+  err := utils.Update(c, "departments", deptObj)
   if err != nil {
     return err
-  }
-  if !resp.IsSuccess() {
-    return errors.New(resp.Status())
   }
   return nil
 }

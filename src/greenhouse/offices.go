@@ -15,3 +15,28 @@ type Office struct {
   ExternalId string `json:"external_id"`
   */
 }
+
+func GetOffice(c *http.Client, id int) (*Office, error) {
+  var obj Office
+  err := utils.GetById(c, "offices", id, obj)
+  if err != nil {
+    return nil, err
+  }
+  return &obj, nil
+}
+
+func CreateDepartment(c *http.Client, obj *Office) error {
+  err := utils.Create(c, "offices", obj)
+  if err != nil {
+    return err
+  }
+  return nil
+}
+
+func UpdateDepartment(c *http.Client, obj *Office) error {
+  err := utils.Update(c, "offices", obj)
+  if err != nil {
+    return err
+  }
+  return nil
+}

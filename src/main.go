@@ -4,9 +4,8 @@ import (
   "flag"
   "fmt"
   "os"
-  "github.com/carnegierobotics/greenhouse-client-go/greenhouse"
+  // "github.com/carnegierobotics/greenhouse-client-go/greenhouse"
   "github.com/carnegierobotics/greenhouse-client-go/internal/http"
-  "github.com/carnegierobotics/greenhouse-client-go/internal/utils"
 )
 
 func main() {
@@ -29,44 +28,4 @@ func main() {
   }
   harvestClient := http.Client{BaseUrl: harvestUrl, Token: token, OnBehalfOf: onBehalfOf}
   harvestClient.BuildResty()
-  // Get all users
-  var allUsers []*greenhouse.User
-  err := utils.GetAll(&harvestClient, "users", &allUsers)
-  if err != nil {
-    fmt.Printf("An error occurred", err.Error())
-    os.Exit(1)
-  }
-  /*
-  for _, u := range allUsers {
-    fmt.Printf("%s\n", u.Name)
-  }
-  */
-  // Get a single user by ID
-  var user *greenhouse.User
-  err = utils.GetById(&harvestClient, "users", 4005448005, &user)
-  if err != nil {
-    fmt.Printf("An error occurred", err.Error())
-    os.Exit(1)
-  }
-  // fmt.Printf("%v", user.Name)
-  // Get all departments
-  var allDepartments []*greenhouse.Department
-  err = utils.GetAll(&harvestClient, "departments", &allDepartments)
-  if err != nil {
-    fmt.Printf(err.Error())
-    os.Exit(1)
-  }
-  /*
-  for _, d := range allDepartments {
-    fmt.Printf("%s\n", d.Name)
-  }
-  */
-  // Create a department
-  /*
-  testDept := greenhouse.DepartmentBasics{Name: "test"}
-  err = greenhouse.CreateDepartment(&harvestClient, &testDept)
-  if err != nil {
-    fmt.Printf(err.Error())
-  }
-  */
 }

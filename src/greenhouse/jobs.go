@@ -20,7 +20,7 @@ type Job struct {
   CustomFields map[string]interface{} `json:"custom_fields"`
   KeyedCustomFields map[string]interface{} `json:"keyed_custom_fields"`
   HiringTeam map[string][]HiringMember `json:"hiring_team"`
-  Openings []Opening `json:"openings"`
+  Openings []JobOpening `json:"openings"`
 }
 
 type HiringMember struct {
