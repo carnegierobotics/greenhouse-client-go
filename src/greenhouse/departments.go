@@ -14,6 +14,15 @@ type Department struct {
   */
 }
 
+type DepartmentCreateInfo struct {
+  Name string `json:"name"`
+  ParentId int `json:"parent_id,omitempty"`
+}
+
+type DepartmentUpdateInfo struct {
+  Name string `json:"name"`
+}
+
 func GetDepartment(c *Client, id int) (*Department, error) {
   var obj Department
   err := GetById(c, "departments", id, obj)
@@ -23,16 +32,16 @@ func GetDepartment(c *Client, id int) (*Department, error) {
   return &obj, nil
 }
 
-func CreateDepartment(c *Client, deptObj *Department) error {
-  err := Create(c, "departments", deptObj)
+func CreateDepartment(c *Client, obj *DepartmentCreateInfo) error {
+  err := Create(c, "departments", obj)
   if err != nil {
     return err
   }
   return nil
 }
 
-func UpdateDepartment(c *Client, deptObj *Department) error {
-  err := Update(c, "departments", deptObj.Id, deptObj)
+func UpdateDepartment(c *Client, id int, obj *DepartmentUpdateInfo) error {
+  err := Update(c, "departments", id, obj)
   if err != nil {
     return err
   }

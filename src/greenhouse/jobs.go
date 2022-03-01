@@ -38,6 +38,14 @@ type Job struct {
   Openings []JobOpening `json:"openings"`
 }
 
+type JobCreateInfo struct {
+
+}
+
+type JobUpdateInfo struct {
+
+}
+
 type HiringMember struct {
   UserBasics
   Responsible bool `json:"responsible"`
