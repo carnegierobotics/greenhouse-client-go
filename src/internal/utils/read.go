@@ -6,8 +6,8 @@ import (
   "github.com/carnegierobotics/greenhouse-client-go/internal/http"
 )
 
-func GetById(c http.Client, itemType string, id string, item interface{}) error {
-  resp, err := c.Client.R().Get(fmt.Sprintf("v1/%s/%s", itemType, id))
+func GetById(c *http.Client, itemType string, id int, item interface{}) error {
+  resp, err := c.Client.R().Get(fmt.Sprintf("v1/%s/%d", itemType, id))
   if err != nil {
     return err
   }
@@ -18,7 +18,7 @@ func GetById(c http.Client, itemType string, id string, item interface{}) error 
   return nil
 }
 
-func GetAll(c http.Client, itemType string, itemList interface{}) error {
+func GetAll(c *http.Client, itemType string, itemList interface{}) error {
   resp, err := c.Client.R().Get(fmt.Sprintf("v1/%s", itemType))
   if err != nil {
     return err

@@ -8,8 +8,10 @@ type Office struct {
   Location map[string]string `json:"location"`
   PrimaryContactUserId int `json:"primary_contact_user_id"`
   ParentId int `json:"parent_id"`
-  ParentOfficeExternalId string `json:"parent_office_external_id"`
   ChildIds []int `json:"child_ids"`
+  /* Not in our product tier.
+  ParentOfficeExternalId string `json:"parent_office_external_id"`
   ChildOfficeExternalIds []string `json:"child_office_external_ids"`
   ExternalId string `json:"external_id"`
+  */
 }
