@@ -11,5 +11,5 @@ run:
     - -c
     - |
       VERSION=$(cat VERSION)
-      jfrog rt c rt-server -url $RT_URL --user ((writer-artifactory-user)) --password ((writer-artifactory-token)) --interactive=false
-      jfrog rt gp devops-go-local $VERSION --server-id rt-server
+      jf rt c rt-server -url $RT_URL --user ((writer-artifactory-user)) --password ((writer-artifactory-token)) --interactive=false
+      jf rt gp devops-go-local $VERSION --server-id rt-server
