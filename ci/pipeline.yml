@@ -54,7 +54,7 @@ jobs:
         <<: *step-config
       - task: build
         privileged: false 
-        file: ci/tasks/build.yml
+        file: repo/ci/tasks/build.yml
         image: jfrog-cli-image
         input_mapping:
           repo: repo 
