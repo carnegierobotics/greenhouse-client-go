@@ -39,9 +39,9 @@ jobs:
         trigger: true
         <<: *step-config
       - set_pipeline: self
-        file: ci/pipeline.yml
+        file: repo/ci/pipeline.yml
         var_files: 
-          - ci/vars.yml
+          - repo/ci/vars.yml
   - name: build
     <<: *job-config
     plan:
