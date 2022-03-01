@@ -26,7 +26,7 @@ resources:
     icon: docker 
     check_every: never
     source:
-      repository: releases-docker.jfrog.io/jfrog/jfrog-cli-v2-jf 
+      repository: releases-docker.jfrog.io/jfrog/jfrog-cli-full-v2-jf 
       tag: latest
       #username: ((writer-artifactory-user))
       #password: ((writer-artifactory-token))
