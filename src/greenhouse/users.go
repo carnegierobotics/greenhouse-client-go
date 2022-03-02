@@ -1,16 +1,16 @@
 package greenhouse
 
 import (
-  "errors"
+	"errors"
 	"fmt"
 )
 
 type User struct {
-	Id                 int    `json:"id"`
-	Name               string `json:"name"`
-	FirstName          string `json:"first_name"`
-	LastName           string `json:"last_name"`
-	EmployeeId         string `json:"employee_id,omitempty"`
+	Id                 int      `json:"id"`
+	Name               string   `json:"name"`
+	FirstName          string   `json:"first_name"`
+	LastName           string   `json:"last_name"`
+	EmployeeId         string   `json:"employee_id,omitempty"`
 	PrimaryEmail       string   `json:"primary_email_address"`
 	UpdatedAt          string   `json:"updated_at"`
 	CreatedAt          string   `json:"created_at"`
@@ -21,15 +21,15 @@ type User struct {
 }
 
 type UserCreateInfo struct {
-  FirstName string `json:"first_name"`
-  LastName  string `json:"last_name"`
-  Email     string `json:"email"`
-  SendEmail bool   `json:"send_email_invite,omitempty"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Email     string `json:"email"`
+	SendEmail bool   `json:"send_email_invite,omitempty"`
 }
 
 type UserUpdateInfo struct {
-  FirstName string `json:"first_name,omitempty"`
-  LastName  string `json:"last_name,omitempty"`
+	FirstName string `json:"first_name,omitempty"`
+	LastName  string `json:"last_name,omitempty"`
 }
 
 func GetUser(c *Client, id int) (*User, error) {
@@ -51,25 +51,25 @@ func CreateUser(c *Client, obj *UserCreateInfo) (int, error) {
 
 func EnableUser(c *Client, id int) error {
 	lookupInfo := GetLookupInfo(id)
-  resp, err := c.Client.R().SetBody(lookupInfo).Patch("v2/users/enable")
+	resp, err := c.Client.R().SetBody(lookupInfo).Patch("v2/users/enable")
 	if err != nil {
 		return err
 	}
-  if !resp.IsSuccess() {
-    return errors.New(resp.Status())
-  }
+	if !resp.IsSuccess() {
+		return errors.New(resp.Status())
+	}
 	return nil
 }
 
 func DisableUser(c *Client, id int) error {
 	lookupInfo := GetLookupInfo(id)
-  resp, err := c.Client.R().SetBody(lookupInfo).Patch("v2/users/disable")
+	resp, err := c.Client.R().SetBody(lookupInfo).Patch("v2/users/disable")
 	if err != nil {
 		return err
 	}
-  if !resp.IsSuccess() {
-    return errors.New(resp.Status())
-  }
+	if !resp.IsSuccess() {
+		return errors.New(resp.Status())
+	}
 	return nil
 }
 

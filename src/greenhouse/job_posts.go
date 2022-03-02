@@ -3,11 +3,20 @@ package greenhouse
 import ()
 
 type JobPost struct {
-	Id            int         `json:"id"`
-	OpeningId     string      `json:"opening_id"`
-	Status        string      `json:"status"`
-	OpenedAt      string      `json:"opened_at"`
-	ClosedAt      string      `json:"closed_at"`
-	ApplicationId int         `json:"application_id"`
-	CloseReason   CloseReason `json:"close_reason"`
+	Id                       int                   `json:"id"`
+	Active                   bool                  `json:"active"`
+	Live                     bool                  `json:"live"`
+	FirstPublishedAt         string                `json:"first_published_at"`
+	Internal                 bool                  `json:"internal"`
+	External                 bool                  `json:"external"`
+	JobId                    int                   `json:"job_id"`
+	Content                  string                `json:"content"`
+	InternalContent          string                `json:"internal_content"`
+	UpdatedAt                string                `json:"updated_at"`
+	CreatedAt                string                `json:"created_at"`
+	DemographicQuestionSetId int                   `json:"demographic_question_set_id"`
+	Questions                []DemographicQuestion `json:"questions"`
+}
+
+type JobPostUpdateInfo struct {
 }
