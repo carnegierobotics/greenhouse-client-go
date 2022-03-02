@@ -27,4 +27,10 @@ func main() {
 	}
 	harvestClient := greenhouse.Client{BaseUrl: harvestUrl, Token: token, OnBehalfOf: onBehalfOf}
 	harvestClient.BuildResty()
+  obj, err := greenhouse.GetDepartment(&harvestClient, 4002950005)
+  if err != nil {
+    fmt.Printf("An error occurred.")
+    os.Exit(1)
+  }
+  fmt.Printf("%v", obj)
 }

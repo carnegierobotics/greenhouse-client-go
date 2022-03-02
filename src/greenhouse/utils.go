@@ -41,6 +41,7 @@ func GetById(c *Client, itemType string, id int, item interface{}) error {
 		return err
 	}
 	err = json.Unmarshal(resp.Body(), &item)
+  fmt.Printf("%v", item)
 	if err != nil {
 		return err
 	}

@@ -1,6 +1,8 @@
 package greenhouse
 
-import ()
+import (
+  "fmt"
+)
 
 type Department struct {
 	Id       int    `json:"id"`
@@ -25,7 +27,8 @@ type DepartmentUpdateInfo struct {
 
 func GetDepartment(c *Client, id int) (*Department, error) {
 	var obj Department
-	err := GetById(c, "departments", id, obj)
+	err := GetById(c, "departments", id, &obj)
+  fmt.Printf("%v", obj)
 	if err != nil {
 		return nil, err
 	}

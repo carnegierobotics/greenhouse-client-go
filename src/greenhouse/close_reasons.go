@@ -9,7 +9,7 @@ type CloseReason struct {
 
 func GetCloseReason(c *Client, id int) (*CloseReason, error) {
 	var obj CloseReason
-	err := GetById(c, "close_reasons", id, obj)
+	err := GetById(c, "close_reasons", id, &obj)
 	if err != nil {
 		return nil, err
 	}

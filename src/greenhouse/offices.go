@@ -18,7 +18,7 @@ type Office struct {
 
 func GetOffice(c *Client, id int) (*Office, error) {
 	var obj Office
-	err := GetById(c, "offices", id, obj)
+	err := GetById(c, "offices", id, &obj)
 	if err != nil {
 		return nil, err
 	}

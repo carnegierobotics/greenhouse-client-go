@@ -25,7 +25,7 @@ type User struct {
 
 func GetUser(c *Client, id int) (*User, error) {
 	var obj User
-	err := GetById(c, "users", id, obj)
+	err := GetById(c, "users", id, &obj)
 	if err != nil {
 		return nil, err
 	}
