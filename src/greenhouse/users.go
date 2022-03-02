@@ -1,6 +1,7 @@
 package greenhouse
 
 import (
+  "errors"
 	"fmt"
 )
 
@@ -48,21 +49,27 @@ func CreateUser(c *Client, obj *UserCreateInfo) (int, error) {
 	return id, nil
 }
 
-func EnableUser(c *Client, obj *User) error {
-	lookupInfo := GetLookupInfo(obj)
-	err := Update(c, "users/enable", obj.Id, lookupInfo)
+func EnableUser(c *Client, id int) error {
+	lookupInfo := GetLookupInfo(id)
+  resp, err := c.Client.R().SetBody(lookupInfo).Patch("v1/users/enable")
 	if err != nil {
 		return err
 	}
+  if !resp.IsSuccess() {
+    return errors.New(resp.Status())
+  }
 	return nil
 }
 
-func DisableUser(c *Client, obj *User) error {
-	lookupInfo := GetLookupInfo(obj)
-	err := Update(c, "users/disable", obj.Id, lookupInfo)
+func DisableUser(c *Client, id int) error {
+	lookupInfo := GetLookupInfo(id)
+  resp, err := c.Client.R().SetBody(lookupInfo).Patch("v1/users/disable")
 	if err != nil {
 		return err
 	}
+  if !resp.IsSuccess() {
+    return errors.New(resp.Status())
+  }
 	return nil
 }
 
@@ -74,6 +81,6 @@ func UpdateUser(c *Client, id int, obj *UserUpdateInfo) error {
 	return nil
 }
 
-func GetLookupInfo(obj *User) string {
-	return fmt.Sprintf("{\"user\":{\"user_id\":%d}}", obj.Id)
+func GetLookupInfo(id int) string {
+	return fmt.Sprintf("{\"user\":{\"user_id\":%d}}", id)
 }
