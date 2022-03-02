@@ -4,16 +4,12 @@ import (
 	"fmt"
 )
 
-type UserBasics struct {
-	Id         int    `json:"id"`
-	Name       string `json:"name"`
-	FirstName  string `json:"first_name"`
-	LastName   string `json:"last_name"`
-	EmployeeId string `json:"employee_id,omitempty"`
-}
-
 type User struct {
-	UserBasics
+	Id                 int    `json:"id"`
+	Name               string `json:"name"`
+	FirstName          string `json:"first_name"`
+	LastName           string `json:"last_name"`
+	EmployeeId         string `json:"employee_id,omitempty"`
 	PrimaryEmail       string   `json:"primary_email_address"`
 	UpdatedAt          string   `json:"updated_at"`
 	CreatedAt          string   `json:"created_at"`
@@ -21,6 +17,18 @@ type User struct {
 	SiteAdmin          bool     `json:"site_admin"`
 	Emails             []string `json:"emails"`
 	LinkedCandidateIds []int    `json:"linked_candidate_ids"`
+}
+
+type UserCreateInfo struct {
+  FirstName string `json:"first_name"`
+  LastName  string `json:"last_name"`
+  Email     string `json:"email"`
+  SendEmail bool   `json:"send_email_invite,omitempty"`
+}
+
+type UserUpdateInfo struct {
+  FirstName string `json:"first_name,omitempty"`
+  LastName  string `json:"last_name,omitempty"`
 }
 
 func GetUser(c *Client, id int) (*User, error) {
@@ -32,7 +40,7 @@ func GetUser(c *Client, id int) (*User, error) {
 	return &obj, nil
 }
 
-func CreateUser(c *Client, obj *User) (int, error) {
+func CreateUser(c *Client, obj *UserCreateInfo) (int, error) {
 	id, err := Create(c, "users", obj)
 	if err != nil {
 		return id, err
@@ -58,8 +66,8 @@ func DisableUser(c *Client, obj *User) error {
 	return nil
 }
 
-func UpdateUser(c *Client, obj *UserBasics) error {
-	err := Update(c, "users", obj.Id, obj)
+func UpdateUser(c *Client, id int, obj *UserUpdateInfo) error {
+	err := Update(c, "users", id, obj)
 	if err != nil {
 		return err
 	}

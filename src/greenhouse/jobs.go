@@ -45,6 +45,9 @@ type JobUpdateInfo struct {
 }
 
 type HiringMember struct {
-	UserBasics
-	Responsible bool `json:"responsible"`
+  Id          int    `json:"id"`
+  FirstName   string `json:"first_name"`
+  LastName    string `json:"last_name"`
+  Name        string `json:"name"`
+	Responsible bool   `json:"responsible,omitempty"`
 }
