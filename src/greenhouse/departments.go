@@ -1,7 +1,7 @@
 package greenhouse
 
 import (
-  "fmt"
+	"fmt"
 )
 
 type Department struct {
@@ -28,7 +28,7 @@ type DepartmentUpdateInfo struct {
 func GetDepartment(c *Client, id int) (*Department, error) {
 	var obj Department
 	err := GetById(c, "departments", id, &obj)
-  fmt.Printf("%v", obj)
+	fmt.Printf("%v", obj)
 	if err != nil {
 		return nil, err
 	}
