@@ -64,7 +64,7 @@ type HiringMember struct {
 
 func GetJob(c *Client, id int) (*Job, error) {
 	var obj Job
-	err := GetById(c, "jobs", &obj)
+	err := GetById(c, "jobs", id, &obj)
 	if err != nil {
 		return nil, err
 	}
