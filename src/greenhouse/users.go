@@ -51,7 +51,7 @@ func CreateUser(c *Client, obj *UserCreateInfo) (int, error) {
 
 func EnableUser(c *Client, id int) error {
 	lookupInfo := GetLookupInfo(id)
-  resp, err := c.Client.R().SetBody(lookupInfo).Patch("v1/users/enable")
+  resp, err := c.Client.R().SetBody(lookupInfo).Patch("v2/users/enable")
 	if err != nil {
 		return err
 	}
@@ -63,7 +63,7 @@ func EnableUser(c *Client, id int) error {
 
 func DisableUser(c *Client, id int) error {
 	lookupInfo := GetLookupInfo(id)
-  resp, err := c.Client.R().SetBody(lookupInfo).Patch("v1/users/disable")
+  resp, err := c.Client.R().SetBody(lookupInfo).Patch("v2/users/disable")
 	if err != nil {
 		return err
 	}
