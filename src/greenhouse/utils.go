@@ -6,19 +6,25 @@ import (
 	"fmt"
 )
 
-func Create(c *Client, itemType string, item interface{}) error {
+type RespObj struct {
+  Id int `json:"id"`
+}
+
+func Create(c *Client, itemType string, item interface{}) (int, error) {
+  var respObj RespObj
 	jsonBody, err := json.Marshal(item)
 	if err != nil {
-		return err
+		return respObj.Id, err
 	}
 	resp, err := c.Client.R().SetBody(jsonBody).Post(fmt.Sprintf("v1/%s", itemType))
+  err = json.Unmarshal(resp.Body(), &respObj)
 	if err != nil {
-		return err
+		return respObj.Id, err
 	}
 	if !resp.IsSuccess() {
-		return errors.New(resp.Status())
+		return respObj.Id, errors.New(resp.Status())
 	}
-	return nil
+	return respObj.Id, nil
 }
 
 func Exists(c *Client, itemType string, id int) (bool, error) {

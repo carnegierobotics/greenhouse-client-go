@@ -32,12 +32,12 @@ func GetUser(c *Client, id int) (*User, error) {
 	return &obj, nil
 }
 
-func CreateUser(c *Client, obj *User) error {
-	err := Create(c, "users", obj)
+func CreateUser(c *Client, obj *User) (int, error) {
+	id, err := Create(c, "users", obj)
 	if err != nil {
-		return err
+		return id, err
 	}
-	return nil
+	return id, nil
 }
 
 func EnableUser(c *Client, obj *User) error {

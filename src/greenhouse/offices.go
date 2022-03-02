@@ -25,12 +25,12 @@ func GetOffice(c *Client, id int) (*Office, error) {
 	return &obj, nil
 }
 
-func CreateOffice(c *Client, obj *Office) error {
-	err := Create(c, "offices", obj)
+func CreateOffice(c *Client, obj *Office) (int, error) {
+	id, err := Create(c, "offices", obj)
 	if err != nil {
-		return err
+		return id, err
 	}
-	return nil
+	return id, nil
 }
 
 func UpdateOffice(c *Client, obj *Office) error {

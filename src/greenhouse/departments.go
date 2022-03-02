@@ -32,12 +32,12 @@ func GetDepartment(c *Client, id int) (*Department, error) {
 	return &obj, nil
 }
 
-func CreateDepartment(c *Client, obj *DepartmentCreateInfo) error {
-	err := Create(c, "departments", obj)
+func CreateDepartment(c *Client, obj *DepartmentCreateInfo) (int, error) {
+	id, err := Create(c, "departments", obj)
 	if err != nil {
-		return err
+		return id, err
 	}
-	return nil
+	return id, nil
 }
 
 func UpdateDepartment(c *Client, id int, obj *DepartmentUpdateInfo) error {
