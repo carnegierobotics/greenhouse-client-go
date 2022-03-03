@@ -1,9 +1,9 @@
 package greenhouse
 
 import (
-  "encoding/json"
-  "errors"
-  "fmt"
+	"encoding/json"
+	"errors"
+	"fmt"
 )
 
 type Job struct {
@@ -60,20 +60,20 @@ type JobUpdateInfo struct {
 
 type HiringMember struct {
 	Id          int    `json:"id"`
-  UserId      int    `json:"user_id,omitempty"`
-  Active      bool   `json:"active,omitempty"`
+	UserId      int    `json:"user_id,omitempty"`
+	Active      bool   `json:"active,omitempty"`
 	FirstName   string `json:"first_name"`
 	LastName    string `json:"last_name"`
 	Name        string `json:"name"`
 	Responsible bool   `json:"responsible,omitempty"`
-  EmployeeId  string `json:"employee_id,omitempty"`
+	EmployeeId  string `json:"employee_id,omitempty"`
 }
 
 type HiringMemberUpdateInfo struct {
-  UserId      int   `json:"user_id"`
-  ResponsibleForFutureCandidates bool `json:"responsible_for_future_candidates"`
-  ResponsibleForActiveCandidates bool `json:"responsible_for_active_candidates"`
-  ResponsibleForInactiveCandidates bool `json:"responsible_for_inactive_candidates"`
+	UserId                           int  `json:"user_id"`
+	ResponsibleForFutureCandidates   bool `json:"responsible_for_future_candidates"`
+	ResponsibleForActiveCandidates   bool `json:"responsible_for_active_candidates"`
+	ResponsibleForInactiveCandidates bool `json:"responsible_for_inactive_candidates"`
 }
 
 func GetJob(c *Client, id int) (*Job, error) {
@@ -102,16 +102,16 @@ func UpdateJob(c *Client, id int, obj *JobUpdateInfo) error {
 }
 
 func UpdateJobHiringTeam(c *Client, id int, obj *map[string][]HiringMemberUpdateInfo) error {
-  jsonBody, err := json.Marshal(obj)
-  if err != nil {
-    return err
-  }
-  resp, err := c.Client.R().SetBody(jsonBody).Put(fmt.Sprintf("v1/jobs/%d", id))
-  if err != nil {
-    return err
-  }
-  if !resp.IsSuccess() {
-    return errors.New(resp.Status())
-  }
-  return nil
+	jsonBody, err := json.Marshal(obj)
+	if err != nil {
+		return err
+	}
+	resp, err := c.Client.R().SetBody(jsonBody).Put(fmt.Sprintf("v1/jobs/%d", id))
+	if err != nil {
+		return err
+	}
+	if !resp.IsSuccess() {
+		return errors.New(resp.Status())
+	}
+	return nil
 }

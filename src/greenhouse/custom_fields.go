@@ -31,29 +31,29 @@ type CustomFieldOption struct {
 }
 
 func GetCustomField() error {
-  return nil
+	return nil
 }
 
 func CreateCustomField() error {
-  return nil
+	return nil
 }
 
 func UpdateCustomField() error {
-  return nil
+	return nil
 }
 
 func DeleteCustomField() error {
-  return nil
+	return nil
 }
 
 func CreateCustomFieldOption() error {
-  return nil
+	return nil
 }
 
 func UpdateCustomFieldOption() error {
-  return nil
+	return nil
 }
 
 func DeleteCustomFieldOption(c *Client, ids []int) error {
-  return nil
+	return nil
 }
