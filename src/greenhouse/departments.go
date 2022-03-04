@@ -2,7 +2,6 @@ package greenhouse
 
 import (
   "context"
-	"fmt"
 )
 
 type Department struct {
