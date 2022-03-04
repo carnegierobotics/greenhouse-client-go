@@ -29,7 +29,6 @@ type DepartmentUpdateInfo struct {
 func GetDepartment(c *Client, id int) (*Department, error) {
 	var obj Department
 	err := GetById(c, "departments", id, &obj, context.TODO())
-	fmt.Printf("%v", obj)
 	if err != nil {
 		return nil, err
 	}
