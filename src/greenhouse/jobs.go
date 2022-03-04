@@ -61,13 +61,13 @@ type JobUpdateInfo struct {
 
 type HiringMember struct {
 	Id          int    `json:"id"`
-	UserId      int    `json:"user_id,omitempty"`
-	Active      bool   `json:"active,omitempty"`
+	UserId      int    `json:"user_id"`
+	Active      bool   `json:"active"`
 	FirstName   string `json:"first_name"`
 	LastName    string `json:"last_name"`
 	Name        string `json:"name"`
-	Responsible bool   `json:"responsible,omitempty"`
-	EmployeeId  string `json:"employee_id,omitempty"`
+	Responsible bool   `json:"responsible"`
+	EmployeeId  string `json:"employee_id"`
 }
 
 type HiringMemberUpdateInfo struct {

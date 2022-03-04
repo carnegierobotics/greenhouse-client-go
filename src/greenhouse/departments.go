@@ -7,8 +7,8 @@ import (
 type Department struct {
 	Id       int    `json:"id"`
 	Name     string `json:"name"`
-	ParentId int    `json:"parent_id,omitempty"`
-	ChildIds []int  `json:"child_ids,omitempty"`
+	ParentId int    `json:"parent_id"`
+	ChildIds []int  `json:"child_ids"`
 	/* Not in our product tier.
 	ParentDepartmentExternalId string `json:"parent_department_external_id"`
 	ChildDepartmentExternalIds []string `json:"child_department_external_ids"`

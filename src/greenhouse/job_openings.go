@@ -19,7 +19,7 @@ type JobOpeningCreateInfo struct {
 
 type Opening struct {
 	Id           int                 `json:"opening_id"`
-	CustomFields []map[string]string `json:"custom_fields,omitempty"`
+	CustomFields []map[string]string `json:"custom_fields"`
 }
 
 type JobOpeningUpdateInfo struct {
