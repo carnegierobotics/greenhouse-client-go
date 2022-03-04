@@ -1,6 +1,7 @@
 package greenhouse
 
 import (
+  "context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -78,7 +79,7 @@ type HiringMemberUpdateInfo struct {
 
 func GetJob(c *Client, id int) (*Job, error) {
 	var obj Job
-	err := GetById(c, "jobs", id, &obj)
+	err := GetById(c, "jobs", id, &obj, context.TODO())
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +87,7 @@ func GetJob(c *Client, id int) (*Job, error) {
 }
 
 func CreateJob(c *Client, obj *JobCreateInfo) (int, error) {
-	id, err := Create(c, "jobs", obj)
+	id, err := Create(c, "jobs", obj, context.TODO())
 	if err != nil {
 		return id, err
 	}
@@ -94,19 +95,19 @@ func CreateJob(c *Client, obj *JobCreateInfo) (int, error) {
 }
 
 func UpdateJob(c *Client, id int, obj *JobUpdateInfo) error {
-	err := Update(c, "jobs", id, obj)
+	err := Update(c, "jobs", id, obj, context.TODO())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func UpdateJobHiringTeam(c *Client, id int, obj *map[string][]HiringMemberUpdateInfo) error {
+func UpdateJobHiringTeam(c *Client, id int, obj *map[string][]HiringMemberUpdateInfo, ctx context.Context) error {
 	jsonBody, err := json.Marshal(obj)
 	if err != nil {
 		return err
 	}
-	resp, err := c.Client.R().SetBody(jsonBody).Put(fmt.Sprintf("v1/jobs/%d", id))
+	resp, err := c.Client.R().SetContext(ctx).SetBody(jsonBody).Put(fmt.Sprintf("v1/jobs/%d", id))
 	if err != nil {
 		return err
 	}

@@ -1,6 +1,7 @@
 package greenhouse
 
 import (
+  "context"
 	"errors"
 	"fmt"
 )
@@ -34,7 +35,7 @@ type UserUpdateInfo struct {
 
 func GetUser(c *Client, id int) (*User, error) {
 	var obj User
-	err := GetById(c, "users", id, &obj)
+	err := GetById(c, "users", id, &obj, context.TODO())
 	if err != nil {
 		return nil, err
 	}
@@ -42,16 +43,16 @@ func GetUser(c *Client, id int) (*User, error) {
 }
 
 func CreateUser(c *Client, obj *UserCreateInfo) (int, error) {
-	id, err := Create(c, "users", obj)
+	id, err := Create(c, "users", obj, context.TODO())
 	if err != nil {
 		return id, err
 	}
 	return id, nil
 }
 
-func EnableUser(c *Client, id int) error {
+func EnableUser(c *Client, id int, ctx context.Context) error {
 	lookupInfo := GetLookupInfo(id)
-	resp, err := c.Client.R().SetBody(lookupInfo).Patch("v2/users/enable")
+	resp, err := c.Client.R().SetContext(ctx).SetBody(lookupInfo).Patch("v2/users/enable")
 	if err != nil {
 		return err
 	}
@@ -61,9 +62,9 @@ func EnableUser(c *Client, id int) error {
 	return nil
 }
 
-func DisableUser(c *Client, id int) error {
+func DisableUser(c *Client, id int, ctx context.Context) error {
 	lookupInfo := GetLookupInfo(id)
-	resp, err := c.Client.R().SetBody(lookupInfo).Patch("v2/users/disable")
+	resp, err := c.Client.R().SetContext(ctx).SetBody(lookupInfo).Patch("v2/users/disable")
 	if err != nil {
 		return err
 	}
@@ -74,7 +75,7 @@ func DisableUser(c *Client, id int) error {
 }
 
 func UpdateUser(c *Client, id int, obj *UserUpdateInfo) error {
-	err := Update(c, "users", id, obj)
+	err := Update(c, "users", id, obj, context.TODO())
 	if err != nil {
 		return err
 	}

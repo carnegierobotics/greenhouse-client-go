@@ -1,6 +1,8 @@
 package greenhouse
 
-import ()
+import (
+  "context"
+)
 
 type Office struct {
 	Id                   int      `json:"id"`
@@ -37,7 +39,7 @@ type OfficeUpdateInfo struct {
 
 func GetOffice(c *Client, id int) (*Office, error) {
 	var obj Office
-	err := GetById(c, "offices", id, &obj)
+	err := GetById(c, "offices", id, &obj, context.TODO())
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +47,7 @@ func GetOffice(c *Client, id int) (*Office, error) {
 }
 
 func CreateOffice(c *Client, obj *OfficeCreateInfo) (int, error) {
-	id, err := Create(c, "offices", obj)
+	id, err := Create(c, "offices", obj, context.TODO())
 	if err != nil {
 		return id, err
 	}
@@ -53,7 +55,7 @@ func CreateOffice(c *Client, obj *OfficeCreateInfo) (int, error) {
 }
 
 func UpdateOffice(c *Client, id int, obj *OfficeUpdateInfo) error {
-	err := Update(c, "offices", id, obj)
+	err := Update(c, "offices", id, obj, context.TODO())
 	if err != nil {
 		return err
 	}

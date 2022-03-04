@@ -28,5 +28,5 @@ func main() {
 	harvestClient := greenhouse.Client{BaseUrl: harvestUrl, Token: token, OnBehalfOf: onBehalfOf}
 	harvestClient.BuildResty()
   obj, _ := greenhouse.GetJob(&harvestClient, 4001978005)
-  fmt.Printf("%v", obj.Offices)
+  fmt.Printf("%+v\n", obj)
 }

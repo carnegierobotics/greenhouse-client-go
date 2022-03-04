@@ -1,6 +1,7 @@
 package greenhouse
 
 import (
+  "context"
 	"fmt"
 )
 
@@ -27,7 +28,7 @@ type DepartmentUpdateInfo struct {
 
 func GetDepartment(c *Client, id int) (*Department, error) {
 	var obj Department
-	err := GetById(c, "departments", id, &obj)
+	err := GetById(c, "departments", id, &obj, context.TODO())
 	fmt.Printf("%v", obj)
 	if err != nil {
 		return nil, err
@@ -36,7 +37,7 @@ func GetDepartment(c *Client, id int) (*Department, error) {
 }
 
 func CreateDepartment(c *Client, obj *DepartmentCreateInfo) (int, error) {
-	id, err := Create(c, "departments", obj)
+	id, err := Create(c, "departments", obj, context.TODO())
 	if err != nil {
 		return id, err
 	}
@@ -44,7 +45,7 @@ func CreateDepartment(c *Client, obj *DepartmentCreateInfo) (int, error) {
 }
 
 func UpdateDepartment(c *Client, id int, obj *DepartmentUpdateInfo) error {
-	err := Update(c, "departments", id, obj)
+	err := Update(c, "departments", id, obj, context.TODO())
 	if err != nil {
 		return err
 	}
