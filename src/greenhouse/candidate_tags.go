@@ -1,24 +1,24 @@
 package greenhouse
 
-import(
-  "errors"
+import (
+	"errors"
 )
 
 type CandidateTag struct {
-  Id   int    `json:"id"`
-  Name string `json:"string"`
+	Id   int    `json:"id"`
+	Name string `json:"string"`
 }
 
 func GetAllCandidateTags(c *Client) (*[]CandidateTag, error) {
-  return nil, errors.New("GetAllCandidateTags not implemented.")
+	return nil, errors.New("GetAllCandidateTags not implemented.")
 }
 
-func CreateCandidateTag(c *Client, tagName string) (id int, error) {
-  return nil, errors.New("CreateCandidateTag not implemented.")
+func CreateCandidateTag(c *Client, tagName string) (int, error) {
+	return 0, errors.New("CreateCandidateTag not implemented.")
 }
 
 func DeleteCandidateTag(c *Client, tagId int) error {
-  //Note that this is not synchronous; it simply kicks off a delete job which may take 24 hours
-  //to complete.
-  return errors.New("DeleteCandidateTag not implemented.")
+	//Note that this is not synchronous; it simply kicks off a delete job which may take 24 hours
+	//to complete.
+	return errors.New("DeleteCandidateTag not implemented.")
 }
