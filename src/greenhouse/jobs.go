@@ -111,7 +111,7 @@ func UpdateJobHiringTeam(c *Client, id int, obj *map[string][]HiringMemberUpdate
 		return err
 	}
 	if !resp.IsSuccess() {
-		return fmt.Errorf("Got %s for URL: %s", resp.Status(), resp.Request.URL)
+		return fmt.Errorf("Got %s for URL: %s, body was %s", resp.Status(), resp.Request.URL, string(jsonBody))
 	}
 	return nil
 }
