@@ -37,6 +37,15 @@ type OfficeUpdateInfo struct {
 	*/
 }
 
+func GetAllOffices(c *Client) (*[]Office, error) {
+	var obj []Office
+	err := GetAll(c, "offices", &obj, context.TODO())
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
+}
+
 func GetOffice(c *Client, id int) (*Office, error) {
 	var obj Office
 	err := GetById(c, "offices", id, &obj, context.TODO())

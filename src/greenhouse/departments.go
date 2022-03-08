@@ -25,6 +25,15 @@ type DepartmentUpdateInfo struct {
 	Name string `json:"name"`
 }
 
+func GetAllDepartments(c *Client) (*[]Department, error) {
+	var obj []Department
+	err := GetAll(c, "departments", &obj, context.TODO())
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
+}
+
 func GetDepartment(c *Client, id int) (*Department, error) {
 	var obj Department
 	err := GetById(c, "departments", id, &obj, context.TODO())

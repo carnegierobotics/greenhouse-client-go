@@ -2,6 +2,7 @@ package greenhouse
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 )
@@ -31,6 +32,20 @@ type UserCreateInfo struct {
 type UserUpdateInfo struct {
 	FirstName string `json:"first_name,omitempty"`
 	LastName  string `json:"last_name,omitempty"`
+}
+
+type UserEmailUpdateInfo struct {
+	Email            string `json:"email"`
+	SendVerification bool   `json:"send_verification"`
+}
+
+func GetAllUsers(c *Client) (*[]User, error) {
+	var obj []User
+	err := GetAll(c, "users", &obj, context.TODO())
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
 func GetUser(c *Client, id int) (*User, error) {
@@ -84,4 +99,19 @@ func UpdateUser(c *Client, id int, obj *UserUpdateInfo) error {
 
 func GetLookupInfo(id int) string {
 	return fmt.Sprintf("{\"user\":{\"user_id\":%d}}", id)
+}
+
+func AddEmailAddressToUser(ctx context.Context, c *Client, userId int, obj *UserEmailUpdateInfo) error {
+	jsonBody, err := json.Marshal(obj)
+	if err != nil {
+		return err
+	}
+	resp, err := c.Client.R().SetContext(ctx).SetBody(jsonBody).Post(fmt.Sprintf("v1/users/%d/email_addresses", userId))
+	if err != nil {
+		return err
+	}
+	if !resp.IsSuccess() {
+		return fmt.Errorf("Error occurred adding email address to user: %s", resp.Status())
+	}
+	return nil
 }

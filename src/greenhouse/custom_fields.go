@@ -1,6 +1,8 @@
 package greenhouse
 
-import ()
+import (
+	"errors"
+)
 
 type CustomField struct {
 	Id                  int                 `json:"id"`
@@ -30,30 +32,34 @@ type CustomFieldOption struct {
 	ExternalId string `json:"external_id"`
 }
 
+func GetAllCustomFields() error {
+	return errors.New("GetAllCustomFields not implemented.")
+}
+
 func GetCustomField() error {
-	return nil
+	return errors.New("GetCustomField not implemented.")
 }
 
 func CreateCustomField() error {
-	return nil
+	return errors.New("CreateCustomField not implemented.")
 }
 
 func UpdateCustomField() error {
-	return nil
+	return errors.New("UpdateCustomField not implemented.")
 }
 
 func DeleteCustomField() error {
-	return nil
+	return errors.New("DeleteCustomField not implemented.")
 }
 
 func CreateCustomFieldOption() error {
-	return nil
+	return errors.New("CreateCustomFieldOption not implemented.")
 }
 
 func UpdateCustomFieldOption() error {
-	return nil
+	return errors.New("UpdateCustomFieldOption not implemented.")
 }
 
 func DeleteCustomFieldOption(c *Client, ids []int) error {
-	return nil
+	return errors.New("DeleteCustomFieldOption not implemented.")
 }
