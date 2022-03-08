@@ -106,7 +106,7 @@ func UpdateJobHiringTeam(c *Client, id int, obj *map[string][]HiringMemberUpdate
 	if err != nil {
 		return err
 	}
-	resp, err := c.Client.R().SetContext(ctx).SetBody(jsonBody).Put(fmt.Sprintf("v1/jobs/%d", id))
+	resp, err := c.Client.R().SetContext(ctx).SetBody(jsonBody).Put(fmt.Sprintf("v1/jobs/%d/hiring_team", id))
 	if err != nil {
 		return err
 	}
