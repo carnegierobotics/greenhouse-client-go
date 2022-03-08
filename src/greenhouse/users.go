@@ -101,6 +101,10 @@ func GetLookupInfo(id int) string {
 	return fmt.Sprintf("{\"user\":{\"user_id\":%d}}", id)
 }
 
+func ChangeUserPermissionLevel(ctx context.Context, c *Client) error {
+	return errors.New("ChangeUserPermissionLevel not implemented.")
+}
+
 func AddEmailAddressToUser(ctx context.Context, c *Client, userId int, obj *UserEmailUpdateInfo) error {
 	jsonBody, err := json.Marshal(obj)
 	if err != nil {
@@ -111,7 +115,7 @@ func AddEmailAddressToUser(ctx context.Context, c *Client, userId int, obj *User
 		return err
 	}
 	if !resp.IsSuccess() {
-		return fmt.Errorf("Error occurred adding email address to user: %s", resp.Status())
+		return errors.New(resp.Status())
 	}
 	return nil
 }
