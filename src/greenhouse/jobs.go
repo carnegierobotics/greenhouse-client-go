@@ -3,7 +3,6 @@ package greenhouse
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 )
 
@@ -112,7 +111,7 @@ func UpdateJobHiringTeam(c *Client, id int, obj *map[string][]HiringMemberUpdate
 		return err
 	}
 	if !resp.IsSuccess() {
-		return errors.New(resp.Status())
+		return fmt.Errorf("Got %s for URL: %s", resp.Status(), resp.Request.URL)
 	}
 	return nil
 }
