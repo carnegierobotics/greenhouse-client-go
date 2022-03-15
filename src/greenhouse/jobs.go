@@ -45,7 +45,7 @@ type JobUpdateInfo struct {
 	Notes                    string        `json:"notes,omitempty"`
 	Anywhere                 bool          `json:"anywhere,omitempty"`
 	RequisitionId            string        `json:"requisition_id,omitempty"`
-	TeamsandResponsibilities string        `json:"teams_and_responsibilities,omitempty"`
+	TeamandResponsibilities  string        `json:"team_and_responsibilities,omitempty"`
 	HowToSellThisJob         string        `json:"how_to_sell_this_job,omitempty"`
 	CustomFields             []CustomField `json:"custom_fields,omitempty"`
 	OfficeIds                []int         `json:"office_ids,omitempty"`
