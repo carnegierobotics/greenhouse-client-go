@@ -24,14 +24,18 @@ func DeleteCustomField() error {
 	return errors.New("DeleteCustomField not implemented.")
 }
 
-func CreateCustomFieldOption() error {
-	return errors.New("CreateCustomFieldOption not implemented.")
+func GetCustomFieldOptions() error {
+  return errors.New("GetCustomFieldOptions not implemented.")
 }
 
-func UpdateCustomFieldOption() error {
-	return errors.New("UpdateCustomFieldOption not implemented.")
+func CreateCustomFieldOptions() error {
+	return errors.New("CreateCustomFieldOptions not implemented.")
 }
 
-func DeleteCustomFieldOption(c *Client, ids []int) error {
-	return errors.New("DeleteCustomFieldOption not implemented.")
+func UpdateCustomFieldOptions() error {
+	return errors.New("UpdateCustomFieldOptions not implemented.")
+}
+
+func DeleteCustomFieldOptions(c *Client, ids []int) error {
+	return errors.New("DeleteCustomFieldOptions not implemented.")
 }

@@ -88,9 +88,14 @@ type Candidate struct {
   CanEmail bool `json:"can_email"`
   Company string `json:"company"`
   Coordinator User `json:"coordinator"`
+  CustomFields map[string]interface{} `json:"custom_fields"`
+  Educations []Education `json:"educations"`
   EmailAddresses []TypeTypeValue `json:"email_addresses"`
+  Employments []Employment `json:"employments"`
+  KeyedCustomFields map[string]interface{} `json:"keyed_custom_fields"`
   Id int `json:"id"`
   IsPrivate bool `json:"is_private"`
+  LinkedUserIds []int `json:"linked_user_ids"`
   PhoneNumbers []TypeTypeValue `json:"phone_numbers"`
   Recruiter User `json:"recruiter"`
   SocialMediaAddresses []TypeTypeValue `json:"social_media_addresses"`
@@ -121,7 +126,7 @@ type CustomField struct {
   Required            bool                `json:"required"`
   TemplateTokenString string              `json:"template_token_string"`
   TriggerNewVersion   bool                `json:"trigger_new_version"`
-  TypeTypeValue           string              `json:"value_type"`
+  ValueType           string              `json:"value_type"`
 }
 
 type CustomFieldOption struct {
@@ -129,6 +134,18 @@ type CustomFieldOption struct {
   Id         int    `json:"id"`
   Name       string `json:"name"`
   Priority   int    `json:"priority"`
+}
+
+type Degree TypeIdNamePriority
+
+type DemographicAnswer struct {
+  ApplicationId int `json:"application_id"`
+  CreatedAt string `json:"created_at"`
+  DemographicAnswerOptionId int `json:"demographic_answer_option_id"`
+  DemographicQuestionId int `json:"demographic_question_id"`
+  FreeFormText string `json:"free_form_text"`
+  Id int `json:"id"`
+  UpdatedAt string `json:"updated_at"`
 }
 
 type DemographicAnswerOption struct {
@@ -176,6 +193,33 @@ type DepartmentUpdateInfo struct {
   Name string `json:"name"`
 }
 
+type Discipline TypeIdNamePriority
+
+type Education struct {
+  Degree string `json:"degree"`
+  Discipline string `json:"discipline"`
+  EndDate string `json:"end_date"`
+  Id int `json:"id"`
+  SchoolName string `json:"school_name"`
+  StartDate string `json:"start_date"`
+}
+
+type EEOC struct {
+  ApplicationId int `json:"application_id"`
+  CandidateId int `json:"candidate_id"`
+  DisabilityStatus EEOCAnswer `json:"disability_status"`
+  Gender EEOCAnswer `json:"gender"`
+  Race EEOCAnswer `json:"race"`
+  SubmittedAt string `json:"submitted_at"`
+  VeteranStatus EEOCAnswer `json:"veteran_status"`
+}
+
+type EEOCAnswer struct {
+  Description string `json:"description,omitempty"`
+  Id int `json:"id"`
+  Message string `json:"message,omitempty"`
+}
+
 type Email struct {
   Body string `json:"body"`
   Cc string `json:"cc"`
@@ -185,6 +229,27 @@ type Email struct {
   Subject string `json:"subject"`
   To string `json:"to"`
   User User `json:"user"`
+}
+
+type EmailTemplate struct {
+  Body string `json:"body"`
+  Cc []string `json:"cc"`
+  CreatedAt string `json:"created_at"`
+  Default bool `json:"default"`
+  From string `json:"from"`
+  HtmlBody string `json:"html_body"`
+  Id int `json:"id"`
+  Type string `json:"type"`
+  UpdatedAt string `json:"updated_at"`
+  User User `json:"user"`
+}
+
+type Employment struct {
+  CompanyName string `json:"company_name"`
+  EndDate string `json:"end_date"`
+  Id int `json:"id"`
+  StartDate string `json:"start_date"`
+  Title string `json:"title"`
 }
 
 type HiringTeam struct {
@@ -209,8 +274,6 @@ type HiringMemberUpdateInfo struct {
   ResponsibleForInactiveCandidates bool `json:"responsible_for_inactive_candidates"`
   UserId                           int  `json:"user_id"`
 }
-
-
 
 type Job struct {
   ClosedAt          string                            `json:"closed_at"`
@@ -356,6 +419,8 @@ type ProspectDetail struct {
   ProspectStage string `json:"prospect_stage"`
 }
 
+type School TypeIdNamePriority
+
 type Source struct {
   Id int `json:"id"`
   PublicName string `json:"public_name"`
@@ -366,6 +431,12 @@ type Stage TypeIdName
 type Translation struct {
   Language string `json:"language"`
   Name     string `json:"name"`
+}
+
+type TypeIdNamePriority struct {
+  Id int `json:"id"`
+  Name string `json:"name"`
+  Priority int `json:"priority"`
 }
 
 type TypeIdName struct {
