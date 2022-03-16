@@ -25,7 +25,7 @@ func DeleteCustomField() error {
 }
 
 func GetCustomFieldOptions() error {
-  return errors.New("GetCustomFieldOptions not implemented.")
+	return errors.New("GetCustomFieldOptions not implemented.")
 }
 
 func CreateCustomFieldOptions() error {

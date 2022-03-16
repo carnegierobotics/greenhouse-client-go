@@ -3,6 +3,7 @@ package greenhouse
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 )
 
@@ -32,4 +33,14 @@ func UpdateJobHiringTeam(c *Client, id int, obj *map[string][]HiringMemberUpdate
 		return fmt.Errorf("Got %s for URL: %s, body was %s", resp.Status(), resp.Request.URL, string(jsonBody))
 	}
 	return nil
+}
+
+//This is a more atomic operation; instead of replacing an entire team, you can work on one member.
+func UpdateHiringTeamMembers() error {
+	return errors.New("UpdateHiringTeamMembers not implemented.")
+}
+
+//This is a more atomic operation; instead of replacing an entire team, you can work on one member.
+func DeleteHiringTeamMembers() error {
+	return errors.New("DeleteHiringTeamMembers not implemented.")
 }

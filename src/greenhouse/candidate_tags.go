@@ -17,3 +17,15 @@ func DeleteCandidateTag(c *Client, tagId int) error {
 	//to complete.
 	return errors.New("DeleteCandidateTag not implemented.")
 }
+
+func GetTagsForCandidate() error {
+	return errors.New("GetTagsForCandidate not implemented.")
+}
+
+func DeleteTagFromCandidate() error {
+	return errors.New("DeleteTagFromCandidate not implemented.")
+}
+
+func CreateTagForCandidate() error {
+	return errors.New("CreateTagForCandidate not implemented.")
+}

@@ -1,13 +1,13 @@
 package greenhouse
 
 import (
-  "errors"
+	"errors"
 )
 
 func GetAllEEOC() error {
-  return errors.New("GetAllEEOC not implemented.")
+	return errors.New("GetAllEEOC not implemented.")
 }
 
 func GetEEOCForApplication() error {
-  return errors.New("GetEEOCForApplication not implemented.")
+	return errors.New("GetEEOCForApplication not implemented.")
 }

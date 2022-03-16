@@ -1,29 +1,29 @@
 package greenhouse
 
 import (
-  "errors"
+	"errors"
 )
 
 func ListApprovalsForJob() error {
-  return errors.New("ListApprovalsForJob not implemented.")
+	return errors.New("ListApprovalsForJob not implemented.")
 }
 
 func RetrieveApprovalFlow() error {
-  return errors.New("RetrieveApprovalFlow not implemented.")
+	return errors.New("RetrieveApprovalFlow not implemented.")
 }
 
 func RequestApprovals() error {
-  return errors.New("RequestApprovals not implemented.")
+	return errors.New("RequestApprovals not implemented.")
 }
 
 func PendingApprovalsForUser() error {
-  return errors.New("PendingApprovalsForUser not imeplemented.")
+	return errors.New("PendingApprovalsForUser not imeplemented.")
 }
 
 func ReplaceApproverInApproverGroup() error {
-  return errors.New("ReplaceApproverInApproverGroup not implemented.")
+	return errors.New("ReplaceApproverInApproverGroup not implemented.")
 }
 
 func CreateReplaceApprovalFlow() error {
-  return errors.New("CreateReplaceApprovalFlow not implemented.")
+	return errors.New("CreateReplaceApprovalFlow not implemented.")
 }

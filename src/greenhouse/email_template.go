@@ -1,13 +1,13 @@
 package greenhouse
 
 import (
-  "errors"
+	"errors"
 )
 
 func GetAllEmailTemplates() error {
-  return errors.New("GetAllEmailTemplates not implemented.")
+	return errors.New("GetAllEmailTemplates not implemented.")
 }
 
 func GetEmailTemplate() error {
-  return errors.New("GetEmailTemplate not implemented.")
+	return errors.New("GetEmailTemplate not implemented.")
 }
