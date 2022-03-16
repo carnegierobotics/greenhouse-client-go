@@ -1,9 +1,14 @@
 package greenhouse
 
 import (
-	"errors"
+  "context"
 )
 
-func GetAllSources() error {
-	return errors.New("GetAllSources not implemented.")
+func GetAllSources(c *Client) (*[]Source, error) {
+  var obj []Source
+  err := GetAll(c, "sources", &obj, context.TODO())
+  if err != nil {
+    return &obj, err
+  }
+  return &obj, nil
 }
