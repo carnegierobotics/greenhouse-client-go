@@ -4,11 +4,6 @@ import (
 	"context"
 )
 
-type CloseReason struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
-}
-
 func GetAllCloseReasons(c *Client) (*[]CloseReason, error) {
 	var obj []CloseReason
 	err := GetAll(c, "close_reason", &obj, context.TODO())

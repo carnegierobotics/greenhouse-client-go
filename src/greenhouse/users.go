@@ -7,38 +7,6 @@ import (
 	"fmt"
 )
 
-type User struct {
-	Id                 int      `json:"id"`
-	Name               string   `json:"name"`
-	FirstName          string   `json:"first_name"`
-	LastName           string   `json:"last_name"`
-	EmployeeId         string   `json:"employee_id,omitempty"`
-	PrimaryEmail       string   `json:"primary_email_address"`
-	UpdatedAt          string   `json:"updated_at"`
-	CreatedAt          string   `json:"created_at"`
-	Disabled           bool     `json:"disabled"`
-	SiteAdmin          bool     `json:"site_admin"`
-	Emails             []string `json:"emails"`
-	LinkedCandidateIds []int    `json:"linked_candidate_ids"`
-}
-
-type UserCreateInfo struct {
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Email     string `json:"email"`
-	SendEmail bool   `json:"send_email_invite,omitempty"`
-}
-
-type UserUpdateInfo struct {
-	FirstName string `json:"first_name,omitempty"`
-	LastName  string `json:"last_name,omitempty"`
-}
-
-type UserEmailUpdateInfo struct {
-	Email            string `json:"email"`
-	SendVerification bool   `json:"send_verification"`
-}
-
 func GetAllUsers(c *Client) (*[]User, error) {
 	var obj []User
 	err := GetAll(c, "users", &obj, context.TODO())
@@ -67,24 +35,18 @@ func CreateUser(c *Client, obj *UserCreateInfo) (int, error) {
 
 func EnableUser(c *Client, id int, ctx context.Context) error {
 	lookupInfo := GetLookupInfo(id)
-	resp, err := c.Client.R().SetContext(ctx).SetBody(lookupInfo).Patch("v2/users/enable")
+	_, err := Patch(ctx, c, "v2/users/enable", lookupInfo)
 	if err != nil {
 		return err
-	}
-	if !resp.IsSuccess() {
-		return errors.New(resp.Status())
 	}
 	return nil
 }
 
 func DisableUser(c *Client, id int, ctx context.Context) error {
 	lookupInfo := GetLookupInfo(id)
-	resp, err := c.Client.R().SetContext(ctx).SetBody(lookupInfo).Patch("v2/users/disable")
+	_, err := Patch(ctx, c, "v2/users/disable", lookupInfo)
 	if err != nil {
 		return err
-	}
-	if !resp.IsSuccess() {
-		return errors.New(resp.Status())
 	}
 	return nil
 }
@@ -97,8 +59,8 @@ func UpdateUser(c *Client, id int, obj *UserUpdateInfo) error {
 	return nil
 }
 
-func GetLookupInfo(id int) string {
-	return fmt.Sprintf("{\"user\":{\"user_id\":%d}}", id)
+func GetLookupInfo(id int) []byte {
+	return []byte(fmt.Sprintf("{\"user\":{\"user_id\":%d}}", id))
 }
 
 func ChangeUserPermissionLevel(ctx context.Context, c *Client) error {
@@ -110,12 +72,9 @@ func AddEmailAddressToUser(ctx context.Context, c *Client, userId int, obj *User
 	if err != nil {
 		return err
 	}
-	resp, err := c.Client.R().SetContext(ctx).SetBody(jsonBody).Post(fmt.Sprintf("v1/users/%d/email_addresses", userId))
+	_, err = Post(c, ctx, fmt.Sprintf("v1/users/%d/email_addresses", userId), jsonBody)
 	if err != nil {
 		return err
-	}
-	if !resp.IsSuccess() {
-		return errors.New(resp.Status())
 	}
 	return nil
 }

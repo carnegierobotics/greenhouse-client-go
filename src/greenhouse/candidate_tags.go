@@ -4,11 +4,6 @@ import (
 	"errors"
 )
 
-type CandidateTag struct {
-	Id   int    `json:"id"`
-	Name string `json:"string"`
-}
-
 func GetAllCandidateTags(c *Client) (*[]CandidateTag, error) {
 	return nil, errors.New("GetAllCandidateTags not implemented.")
 }
