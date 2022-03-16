@@ -6,7 +6,7 @@ import (
 
 func GetAllJobs(c *Client) (*[]Job, error) {
 	var obj []Job
-	err := GetAll(c, "jobs", &obj, context.TODO())
+	err := PaginatedGet(c, context.TODO(), "v1/jobs", "", &obj)
 	if err != nil {
 		return nil, err
 	}

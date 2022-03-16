@@ -6,7 +6,7 @@ import (
 
 func GetAllCloseReasons(c *Client) (*[]CloseReason, error) {
 	var obj []CloseReason
-	err := GetAll(c, "close_reason", &obj, context.TODO())
+	err := PaginatedGet(c, context.TODO(), "v1/close_reasons", "", &obj)
 	if err != nil {
 		return nil, err
 	}

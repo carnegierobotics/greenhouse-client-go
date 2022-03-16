@@ -6,7 +6,7 @@ import (
 
 func GetAllOffices(c *Client) (*[]Office, error) {
 	var obj []Office
-	err := GetAll(c, "offices", &obj, context.TODO())
+	err := PaginatedGet(c, context.TODO(), "v1/offices", "", &obj)
 	if err != nil {
 		return nil, err
 	}

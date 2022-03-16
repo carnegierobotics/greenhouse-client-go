@@ -6,7 +6,7 @@ import (
 
 func GetAllUserRoles(c *Client) (*[]UserRole, error) {
 	var obj []UserRole
-  err := GetAll(c, "user_roles", &obj, context.TODO())
+  err := PaginatedGet(c, context.TODO(), "v1/user_roles", "", &obj)
   if err != nil {
     return nil, err
   }

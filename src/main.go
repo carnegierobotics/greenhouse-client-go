@@ -36,10 +36,10 @@ func main() {
   }
 	fmt.Printf("%+v\n", obj)
   */
-  body, err := greenhouse.GetAllRejectionReasons(&harvestClient, true, 20)
+  obj, err := greenhouse.GetAllRejectionReasons(&harvestClient, true, 20)
   if err != nil {
     fmt.Printf(err.Error())
     os.Exit(1)
   }
-  fmt.Printf("%+v", body)
+  fmt.Printf("%+v", obj)
 }

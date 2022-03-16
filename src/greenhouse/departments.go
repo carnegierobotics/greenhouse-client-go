@@ -6,7 +6,7 @@ import (
 
 func GetAllDepartments(c *Client) (*[]Department, error) {
 	var obj []Department
-	err := GetAll(c, "departments", &obj, context.TODO())
+	err := PaginatedGet(c, context.TODO(), "v1/departments", "", &obj)
 	if err != nil {
 		return nil, err
 	}

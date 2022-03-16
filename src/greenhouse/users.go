@@ -9,7 +9,7 @@ import (
 
 func GetAllUsers(c *Client) (*[]User, error) {
 	var obj []User
-	err := GetAll(c, "users", &obj, context.TODO())
+	err := PaginatedGet(c, context.TODO(), "v1/users", "", &obj)
 	if err != nil {
 		return nil, err
 	}

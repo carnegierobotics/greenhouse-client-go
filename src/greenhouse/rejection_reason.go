@@ -2,7 +2,6 @@ package greenhouse
 
 import (
   "context"
-  "encoding/json"
   "fmt"
 )
 
@@ -14,13 +13,9 @@ func GetAllRejectionReasons(c *Client, include_default bool, per_page int) (*[]R
     custom_query = "&include_defaults=true"
   }
   endpoint = fmt.Sprintf("%s?per_page=%d%s", endpoint, per_page, custom_query)
-  body, err := PaginatedGet(c, context.TODO(), endpoint, custom_query)
+  err := PaginatedGet(c, context.TODO(), endpoint, custom_query, &obj)
   if err != nil {
-    return &obj, err
-  }
-  err = json.Unmarshal(body, &obj)
-  if err != nil {
-    return &obj, err
+    return nil, err
   }
   return &obj, nil
 }

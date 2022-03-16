@@ -62,18 +62,6 @@ func GetById(c *Client, itemType string, id int, item interface{}, ctx context.C
 	return nil
 }
 
-func GetAll(c *Client, itemType string, itemList interface{}, ctx context.Context) error {
-	resp, err := Get(ctx, c, fmt.Sprintf("v1/%s", itemType))
-	if err != nil {
-		return err
-	}
-	err = json.Unmarshal(resp.Body(), &itemList)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func Get(ctx context.Context, c *Client, endpoint string) (*resty.Response, error) {
 	resp, err := c.Client.R().SetContext(ctx).Get(endpoint)
 	if err != nil {
@@ -85,38 +73,32 @@ func Get(ctx context.Context, c *Client, endpoint string) (*resty.Response, erro
 	return resp, nil
 }
 
-func PaginatedGet(c *Client, ctx context.Context, endpoint string, custom_query string) ([]byte, error) {
-  // fmt.Printf(endpoint)
+func PaginatedGet(c *Client, ctx context.Context, endpoint string, querystring string, obj interface{}) error {
   allItems := make([]map[string]interface{}, 0)
   for {
     resp, err := Get(ctx, c, endpoint)
-    // fmt.Printf("Request: %s\n", resp.Request.URL)
     if err != nil {
-      return nil, err
+      return err
     }
-    // fmt.Printf("Body: %+v\n", wholeBody)
     var itemsOnPage []map[string]interface{}
     err = json.Unmarshal(resp.Body(), &itemsOnPage)
     if err != nil {
-      return nil, err
+      return err
     }
     for _, item := range itemsOnPage {
       allItems = append(allItems, item)
     }
     if resp.Header()["Link"] != nil {
-      // fmt.Printf("%+v\n", resp.RawResponse)
       next := link.ParseResponse(resp.RawResponse)["next"]
-      // fmt.Printf("Next: %+v\n", next)
       if next != nil {
         parsedUrl, err := url.ParseRequestURI(next.URI)
         if err != nil {
-          return nil, err
+          return err
         }
         endpoint = fmt.Sprintf("%s?%s", parsedUrl.Path, parsedUrl.RawQuery)
-        if custom_query != "" {
-          endpoint = fmt.Sprintf("%s%s", endpoint, custom_query)
+        if querystring != "" {
+          endpoint = fmt.Sprintf("%s%s", endpoint, querystring)
         }
-        // fmt.Printf("New endpoint: %+v\n", endpoint)
       } else {
         break
       }
@@ -126,9 +108,13 @@ func PaginatedGet(c *Client, ctx context.Context, endpoint string, custom_query 
   }
   wholeBody, err := json.Marshal(allItems)
   if err != nil {
-    return nil, err
+    return err
   }
-  return wholeBody, nil
+  err = json.Unmarshal(wholeBody, &obj)
+  if err != nil {
+    return err
+  }
+  return nil
 }
 
 func Update(c *Client, itemType string, id int, item interface{}, ctx context.Context) error {

@@ -8,7 +8,7 @@ import (
 
 func GetAllApplications(c *Client) (*[]Application, error) {
 	var objList []Application
-	err := GetAll(c, "applications", &objList, context.TODO())
+	err := PaginatedGet(c, context.TODO(), "v1/applications", "", &objList)
 	if err != nil {
 		return nil, err
 	}
