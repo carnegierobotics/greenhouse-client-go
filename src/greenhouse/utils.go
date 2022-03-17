@@ -50,8 +50,8 @@ func Exists(c *Client, itemType string, id int, ctx context.Context) (bool, erro
 	return err == nil, err
 }
 
-func GetById(c *Client, itemType string, id int, item interface{}, ctx context.Context) error {
-	resp, err := Get(ctx, c, fmt.Sprintf("v1/%s/%d", itemType, id))
+func GetById(c *Client, ctx context.Context, endpoint string, item interface{}) error {
+	resp, err := Get(c, ctx, endpoint)
 	if err != nil {
 		return err
 	}
@@ -62,7 +62,7 @@ func GetById(c *Client, itemType string, id int, item interface{}, ctx context.C
 	return nil
 }
 
-func Get(ctx context.Context, c *Client, endpoint string) (*resty.Response, error) {
+func Get(c *Client, ctx context.Context, endpoint string) (*resty.Response, error) {
 	resp, err := c.Client.R().SetContext(ctx).Get(endpoint)
 	if err != nil {
 		return resp, err

@@ -2,6 +2,7 @@ package greenhouse
 
 import (
 	"context"
+  "fmt"
 )
 
 func GetAllJobs(c *Client) (*[]Job, error) {
@@ -15,7 +16,7 @@ func GetAllJobs(c *Client) (*[]Job, error) {
 
 func GetJob(c *Client, id int) (*Job, error) {
 	var obj Job
-	err := GetById(c, "jobs", id, &obj, context.TODO())
+	err := GetById(c, context.TODO(), fmt.Sprintf("v1/jobs/%d", id), &obj)
 	if err != nil {
 		return nil, err
 	}

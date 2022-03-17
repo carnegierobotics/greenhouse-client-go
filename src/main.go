@@ -29,17 +29,22 @@ func main() {
 	}
 	harvestClient := greenhouse.Client{BaseUrl: harvestUrl, Token: harvestToken, OnBehalfOf: onBehalfOf}
 	harvestClient.BuildResty()
-  /*
-	obj, err := greenhouse.GetJob(&harvestClient, 4003423005)
-  if err != nil {
-    fmt.Printf(err.Error())
-  }
-	fmt.Printf("%+v\n", obj)
-  */
-  obj, err := greenhouse.GetAllRejectionReasons(&harvestClient, true, 20)
+  jobs, err := greenhouse.GetAllJobs(&harvestClient)
   if err != nil {
     fmt.Printf(err.Error())
     os.Exit(1)
   }
-  fmt.Printf("%+v", obj)
+  fmt.Printf("%+v\n", jobs)
+	job, err := greenhouse.GetJob(&harvestClient, 4003423005)
+  if err != nil {
+    fmt.Printf(err.Error())
+    os.Exit(1)
+  }
+	fmt.Printf("%+v\n", job)
+  reasons, err := greenhouse.GetAllRejectionReasons(&harvestClient, true, 20)
+  if err != nil {
+    fmt.Printf(err.Error())
+    os.Exit(1)
+  }
+  fmt.Printf("%+v", reasons)
 }

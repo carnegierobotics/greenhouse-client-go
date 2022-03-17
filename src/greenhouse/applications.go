@@ -17,7 +17,7 @@ func GetAllApplications(c *Client) (*[]Application, error) {
 
 func GetApplication(c *Client, id int) (*Application, error) {
 	var obj Application
-	err := GetById(c, "applications", id, &obj, context.TODO())
+	err := GetById(c, context.TODO(), fmt.Sprintf("v1/applications/%d", id), &obj)
 	if err != nil {
 		return nil, err
 	}
@@ -32,11 +32,11 @@ func DeleteApplication(c *Client, id int) error {
 	return nil
 }
 
-func AddApplicationToCandidate() error {
+func AddApplicationToCandidate(c *Client, id int) error {
 	return errors.New("AddApplicationToCandidate not implemented.")
 }
 
-func UpdateApplication() error {
+func UpdateApplication(c *Client, id int) error {
 	return errors.New("UpdateApplication not implemented.")
 }
 

@@ -2,10 +2,16 @@ package greenhouse
 
 import (
 	"errors"
+  "fmt"
 )
 
-func ListApprovalsForJob() error {
-	return errors.New("ListApprovalsForJob not implemented.")
+func ListApprovalsForJob(c *Client, id int) error {
+  var obj []Approval
+  err := PaginatedGet(c, context.TODO(), fmt.Sprintf("v1/jobs/%d/approval_flows", id), "", &obj)
+  if err != nil {
+    return nil, err
+  }
+  return &obj, nil
 }
 
 func RetrieveApprovalFlow() error {
