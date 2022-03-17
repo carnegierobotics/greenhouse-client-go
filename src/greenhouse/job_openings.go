@@ -15,8 +15,8 @@ func GetJobOpening(c *Client, jobId int, openingId int) (*JobOpening, error) {
 	return nil, errors.New("GetJobOpening not implemented.")
 }
 
-func DeleteJobOpenings(c *Client, jobId int, OpeningIds []int) error {
-	jsonBody, err := json.Marshal(map[string][]int{"ids": OpeningIds})
+func DeleteJobOpenings(c *Client, jobId int, openingIds []int) error {
+	jsonBody, err := json.Marshal(map[string][]int{"ids": openingIds})
 	if err != nil {
 		return err
 	}
