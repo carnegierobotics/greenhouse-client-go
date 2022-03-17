@@ -25,11 +25,7 @@ func GetApplication(c *Client, id int) (*Application, error) {
 }
 
 func DeleteApplication(c *Client, id int) error {
-	err := Delete(context.TODO(), c, fmt.Sprintf("v1/applications/%d", id))
-	if err != nil {
-		return err
-	}
-	return nil
+	return Delete(c, context.TODO(), fmt.Sprintf("v1/applications/%d", id))
 }
 
 func AddApplicationToCandidate(c *Client, id int) error {

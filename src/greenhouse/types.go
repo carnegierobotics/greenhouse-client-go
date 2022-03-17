@@ -583,7 +583,7 @@ type TypeIdNamePriority struct {
 }
 
 type TypeIdName struct {
-	Id   int    `json:"id"`
+	Id   int    `json:"id,omitempty"`
 	Name string `json:"name"`
 }
 

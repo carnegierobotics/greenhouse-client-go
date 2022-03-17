@@ -2,6 +2,7 @@ package greenhouse
 
 import (
 	"context"
+  "fmt"
 )
 
 func GetAllDepartments(c *Client) (*[]Department, error) {
@@ -15,7 +16,8 @@ func GetAllDepartments(c *Client) (*[]Department, error) {
 
 func GetDepartment(c *Client, id int) (*Department, error) {
 	var obj Department
-	err := SingleGet(c, "departments", id, &obj, context.TODO())
+  endpoint := fmt.Sprintf("v1/departments/%d", id)
+	err := SingleGet(c, context.TODO(), endpoint, &obj)
 	if err != nil {
 		return nil, err
 	}
@@ -23,17 +25,9 @@ func GetDepartment(c *Client, id int) (*Department, error) {
 }
 
 func CreateDepartment(c *Client, obj *DepartmentCreateInfo) (int, error) {
-	id, err := Create(c, "departments", obj, context.TODO())
-	if err != nil {
-		return id, err
-	}
-	return id, nil
+	return Create(c, context.TODO(), "v1/departments", obj)
 }
 
 func UpdateDepartment(c *Client, id int, obj *DepartmentUpdateInfo) error {
-	err := Update(c, "departments", id, obj, context.TODO())
-	if err != nil {
-		return err
-	}
-	return nil
+	return Update(c, context.TODO(), fmt.Sprintf("v1/departments/%d", id), obj)
 }

@@ -8,7 +8,8 @@ import (
 
 func GetTrackingLinkData(c *Client, ctx context.Context, token string) (*TrackingLink, error) {
   var obj TrackingLink
-  resp, err := Get(ctx, c, fmt.Sprintf("v1/%s/%s", "tracking_links", token))
+  endpoint := fmt.Sprintf("v1/%s/%s", "tracking_links", token)
+  resp, err := Get(c, ctx, endpoint)
   if err != nil {
     return nil, err
   }

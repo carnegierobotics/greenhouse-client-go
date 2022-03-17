@@ -2,6 +2,7 @@ package greenhouse
 
 import (
   "context"
+  "fmt"
 )
 
 func GetAllEEOC(c *Client) (*[]EEOC, error) {
@@ -16,7 +17,8 @@ func GetAllEEOC(c *Client) (*[]EEOC, error) {
 
 func GetEEOCForApplication(c *Client, applicationId int) (*EEOC, error) {
   var obj EEOC
-  err := SingleGet(c, "applications", applicationId, &obj, context.TODO())
+  endpoint := fmt.Sprintf("v1/applications/%d", applicationId)
+  err := SingleGet(c, context.TODO(), endpoint, &obj)
   if err != nil {
     return nil, err
   }

@@ -14,23 +14,6 @@ type RespObj struct {
 	Id int `json:"id"`
 }
 
-func Create(c *Client, itemType string, item interface{}, ctx context.Context) (int, error) {
-	var respObj RespObj
-	jsonBody, err := json.Marshal(item)
-	if err != nil {
-		return respObj.Id, err
-	}
-	resp, err := Post(c, ctx, fmt.Sprintf("v1/%s", itemType), jsonBody)
-	if err != nil {
-		return respObj.Id, err
-	}
-	err = json.Unmarshal(resp.Body(), &respObj)
-	if err != nil {
-		return respObj.Id, err
-	}
-	return respObj.Id, nil
-}
-
 func Post(c *Client, ctx context.Context, endpoint string, jsonBody []byte) (*resty.Response, error) {
 	resp, err := c.Client.R().SetContext(ctx).SetBody(jsonBody).Post(endpoint)
 	if err != nil {
@@ -42,12 +25,21 @@ func Post(c *Client, ctx context.Context, endpoint string, jsonBody []byte) (*re
 	return resp, nil
 }
 
-func Exists(c *Client, itemType string, id int, ctx context.Context) (bool, error) {
-	resp, err := Get(ctx, c, fmt.Sprintf("v1/%s/%d", itemType, id))
-	if err != nil && resp.IsSuccess() {
-		return false, nil
+func Create(c *Client, ctx context.Context, endpoint string, item interface{}) (int, error) {
+	var respObj RespObj
+	jsonBody, err := json.Marshal(item)
+	if err != nil {
+		return respObj.Id, err
 	}
-	return err == nil, err
+	resp, err := Post(c, ctx, endpoint, jsonBody)
+	if err != nil {
+		return respObj.Id, err
+	}
+	err = json.Unmarshal(resp.Body(), &respObj)
+	if err != nil {
+		return respObj.Id, err
+	}
+	return respObj.Id, nil
 }
 
 func Get(c *Client, ctx context.Context, endpoint string) (*resty.Response, error) {
@@ -76,7 +68,7 @@ func SingleGet(c *Client, ctx context.Context, endpoint string, item interface{}
 func MultiGet(c *Client, ctx context.Context, endpoint string, querystring string, obj interface{}) error {
   allItems := make([]map[string]interface{}, 0)
   for {
-    resp, err := Get(ctx, c, endpoint)
+    resp, err := Get(c, ctx, endpoint)
     if err != nil {
       return err
     }
@@ -95,10 +87,7 @@ func MultiGet(c *Client, ctx context.Context, endpoint string, querystring strin
         if err != nil {
           return err
         }
-        endpoint = fmt.Sprintf("%s?%s", parsedUrl.Path, parsedUrl.RawQuery)
-        if querystring != "" {
-          endpoint = fmt.Sprintf("%s%s", endpoint, querystring)
-        }
+        endpoint = fmt.Sprintf("%s?%s%s", parsedUrl.Path, parsedUrl.RawQuery, querystring)
       } else {
         break
       }
@@ -117,19 +106,15 @@ func MultiGet(c *Client, ctx context.Context, endpoint string, querystring strin
   return nil
 }
 
-func Update(c *Client, itemType string, id int, item interface{}, ctx context.Context) error {
-	jsonBody, err := json.Marshal(item)
-	if err != nil {
-		return err
+func Exists(c *Client, ctx context.Context, endpoint string) (bool, error) {
+	resp, err := Get(c, ctx, endpoint)
+	if err != nil && resp.IsSuccess() {
+		return false, nil
 	}
-	_, err = Patch(ctx, c, fmt.Sprintf("v1/%s/%d", itemType, id), jsonBody)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err == nil, err
 }
 
-func Patch(ctx context.Context, c *Client, endpoint string, jsonBody []byte) (*resty.Response, error) {
+func Patch(c *Client, ctx context.Context, endpoint string, jsonBody []byte) (*resty.Response, error) {
 	resp, err := c.Client.R().SetContext(ctx).SetBody(jsonBody).Patch(endpoint)
 	if err != nil {
 		return resp, err
@@ -140,7 +125,30 @@ func Patch(ctx context.Context, c *Client, endpoint string, jsonBody []byte) (*r
 	return resp, nil
 }
 
-func Delete(ctx context.Context, c *Client, endpoint string) error {
+func Put(c *Client, ctx context.Context, endpoint string, jsonBody []byte) (*resty.Response, error) {
+  resp, err := c.Client.R().SetContext(ctx).SetBody(jsonBody).Put(endpoint)
+  if err != nil {
+    return resp, err
+  }
+  if !resp.IsSuccess() {
+    return resp, errors.New(resp.Status())
+  }
+  return resp, nil
+}
+
+func Update(c *Client, ctx context.Context, endpoint string, item interface{}) error {
+	jsonBody, err := json.Marshal(item)
+	if err != nil {
+		return err
+	}
+	_, err = Patch(c, ctx, endpoint, jsonBody)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func Delete(c *Client, ctx context.Context, endpoint string) error {
 	resp, err := c.Client.R().SetContext(ctx).Delete(endpoint)
 	if err != nil {
 		return err

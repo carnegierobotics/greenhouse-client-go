@@ -18,7 +18,8 @@ func GetAllUsers(c *Client) (*[]User, error) {
 
 func GetUser(c *Client, id int) (*User, error) {
 	var obj User
-	err := SingleGet(c, "users", id, &obj, context.TODO())
+  endpoint := fmt.Sprintf("v1/users/%d", id)
+	err := SingleGet(c, context.TODO(), endpoint, &obj)
 	if err != nil {
 		return nil, err
 	}
@@ -26,16 +27,12 @@ func GetUser(c *Client, id int) (*User, error) {
 }
 
 func CreateUser(c *Client, obj *UserCreateInfo) (int, error) {
-	id, err := Create(c, "users", obj, context.TODO())
-	if err != nil {
-		return id, err
-	}
-	return id, nil
+	return Create(c, context.TODO(), "v1/users", obj)
 }
 
 func EnableUser(c *Client, id int, ctx context.Context) error {
 	lookupInfo := GetLookupInfo(id)
-	_, err := Patch(ctx, c, "v2/users/enable", lookupInfo)
+	_, err := Patch(c, ctx, "v2/users/enable", lookupInfo)
 	if err != nil {
 		return err
 	}
@@ -44,7 +41,7 @@ func EnableUser(c *Client, id int, ctx context.Context) error {
 
 func DisableUser(c *Client, id int, ctx context.Context) error {
 	lookupInfo := GetLookupInfo(id)
-	_, err := Patch(ctx, c, "v2/users/disable", lookupInfo)
+	_, err := Patch(c, ctx, "v2/users/disable", lookupInfo)
 	if err != nil {
 		return err
 	}
@@ -52,11 +49,7 @@ func DisableUser(c *Client, id int, ctx context.Context) error {
 }
 
 func UpdateUser(c *Client, id int, obj *UserUpdateInfo) error {
-	err := Update(c, "users", id, obj, context.TODO())
-	if err != nil {
-		return err
-	}
-	return nil
+	return Update(c, context.TODO(), fmt.Sprintf("v1/users/%d", id), obj)
 }
 
 func GetLookupInfo(id int) []byte {

@@ -2,6 +2,7 @@ package greenhouse
 
 import (
   "context"
+  "fmt"
 )
 
 func GetAllProspectPools(c *Client) (*[]ProspectPool, error) {
@@ -15,7 +16,8 @@ func GetAllProspectPools(c *Client) (*[]ProspectPool, error) {
 
 func GetProspectPool(c *Client, id int) (*ProspectPool, error) {
   var obj ProspectPool
-  err := SingleGet(c, "prospect_pools", id, &obj, context.TODO())
+  endpoint := fmt.Sprintf("v1/prospect_pools/%d", id)
+  err := SingleGet(c, context.TODO(), endpoint, &obj)
   if err != nil {
     return nil, err
   }

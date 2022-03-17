@@ -1,31 +1,47 @@
 package greenhouse
 
 import (
-	"errors"
+  "context"
+  "fmt"
 )
 
 func GetAllCandidateTags(c *Client) (*[]CandidateTag, error) {
-	return nil, errors.New("GetAllCandidateTags not implemented.")
+  var obj []CandidateTag
+  err := MultiGet(c, context.TODO(), "v1/tags/candidate", "", &obj)
+  if err != nil {
+    return nil, err
+  }
+  return &obj, nil
 }
 
-func CreateCandidateTag(c *Client, tagName string) (int, error) {
-	return 0, errors.New("CreateCandidateTag not implemented.")
+func CreateCandidateTag(c *Client, obj *CandidateTag) (int, error) {
+  return Create(c, context.TODO(), fmt.Sprintf("v1/tags/candidate"), obj)
 }
 
 func DeleteCandidateTag(c *Client, tagId int) error {
 	//Note that this is not synchronous; it simply kicks off a delete job which may take 24 hours
 	//to complete.
-	return errors.New("DeleteCandidateTag not implemented.")
+  return Delete(c, context.TODO(), fmt.Sprintf("v1/tags/candidate/%d", tagId))
 }
 
-func GetTagsForCandidate() error {
-	return errors.New("GetTagsForCandidate not implemented.")
+func GetTagsForCandidate(c *Client, id int) (*[]CandidateTag, error) {
+  var obj []CandidateTag
+  endpoint := fmt.Sprintf("v1/candidates/%d/tags", id)
+  err := MultiGet(c, context.TODO(), endpoint, "", &obj)
+  if err != nil {
+    return nil, err
+  }
+  return &obj, nil
 }
 
-func DeleteTagFromCandidate() error {
-	return errors.New("DeleteTagFromCandidate not implemented.")
+func DeleteTagFromCandidate(c *Client, candidateId int, tagId int) error {
+  endpoint := fmt.Sprintf("v1/candidates/%d/tags/%d", candidateId, tagId)
+	return Delete(c, context.TODO(), endpoint)
 }
 
-func CreateTagForCandidate() error {
-	return errors.New("CreateTagForCandidate not implemented.")
+func CreateTagForCandidate(c *Client, candidateId int, tagId int) error {
+  var obj []byte
+  endpoint := fmt.Sprintf("v1/candidates/%d/tags/%d", candidateId, tagId)
+  _, err := Put(c, context.TODO(), endpoint, obj)
+	return err
 }
