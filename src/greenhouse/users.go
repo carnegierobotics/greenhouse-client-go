@@ -9,7 +9,7 @@ import (
 
 func GetAllUsers(c *Client) (*[]User, error) {
 	var obj []User
-	err := PaginatedGet(c, context.TODO(), "v1/users", "", &obj)
+	err := MultiGet(c, context.TODO(), "v1/users", "", &obj)
 	if err != nil {
 		return nil, err
 	}
@@ -18,7 +18,7 @@ func GetAllUsers(c *Client) (*[]User, error) {
 
 func GetUser(c *Client, id int) (*User, error) {
 	var obj User
-	err := GetById(c, "users", id, &obj, context.TODO())
+	err := SingleGet(c, "users", id, &obj, context.TODO())
 	if err != nil {
 		return nil, err
 	}

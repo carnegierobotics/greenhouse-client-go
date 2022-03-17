@@ -6,7 +6,7 @@ import (
 
 func GetAllDepartments(c *Client) (*[]Department, error) {
 	var obj []Department
-	err := PaginatedGet(c, context.TODO(), "v1/departments", "", &obj)
+	err := MultiGet(c, context.TODO(), "v1/departments", "", &obj)
 	if err != nil {
 		return nil, err
 	}
@@ -15,7 +15,7 @@ func GetAllDepartments(c *Client) (*[]Department, error) {
 
 func GetDepartment(c *Client, id int) (*Department, error) {
 	var obj Department
-	err := GetById(c, "departments", id, &obj, context.TODO())
+	err := SingleGet(c, "departments", id, &obj, context.TODO())
 	if err != nil {
 		return nil, err
 	}

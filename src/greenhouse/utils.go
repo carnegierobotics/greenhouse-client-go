@@ -50,18 +50,6 @@ func Exists(c *Client, itemType string, id int, ctx context.Context) (bool, erro
 	return err == nil, err
 }
 
-func GetById(c *Client, ctx context.Context, endpoint string, item interface{}) error {
-	resp, err := Get(c, ctx, endpoint)
-	if err != nil {
-		return err
-	}
-	err = json.Unmarshal(resp.Body(), &item)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func Get(c *Client, ctx context.Context, endpoint string) (*resty.Response, error) {
 	resp, err := c.Client.R().SetContext(ctx).Get(endpoint)
 	if err != nil {
@@ -73,7 +61,19 @@ func Get(c *Client, ctx context.Context, endpoint string) (*resty.Response, erro
 	return resp, nil
 }
 
-func PaginatedGet(c *Client, ctx context.Context, endpoint string, querystring string, obj interface{}) error {
+func SingleGet(c *Client, ctx context.Context, endpoint string, item interface{}) error {
+	resp, err := Get(c, ctx, endpoint)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(resp.Body(), &item)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func MultiGet(c *Client, ctx context.Context, endpoint string, querystring string, obj interface{}) error {
   allItems := make([]map[string]interface{}, 0)
   for {
     resp, err := Get(ctx, c, endpoint)

@@ -7,7 +7,7 @@ import (
 
 func GetAllJobs(c *Client) (*[]Job, error) {
 	var obj []Job
-	err := PaginatedGet(c, context.TODO(), "v1/jobs", "", &obj)
+	err := MultiGet(c, context.TODO(), "v1/jobs", "", &obj)
 	if err != nil {
 		return nil, err
 	}
@@ -16,7 +16,7 @@ func GetAllJobs(c *Client) (*[]Job, error) {
 
 func GetJob(c *Client, id int) (*Job, error) {
 	var obj Job
-	err := GetById(c, context.TODO(), fmt.Sprintf("v1/jobs/%d", id), &obj)
+	err := SingleGet(c, context.TODO(), fmt.Sprintf("v1/jobs/%d", id), &obj)
 	if err != nil {
 		return nil, err
 	}

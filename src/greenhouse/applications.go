@@ -8,7 +8,7 @@ import (
 
 func GetAllApplications(c *Client) (*[]Application, error) {
 	var objList []Application
-	err := PaginatedGet(c, context.TODO(), "v1/applications", "", &objList)
+	err := MultiGet(c, context.TODO(), "v1/applications", "", &objList)
 	if err != nil {
 		return nil, err
 	}
@@ -17,7 +17,7 @@ func GetAllApplications(c *Client) (*[]Application, error) {
 
 func GetApplication(c *Client, id int) (*Application, error) {
 	var obj Application
-	err := GetById(c, context.TODO(), fmt.Sprintf("v1/applications/%d", id), &obj)
+	err := SingleGet(c, context.TODO(), fmt.Sprintf("v1/applications/%d", id), &obj)
 	if err != nil {
 		return nil, err
 	}

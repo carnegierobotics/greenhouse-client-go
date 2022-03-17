@@ -7,7 +7,7 @@ import (
 
 func ListApprovalsForJob(c *Client, id int) error {
   var obj []Approval
-  err := PaginatedGet(c, context.TODO(), fmt.Sprintf("v1/jobs/%d/approval_flows", id), "", &obj)
+  err := MultiGet(c, context.TODO(), fmt.Sprintf("v1/jobs/%d/approval_flows", id), "", &obj)
   if err != nil {
     return nil, err
   }

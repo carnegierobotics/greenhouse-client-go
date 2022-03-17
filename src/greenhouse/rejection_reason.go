@@ -13,7 +13,7 @@ func GetAllRejectionReasons(c *Client, include_default bool, per_page int) (*[]R
     custom_query = "&include_defaults=true"
   }
   endpoint = fmt.Sprintf("%s?per_page=%d%s", endpoint, per_page, custom_query)
-  err := PaginatedGet(c, context.TODO(), endpoint, custom_query, &obj)
+  err := MultiGet(c, context.TODO(), endpoint, custom_query, &obj)
   if err != nil {
     return nil, err
   }
