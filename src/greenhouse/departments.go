@@ -2,50 +2,32 @@ package greenhouse
 
 import (
 	"context"
+	"fmt"
 )
 
-type Department struct {
-	Id       int    `json:"id"`
-	Name     string `json:"name"`
-	ParentId int    `json:"parent_id"`
-	ChildIds []int  `json:"child_ids"`
-	/* Not in our product tier.
-	ParentDepartmentExternalId string `json:"parent_department_external_id"`
-	ChildDepartmentExternalIds []string `json:"child_department_external_ids"`
-	ExternalId string `json:"external_id"`
-	*/
-}
-
-type DepartmentCreateInfo struct {
-	Name     string `json:"name"`
-	ParentId int    `json:"parent_id,omitempty"`
-}
-
-type DepartmentUpdateInfo struct {
-	Name string `json:"name"`
-}
-
-func GetDepartment(c *Client, id int) (*Department, error) {
-	var obj Department
-	err := GetById(c, "departments", id, &obj, context.TODO())
+func GetAllDepartments(c *Client, ctx context.Context) (*[]Department, error) {
+	var obj []Department
+	err := MultiGet(c, ctx, "v1/departments", "", &obj)
 	if err != nil {
 		return nil, err
 	}
 	return &obj, nil
 }
 
-func CreateDepartment(c *Client, obj *DepartmentCreateInfo) (int, error) {
-	id, err := Create(c, "departments", obj, context.TODO())
+func GetDepartment(c *Client, ctx context.Context, id int) (*Department, error) {
+	var obj Department
+	endpoint := fmt.Sprintf("v1/departments/%d", id)
+	err := SingleGet(c, ctx, endpoint, &obj)
 	if err != nil {
-		return id, err
+		return nil, err
 	}
-	return id, nil
+	return &obj, nil
 }
 
-func UpdateDepartment(c *Client, id int, obj *DepartmentUpdateInfo) error {
-	err := Update(c, "departments", id, obj, context.TODO())
-	if err != nil {
-		return err
-	}
-	return nil
+func CreateDepartment(c *Client, ctx context.Context, obj *DepartmentCreateInfo) (int, error) {
+	return Create(c, ctx, "v1/departments", obj)
+}
+
+func UpdateDepartment(c *Client, ctx context.Context, id int, obj *DepartmentUpdateInfo) error {
+	return Update(c, ctx, fmt.Sprintf("v1/departments/%d", id), obj)
 }

@@ -2,86 +2,68 @@ package greenhouse
 
 import (
 	"context"
-	"errors"
+	"encoding/json"
 	"fmt"
 )
 
-type User struct {
-	Id                 int      `json:"id"`
-	Name               string   `json:"name"`
-	FirstName          string   `json:"first_name"`
-	LastName           string   `json:"last_name"`
-	EmployeeId         string   `json:"employee_id,omitempty"`
-	PrimaryEmail       string   `json:"primary_email_address"`
-	UpdatedAt          string   `json:"updated_at"`
-	CreatedAt          string   `json:"created_at"`
-	Disabled           bool     `json:"disabled"`
-	SiteAdmin          bool     `json:"site_admin"`
-	Emails             []string `json:"emails"`
-	LinkedCandidateIds []int    `json:"linked_candidate_ids"`
-}
-
-type UserCreateInfo struct {
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Email     string `json:"email"`
-	SendEmail bool   `json:"send_email_invite,omitempty"`
-}
-
-type UserUpdateInfo struct {
-	FirstName string `json:"first_name,omitempty"`
-	LastName  string `json:"last_name,omitempty"`
-}
-
-func GetUser(c *Client, id int) (*User, error) {
-	var obj User
-	err := GetById(c, "users", id, &obj, context.TODO())
+func GetAllUsers(c *Client, ctx context.Context) (*[]User, error) {
+	var obj []User
+	err := MultiGet(c, ctx, "v1/users", "", &obj)
 	if err != nil {
 		return nil, err
 	}
 	return &obj, nil
 }
 
-func CreateUser(c *Client, obj *UserCreateInfo) (int, error) {
-	id, err := Create(c, "users", obj, context.TODO())
+func GetUser(c *Client, ctx context.Context, id int) (*User, error) {
+	var obj User
+	endpoint := fmt.Sprintf("v1/users/%d", id)
+	err := SingleGet(c, ctx, endpoint, &obj)
 	if err != nil {
-		return id, err
+		return nil, err
 	}
-	return id, nil
+	return &obj, nil
 }
 
-func EnableUser(c *Client, id int, ctx context.Context) error {
+func CreateUser(c *Client, ctx context.Context, obj *UserCreateInfo) (int, error) {
+	return Create(c, ctx, "v1/users", obj)
+}
+
+func EnableUser(c *Client, ctx context.Context, id int) error {
 	lookupInfo := GetLookupInfo(id)
-	resp, err := c.Client.R().SetContext(ctx).SetBody(lookupInfo).Patch("v2/users/enable")
-	if err != nil {
-		return err
-	}
-	if !resp.IsSuccess() {
-		return errors.New(resp.Status())
-	}
-	return nil
+	_, err := Patch(c, ctx, "v2/users/enable", lookupInfo)
+	return err
 }
 
-func DisableUser(c *Client, id int, ctx context.Context) error {
+func DisableUser(c *Client, ctx context.Context, id int) error {
 	lookupInfo := GetLookupInfo(id)
-	resp, err := c.Client.R().SetContext(ctx).SetBody(lookupInfo).Patch("v2/users/disable")
+	_, err := Patch(c, ctx, "v2/users/disable", lookupInfo)
+	return err
+}
+
+func UpdateUser(c *Client, ctx context.Context, id int, obj *UserUpdateInfo) error {
+	return Update(c, ctx, fmt.Sprintf("v1/users/%d", id), obj)
+}
+
+func GetLookupInfo(id int) []byte {
+	return []byte(fmt.Sprintf("{\"user\":{\"user_id\":%d}}", id))
+}
+
+func ChangeUserPermissionLevel(c *Client, ctx context.Context, user *User, level string) error {
+	endpoint := fmt.Sprintf("v1/users/permission_level")
+	jsonBody, err := json.Marshal(map[string]interface{}{"user": user, "level": level})
 	if err != nil {
 		return err
 	}
-	if !resp.IsSuccess() {
-		return errors.New(resp.Status())
-	}
-	return nil
+	_, err = Patch(c, ctx, endpoint, jsonBody)
+	return err
 }
 
-func UpdateUser(c *Client, id int, obj *UserUpdateInfo) error {
-	err := Update(c, "users", id, obj, context.TODO())
+func AddEmailAddressToUser(c *Client, ctx context.Context, userId int, obj *UserEmailUpdateInfo) error {
+	jsonBody, err := json.Marshal(obj)
 	if err != nil {
 		return err
 	}
-	return nil
-}
-
-func GetLookupInfo(id int) string {
-	return fmt.Sprintf("{\"user\":{\"user_id\":%d}}", id)
+	_, err = Post(c, ctx, fmt.Sprintf("v1/users/%d/email_addresses", userId), jsonBody)
+	return err
 }

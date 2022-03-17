@@ -2,16 +2,22 @@ package greenhouse
 
 import (
 	"context"
+	"fmt"
 )
 
-type CloseReason struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
+func GetAllCloseReasons(c *Client, ctx context.Context) (*[]CloseReason, error) {
+	var obj []CloseReason
+	err := MultiGet(c, ctx, "v1/close_reasons", "", &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
-func GetCloseReason(c *Client, id int) (*CloseReason, error) {
+func GetCloseReason(c *Client, ctx context.Context, id int) (*CloseReason, error) {
 	var obj CloseReason
-	err := GetById(c, "close_reasons", id, &obj, context.TODO())
+	endpoint := fmt.Sprintf("v1/close_reasons/%d", id)
+	err := SingleGet(c, ctx, endpoint, &obj)
 	if err != nil {
 		return nil, err
 	}
