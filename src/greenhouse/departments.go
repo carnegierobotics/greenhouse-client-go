@@ -2,7 +2,7 @@ package greenhouse
 
 import (
 	"context"
-  "fmt"
+	"fmt"
 )
 
 func GetAllDepartments(c *Client) (*[]Department, error) {
@@ -16,7 +16,7 @@ func GetAllDepartments(c *Client) (*[]Department, error) {
 
 func GetDepartment(c *Client, id int) (*Department, error) {
 	var obj Department
-  endpoint := fmt.Sprintf("v1/departments/%d", id)
+	endpoint := fmt.Sprintf("v1/departments/%d", id)
 	err := SingleGet(c, context.TODO(), endpoint, &obj)
 	if err != nil {
 		return nil, err

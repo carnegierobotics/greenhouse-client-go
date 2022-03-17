@@ -2,7 +2,7 @@ package greenhouse
 
 import (
 	"context"
-  "fmt"
+	"fmt"
 )
 
 func GetAllOffices(c *Client) (*[]Office, error) {
@@ -16,7 +16,7 @@ func GetAllOffices(c *Client) (*[]Office, error) {
 
 func GetOffice(c *Client, id int) (*Office, error) {
 	var obj Office
-  endpoint := fmt.Sprintf("v1/offices/%d", id)
+	endpoint := fmt.Sprintf("v1/offices/%d", id)
 	err := SingleGet(c, context.TODO(), endpoint, &obj)
 	if err != nil {
 		return nil, err
@@ -25,7 +25,7 @@ func GetOffice(c *Client, id int) (*Office, error) {
 }
 
 func CreateOffice(c *Client, obj *OfficeCreateInfo) (int, error) {
-  return Create(c, context.TODO(), "v1/offices", obj)
+	return Create(c, context.TODO(), "v1/offices", obj)
 }
 
 func UpdateOffice(c *Client, id int, obj *OfficeUpdateInfo) error {

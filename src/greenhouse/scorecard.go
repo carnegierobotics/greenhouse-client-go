@@ -1,17 +1,35 @@
 package greenhouse
 
 import (
-	"errors"
+	"context"
+	"fmt"
 )
 
-func GetAllScorecards() error {
-	return errors.New("GetAllScorecards not implemented.")
+func GetAllScorecards(c *Client) (*[]Scorecard, error) {
+	var obj []Scorecard
+	err := MultiGet(c, context.TODO(), "v1/scorecards", "", &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
-func GetScorecardsForApplication() error {
-	return errors.New("GetScorecardsForApplication not implemented.")
+func GetScorecardsForApplication(c *Client, id int) (*[]Scorecard, error) {
+	var obj []Scorecard
+	endpoint := fmt.Sprintf("v1/applications/%d/scorecards", id)
+	err := MultiGet(c, context.TODO(), endpoint, "", &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
-func GetScorecard() error {
-	return errors.New("GetScorecard not implemented.")
+func GetScorecard(c *Client, id int) (*Scorecard, error) {
+	var obj Scorecard
+	endpoint := fmt.Sprintf("v1/scorecards/%d", id)
+	err := SingleGet(c, context.TODO(), endpoint, &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }

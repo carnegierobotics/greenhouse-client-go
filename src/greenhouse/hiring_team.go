@@ -3,7 +3,6 @@ package greenhouse
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 )
 
@@ -25,22 +24,26 @@ func UpdateJobHiringTeam(c *Client, id int, obj *map[string][]HiringMemberUpdate
 	if err != nil {
 		return err
 	}
-	resp, err := Put(c, ctx, fmt.Sprintf("v1/jobs/%d/hiring_team", id), jsonBody)
+	_, err = Put(c, ctx, fmt.Sprintf("v1/jobs/%d/hiring_team", id), jsonBody)
+	return err
+}
+
+//This is a more atomic operation; instead of replacing an entire team, you can work on one member.
+func UpdateHiringTeamMembers(c *Client, ctx context.Context, id int, obj *map[string][]HiringMemberUpdateInfo) error {
+	jsonBody, err := json.Marshal(obj)
 	if err != nil {
 		return err
 	}
-	if !resp.IsSuccess() {
-		return fmt.Errorf("Got %s for URL: %s, body was %s", resp.Status(), resp.Request.URL, string(jsonBody))
+	_, err = Post(c, ctx, fmt.Sprintf("v1/jobs/%d/hiring_team", id), jsonBody)
+	return err
+}
+
+//This is a more atomic operation; instead of replacing an entire team, you can work on one member.
+func DeleteHiringTeamMembers(c *Client, ctx context.Context, id int, obj *map[string][]int) error {
+	jsonBody, err := json.Marshal(obj)
+	if err != nil {
+		return err
 	}
-	return nil
-}
-
-//This is a more atomic operation; instead of replacing an entire team, you can work on one member.
-func UpdateHiringTeamMembers() error {
-	return errors.New("UpdateHiringTeamMembers not implemented.")
-}
-
-//This is a more atomic operation; instead of replacing an entire team, you can work on one member.
-func DeleteHiringTeamMembers() error {
-	return errors.New("DeleteHiringTeamMembers not implemented.")
+	err = Delete(c, ctx, fmt.Sprintf("v1/jobs/%d/hiring_team", id), jsonBody)
+	return err
 }

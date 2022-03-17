@@ -1,25 +1,49 @@
 package greenhouse
 
 import (
-	"errors"
+	"context"
+	"fmt"
 )
 
-func GetAllOffers() error {
-	return errors.New("GetAllOffers not implemented.")
+func GetAllOffers(c *Client) (*[]Offer, error) {
+	var obj []Offer
+	err := MultiGet(c, context.TODO(), "v1/offers", "", &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
-func GetAllOffersForApplication() error {
-	return errors.New("GetAllOffersForApplication not implemented.")
+func GetAllOffersForApplication(c *Client, id int) (*[]Offer, error) {
+	var obj []Offer
+	err := MultiGet(c, context.TODO(), fmt.Sprintf("v1/applications/%d/offers", id), "", &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
-func GetCurrentOfferForApplication() error {
-	return errors.New("GetCurrentOfferForApplication not implemented.")
+func GetCurrentOfferForApplication(c *Client, id int) (*Offer, error) {
+	var obj Offer
+	endpoint := fmt.Sprintf("v1/applications/%d/offers/current_offer", id)
+	err := SingleGet(c, context.TODO(), endpoint, &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
-func GetOffer() error {
-	return errors.New("GetOffer not implemented.")
+func GetOffer(c *Client, id int) (*Offer, error) {
+	var obj Offer
+	endpoint := fmt.Sprintf("v1/offers/%d", id)
+	err := SingleGet(c, context.TODO(), endpoint, &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
-func UpdateCurrentOffer() error {
-	return errors.New("UpdateCurrentOffer not implemented.")
+func UpdateCurrentOffer(c *Client, id int, obj *Offer) error {
+	endpoint := fmt.Sprintf("v1/applications/%d/offers/current_offer", id)
+	return Update(c, context.TODO(), endpoint, obj)
 }

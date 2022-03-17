@@ -2,7 +2,7 @@ package greenhouse
 
 import (
 	"context"
-  "fmt"
+	"fmt"
 )
 
 func GetAllCloseReasons(c *Client) (*[]CloseReason, error) {
@@ -16,7 +16,7 @@ func GetAllCloseReasons(c *Client) (*[]CloseReason, error) {
 
 func GetCloseReason(c *Client, id int) (*CloseReason, error) {
 	var obj CloseReason
-  endpoint := fmt.Sprintf("v1/close_reasons/%d", id)
+	endpoint := fmt.Sprintf("v1/close_reasons/%d", id)
 	err := SingleGet(c, context.TODO(), endpoint, &obj)
 	if err != nil {
 		return nil, err

@@ -1,17 +1,32 @@
 package greenhouse
 
 import (
-	"errors"
+	"context"
 )
 
-func GetAllDegrees() error {
-	return errors.New("GetAllDegrees not implemented.")
+func GetAllDegrees(c *Client) (*[]Degree, error) {
+	var obj []Degree
+	err := MultiGet(c, context.TODO(), "v1/degrees", "", &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
-func GetAllDisciplines() error {
-	return errors.New("GetAllDisciplines not implemented.")
+func GetAllDisciplines(c *Client) (*[]Discipline, error) {
+	var obj []Discipline
+	err := MultiGet(c, context.TODO(), "v1/disciplines", "", &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
-func GetAllSchools() error {
-	return errors.New("GetAllSchools not implemented.")
+func GetAllSchools(c *Client) (*[]School, error) {
+	var obj []School
+	err := MultiGet(c, context.TODO(), "v1/schools", "", &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }

@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-  "net/url"
 	"github.com/go-resty/resty/v2"
-  "github.com/peterhellberg/link"
+	"github.com/peterhellberg/link"
+	"net/url"
 )
 
 type RespObj struct {
@@ -15,7 +15,11 @@ type RespObj struct {
 }
 
 func Post(c *Client, ctx context.Context, endpoint string, jsonBody []byte) (*resty.Response, error) {
-	resp, err := c.Client.R().SetContext(ctx).SetBody(jsonBody).Post(endpoint)
+	req := c.Client.R().SetContext(ctx)
+	if jsonBody != nil {
+		req = req.SetBody(jsonBody)
+	}
+	resp, err := req.Post(endpoint)
 	if err != nil {
 		return resp, err
 	}
@@ -66,44 +70,44 @@ func SingleGet(c *Client, ctx context.Context, endpoint string, item interface{}
 }
 
 func MultiGet(c *Client, ctx context.Context, endpoint string, querystring string, obj interface{}) error {
-  allItems := make([]map[string]interface{}, 0)
-  for {
-    resp, err := Get(c, ctx, endpoint)
-    if err != nil {
-      return err
-    }
-    var itemsOnPage []map[string]interface{}
-    err = json.Unmarshal(resp.Body(), &itemsOnPage)
-    if err != nil {
-      return err
-    }
-    for _, item := range itemsOnPage {
-      allItems = append(allItems, item)
-    }
-    if resp.Header()["Link"] != nil {
-      next := link.ParseResponse(resp.RawResponse)["next"]
-      if next != nil {
-        parsedUrl, err := url.ParseRequestURI(next.URI)
-        if err != nil {
-          return err
-        }
-        endpoint = fmt.Sprintf("%s?%s%s", parsedUrl.Path, parsedUrl.RawQuery, querystring)
-      } else {
-        break
-      }
-    } else {
-      break
-    }
-  }
-  wholeBody, err := json.Marshal(allItems)
-  if err != nil {
-    return err
-  }
-  err = json.Unmarshal(wholeBody, &obj)
-  if err != nil {
-    return err
-  }
-  return nil
+	allItems := make([]map[string]interface{}, 0)
+	for {
+		resp, err := Get(c, ctx, endpoint)
+		if err != nil {
+			return err
+		}
+		var itemsOnPage []map[string]interface{}
+		err = json.Unmarshal(resp.Body(), &itemsOnPage)
+		if err != nil {
+			return err
+		}
+		for _, item := range itemsOnPage {
+			allItems = append(allItems, item)
+		}
+		if resp.Header()["Link"] != nil {
+			next := link.ParseResponse(resp.RawResponse)["next"]
+			if next != nil {
+				parsedUrl, err := url.ParseRequestURI(next.URI)
+				if err != nil {
+					return err
+				}
+				endpoint = fmt.Sprintf("%s?%s%s", parsedUrl.Path, parsedUrl.RawQuery, querystring)
+			} else {
+				break
+			}
+		} else {
+			break
+		}
+	}
+	wholeBody, err := json.Marshal(allItems)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(wholeBody, &obj)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func Exists(c *Client, ctx context.Context, endpoint string) (bool, error) {
@@ -115,7 +119,11 @@ func Exists(c *Client, ctx context.Context, endpoint string) (bool, error) {
 }
 
 func Patch(c *Client, ctx context.Context, endpoint string, jsonBody []byte) (*resty.Response, error) {
-	resp, err := c.Client.R().SetContext(ctx).SetBody(jsonBody).Patch(endpoint)
+	req := c.Client.R().SetContext(ctx)
+	if jsonBody != nil {
+		req = req.SetBody(jsonBody)
+	}
+	resp, err := req.Patch(endpoint)
 	if err != nil {
 		return resp, err
 	}
@@ -126,14 +134,18 @@ func Patch(c *Client, ctx context.Context, endpoint string, jsonBody []byte) (*r
 }
 
 func Put(c *Client, ctx context.Context, endpoint string, jsonBody []byte) (*resty.Response, error) {
-  resp, err := c.Client.R().SetContext(ctx).SetBody(jsonBody).Put(endpoint)
-  if err != nil {
-    return resp, err
-  }
-  if !resp.IsSuccess() {
-    return resp, errors.New(resp.Status())
-  }
-  return resp, nil
+	req := c.Client.R().SetContext(ctx)
+	if jsonBody != nil {
+		req = req.SetBody(jsonBody)
+	}
+	resp, err := req.Put(endpoint)
+	if err != nil {
+		return resp, err
+	}
+	if !resp.IsSuccess() {
+		return resp, errors.New(resp.Status())
+	}
+	return resp, nil
 }
 
 func Update(c *Client, ctx context.Context, endpoint string, item interface{}) error {
@@ -148,8 +160,12 @@ func Update(c *Client, ctx context.Context, endpoint string, item interface{}) e
 	return nil
 }
 
-func Delete(c *Client, ctx context.Context, endpoint string) error {
-	resp, err := c.Client.R().SetContext(ctx).Delete(endpoint)
+func Delete(c *Client, ctx context.Context, endpoint string, jsonBody []byte) error {
+	req := c.Client.R().SetContext(ctx)
+	if jsonBody != nil {
+		req = req.SetBody(jsonBody)
+	}
+	resp, err := req.Delete(endpoint)
 	if err != nil {
 		return err
 	}

@@ -2,7 +2,7 @@ package greenhouse
 
 import (
 	"context"
-  "fmt"
+	"fmt"
 )
 
 func GetAllJobs(c *Client) (*[]Job, error) {

@@ -3,7 +3,6 @@ package greenhouse
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 )
 
@@ -18,7 +17,7 @@ func GetAllUsers(c *Client) (*[]User, error) {
 
 func GetUser(c *Client, id int) (*User, error) {
 	var obj User
-  endpoint := fmt.Sprintf("v1/users/%d", id)
+	endpoint := fmt.Sprintf("v1/users/%d", id)
 	err := SingleGet(c, context.TODO(), endpoint, &obj)
 	if err != nil {
 		return nil, err
@@ -33,19 +32,13 @@ func CreateUser(c *Client, obj *UserCreateInfo) (int, error) {
 func EnableUser(c *Client, id int, ctx context.Context) error {
 	lookupInfo := GetLookupInfo(id)
 	_, err := Patch(c, ctx, "v2/users/enable", lookupInfo)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 func DisableUser(c *Client, id int, ctx context.Context) error {
 	lookupInfo := GetLookupInfo(id)
 	_, err := Patch(c, ctx, "v2/users/disable", lookupInfo)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 func UpdateUser(c *Client, id int, obj *UserUpdateInfo) error {
@@ -56,8 +49,14 @@ func GetLookupInfo(id int) []byte {
 	return []byte(fmt.Sprintf("{\"user\":{\"user_id\":%d}}", id))
 }
 
-func ChangeUserPermissionLevel(ctx context.Context, c *Client) error {
-	return errors.New("ChangeUserPermissionLevel not implemented.")
+func ChangeUserPermissionLevel(c *Client, ctx context.Context, user *User, level string) error {
+	endpoint := fmt.Sprintf("v1/users/permission_level")
+	jsonBody, err := json.Marshal(map[string]interface{}{"user": user, "level": level})
+	if err != nil {
+		return err
+	}
+	_, err = Patch(c, context.TODO(), endpoint, jsonBody)
+	return err
 }
 
 func AddEmailAddressToUser(ctx context.Context, c *Client, userId int, obj *UserEmailUpdateInfo) error {
@@ -66,8 +65,5 @@ func AddEmailAddressToUser(ctx context.Context, c *Client, userId int, obj *User
 		return err
 	}
 	_, err = Post(c, ctx, fmt.Sprintf("v1/users/%d/email_addresses", userId), jsonBody)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }

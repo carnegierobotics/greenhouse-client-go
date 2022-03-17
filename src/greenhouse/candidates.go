@@ -1,7 +1,9 @@
 package greenhouse
 
 import (
+	"context"
 	"errors"
+	"fmt"
 )
 
 func GetAllCandidates() error {
@@ -12,8 +14,8 @@ func GetCandidate() error {
 	return errors.New("GetCandidate not implemented.")
 }
 
-func DeleteCandidate() error {
-	return errors.New("DeleteCandidate not implemented.")
+func DeleteCandidate(c *Client, id int) error {
+	return Delete(c, context.TODO(), fmt.Sprintf("v1/candidates/%d", id), nil)
 }
 
 func UpdateCandidate() error {
@@ -40,16 +42,16 @@ func AddEducationToCandidate() error {
 	return errors.New("AddEducationToCandidate not implemented.")
 }
 
-func DeleteEducationFromCandidate() error {
-	return errors.New("DeleteEducationFromCandidate not implemented.")
+func DeleteEducationFromCandidate(c *Client, candidateId int, educationId int) error {
+	return Delete(c, context.TODO(), fmt.Sprintf("v1/candidates/%d/educations/%d", candidateId, educationId), nil)
 }
 
 func AddEmploymentToCandidate() error {
 	return errors.New("AddEmploymentToCandidate not implemented.")
 }
 
-func DeleteEmploymentFromCandidate() error {
-	return errors.New("DeleteEmploymentFromCandidate not implemented.")
+func DeleteEmploymentFromCandidate(c *Client, candidateId int, employmentId int) error {
+	return Delete(c, context.TODO(), fmt.Sprintf("v1/candidates/%d/employments/%d", candidateId, employmentId), nil)
 }
 
 func CreateProspect() error {

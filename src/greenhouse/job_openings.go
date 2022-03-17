@@ -1,7 +1,10 @@
 package greenhouse
 
 import (
+	"context"
+	"encoding/json"
 	"errors"
+	"fmt"
 )
 
 func GetAllJobOpenings(c *Client) (*[]JobOpening, error) {
@@ -12,8 +15,12 @@ func GetJobOpening(c *Client, jobId int, openingId int) (*JobOpening, error) {
 	return nil, errors.New("GetJobOpening not implemented.")
 }
 
-func DeleteJobOpenings(c *Client, obj JobOpeningDeleteInfo) error {
-	return errors.New("DeleteJobOpenings not implemented.")
+func DeleteJobOpenings(c *Client, jobId int, OpeningIds []int) error {
+	jsonBody, err := json.Marshal(map[string][]int{"ids": OpeningIds})
+	if err != nil {
+		return err
+	}
+	return Delete(c, context.TODO(), fmt.Sprintf("v1/jobs/%d/openings", jobId), jsonBody)
 }
 
 func UpdateJobOpenings(c *Client, jobId int, obj JobOpeningUpdateInfo) error {

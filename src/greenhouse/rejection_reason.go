@@ -1,21 +1,18 @@
 package greenhouse
 
 import (
-  "context"
-  "fmt"
+	"context"
+	"fmt"
+	"strconv"
 )
 
-func GetAllRejectionReasons(c *Client, include_default bool, per_page int) (*[]RejectionReason, error) {
-  var obj []RejectionReason
-  endpoint := "v1/rejection_reasons"
-  var custom_query string
-  if include_default {
-    custom_query = "&include_defaults=true"
-  }
-  endpoint = fmt.Sprintf("%s?per_page=%d%s", endpoint, per_page, custom_query)
-  err := MultiGet(c, context.TODO(), endpoint, custom_query, &obj)
-  if err != nil {
-    return nil, err
-  }
-  return &obj, nil
+func GetAllRejectionReasons(c *Client, include_defaults bool, per_page int) (*[]RejectionReason, error) {
+	var obj []RejectionReason
+	querystring := fmt.Sprintf("per_page=%d&include_defaults=%s", per_page, strconv.FormatBool(include_defaults))
+	endpoint := fmt.Sprintf("v1/rejection_reasons?%s", querystring)
+	err := MultiGet(c, context.TODO(), endpoint, querystring, &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }

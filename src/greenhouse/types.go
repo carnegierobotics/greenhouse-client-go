@@ -45,6 +45,18 @@ type Application struct {
 	Status                string                 `json:"status"`
 }
 
+type ApplicationHire struct {
+	CloseReasonId int    `json:"close_reason_id"`
+	OpeningId     int    `json:"opening_id"`
+	StartDate     string `json:"start_date"`
+}
+
+type ApplicationReject struct {
+	Notes             string         `json:"notes"`
+	RejectionEmail    RejectionEmail `json:"rejection_email"`
+	RejectionReasonId int            `json:"rejection_reason_id"`
+}
+
 type Approval struct {
 	ApprovalStatus    string          `json:"approval_status"`
 	ApprovalType      string          `json:"approval_type"`
@@ -76,9 +88,12 @@ type Approver struct {
 }
 
 type Attachment struct {
-	Filename string `json:"filename"`
-	Type     string `json:"type"`
-	Url      string `json:"url"`
+	Filename    string `json:"filename"`
+	Type        string `json:"type"`
+	Url         string `json:"url"`
+	Content     string `json:"content,omitempty"`
+	Visibility  string `json:"visibility,omitempty"`
+	ContentType string `json:"content_type,omitempty"`
 }
 
 type Candidate struct {
@@ -492,6 +507,11 @@ type ProspectPool struct {
 	Id             int     `json:"id"`
 	Name           string  `json:"name"`
 	ProspectStages []Stage `json:"prospect_stages"`
+}
+
+type RejectionEmail struct {
+	EmailTemplateId string `json:"email_template_id"`
+	SendEmailAt     string `json:"send_email_at"`
 }
 
 type RejectionReason struct {
