@@ -1,10 +1,11 @@
 package main
 
 import (
+  "context"
 	"flag"
 	"fmt"
+  "os"
 	"github.com/carnegierobotics/greenhouse-client-go/greenhouse"
-	"os"
 )
 
 func main() {
@@ -19,6 +20,7 @@ func main() {
 	flag.StringVar(&harvestToken, "harvest-token", "", "Greenhouse Harvest API token")
 	flag.StringVar(&jobsToken, "jobs-token", "", "Greenhouse Job Board API token")
 	flag.Parse()
+  ctx := context.TODO()
 	if harvestToken == "" {
 		fmt.Printf("Please provide a token.")
 		os.Exit(1)
@@ -29,19 +31,19 @@ func main() {
 	}
 	harvestClient := greenhouse.Client{BaseUrl: harvestUrl, Token: harvestToken, OnBehalfOf: onBehalfOf}
 	harvestClient.BuildResty()
-	jobs, err := greenhouse.GetAllJobs(&harvestClient)
+	jobs, err := greenhouse.GetAllJobs(&harvestClient, ctx)
 	if err != nil {
 		fmt.Printf(err.Error())
 		os.Exit(1)
 	}
 	fmt.Printf("%+v\n", jobs)
-	job, err := greenhouse.GetJob(&harvestClient, 4003423005)
+	job, err := greenhouse.GetJob(&harvestClient, ctx, 4003423005)
 	if err != nil {
 		fmt.Printf(err.Error())
 		os.Exit(1)
 	}
 	fmt.Printf("%+v\n", job)
-	reasons, err := greenhouse.GetAllRejectionReasons(&harvestClient, true, 20)
+	reasons, err := greenhouse.GetAllRejectionReasons(&harvestClient, ctx, true, 20)
 	if err != nil {
 		fmt.Printf(err.Error())
 		os.Exit(1)

@@ -5,20 +5,20 @@ import (
 	"fmt"
 )
 
-func GetAllEEOC(c *Client) (*[]EEOC, error) {
+func GetAllEEOC(c *Client, ctx context.Context) (*[]EEOC, error) {
 	var obj []EEOC
 	endpoint := "v1/eeoc"
-	err := MultiGet(c, context.TODO(), endpoint, "", &obj)
+	err := MultiGet(c, ctx, endpoint, "", &obj)
 	if err != nil {
 		return nil, err
 	}
 	return &obj, nil
 }
 
-func GetEEOCForApplication(c *Client, applicationId int) (*EEOC, error) {
+func GetEEOCForApplication(c *Client, ctx context.Context, applicationId int) (*EEOC, error) {
 	var obj EEOC
 	endpoint := fmt.Sprintf("v1/applications/%d", applicationId)
-	err := SingleGet(c, context.TODO(), endpoint, &obj)
+	err := SingleGet(c, ctx, endpoint, &obj)
 	if err != nil {
 		return nil, err
 	}

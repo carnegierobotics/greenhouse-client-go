@@ -4,9 +4,9 @@ import (
 	"context"
 )
 
-func GetAllSources(c *Client) (*[]Source, error) {
+func GetAllSources(c *Client, ctx context.Context) (*[]Source, error) {
 	var obj []Source
-	err := MultiGet(c, context.TODO(), "v1/sources", "", &obj)
+	err := MultiGet(c, ctx, "v1/sources", "", &obj)
 	if err != nil {
 		return nil, err
 	}

@@ -6,46 +6,46 @@ import (
 	"fmt"
 )
 
-func GetJobPermissions(c *Client, id int) (*[]UserPermission, error) {
+func GetJobPermissions(c *Client, ctx context.Context, id int) (*[]UserPermission, error) {
 	var obj []UserPermission
 	endpoint := fmt.Sprintf("v1/users/%d/permissions/jobs", id)
-	err := MultiGet(c, context.TODO(), endpoint, "", &obj)
+	err := MultiGet(c, ctx, endpoint, "", &obj)
 	if err != nil {
 		return nil, err
 	}
 	return &obj, nil
 }
 
-func DeleteJobPermission(c *Client, jobId int, permId int) error {
+func DeleteJobPermission(c *Client, ctx context.Context, jobId int, permId int) error {
 	endpoint := fmt.Sprintf("v1/users/%d/permissions/jobs", jobId)
 	jsonBody, err := json.Marshal(map[string]int{"job_permission_id": permId})
 	if err != nil {
 		return err
 	}
-	return Delete(c, context.TODO(), endpoint, jsonBody)
+	return Delete(c, ctx, endpoint, jsonBody)
 }
 
-func CreateJobPermission(c *Client, id int, obj *UserPermission) (int, error) {
+func CreateJobPermission(c *Client, ctx context.Context, id int, obj *UserPermission) (int, error) {
 	endpoint := fmt.Sprintf("v1/users/%d/permissions/jobs", id)
-	return Create(c, context.TODO(), endpoint, obj)
+	return Create(c, ctx, endpoint, obj)
 }
 
-func GetFutureJobPermission(c *Client, id int) (*[]FutureJobPermission, error) {
+func GetFutureJobPermission(c *Client, ctx context.Context, id int) (*[]FutureJobPermission, error) {
 	var obj []FutureJobPermission
 	endpoint := fmt.Sprintf("v1/users/%d/permissions/future_jobs", id)
-	err := MultiGet(c, context.TODO(), endpoint, "", &obj)
+	err := MultiGet(c, ctx, endpoint, "", &obj)
 	if err != nil {
 		return nil, err
 	}
 	return &obj, nil
 }
 
-func DeleteFutureJobPermission(c *Client, id int) error {
+func DeleteFutureJobPermission(c *Client, ctx context.Context, id int) error {
 	endpoint := fmt.Sprintf("v1/users/%d/permissions/future_jobs", id)
-	return Delete(c, context.TODO(), endpoint, nil)
+	return Delete(c, ctx, endpoint, nil)
 }
 
-func CreateFutureJobPermission(c *Client, id int, obj *FutureJobPermission) (int, error) {
+func CreateFutureJobPermission(c *Client, ctx context.Context, id int, obj *FutureJobPermission) (int, error) {
 	endpoint := fmt.Sprintf("v1/users/%d/permissions/future_jobs", id)
-	return Create(c, context.TODO(), endpoint, obj)
+	return Create(c, ctx, endpoint, obj)
 }

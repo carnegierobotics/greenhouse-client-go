@@ -6,8 +6,8 @@ import (
 	"fmt"
 )
 
-func GetJobHiringTeam(c *Client, id int) (*HiringTeam, error) {
-	resp, err := c.Client.R().SetContext(context.TODO()).Get(fmt.Sprintf("v1/jobs/%d/hiring_team", id))
+func GetJobHiringTeam(c *Client, ctx context.Context, id int) (*HiringTeam, error) {
+	resp, err := c.Client.R().SetContext(ctx).Get(fmt.Sprintf("v1/jobs/%d/hiring_team", id))
 	if err != nil {
 		return nil, err
 	}
@@ -19,7 +19,7 @@ func GetJobHiringTeam(c *Client, id int) (*HiringTeam, error) {
 	return &obj, nil
 }
 
-func UpdateJobHiringTeam(c *Client, id int, obj *map[string][]HiringMemberUpdateInfo, ctx context.Context) error {
+func UpdateJobHiringTeam(c *Client, ctx context.Context, id int, obj *map[string][]HiringMemberUpdateInfo) error {
 	jsonBody, err := json.Marshal(obj)
 	if err != nil {
 		return err
