@@ -5,12 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-  "net/url"
-  "reflect"
-  "strconv"
-  "strings"
 	"github.com/go-resty/resty/v2"
 	"github.com/peterhellberg/link"
+	"net/url"
+	"reflect"
+	"strconv"
+	"strings"
 )
 
 type RespObj struct {
@@ -179,25 +179,25 @@ func Delete(c *Client, ctx context.Context, endpoint string, jsonBody []byte) er
 }
 
 func GenerateQuerystring(params map[string]interface{}) (*string, error) {
-  var querystring string
-  for key, value := range params {
-    val := Convert(value)
-    if val != "" {
-      querystring += fmt.Sprintf("%s=%s&", key, val)
-    }
-  }
-  querystring = strings.TrimRight(querystring, "&")
-  return &querystring, nil
+	var querystring string
+	for key, value := range params {
+		val := Convert(value)
+		if val != "" {
+			querystring += fmt.Sprintf("%s=%s&", key, val)
+		}
+	}
+	querystring = strings.TrimRight(querystring, "&")
+	return &querystring, nil
 }
 
 func Convert(item interface{}) string {
-  //Needs to be expanded to support more types.
-  switch valType := reflect.TypeOf(item); valType.Kind() {
-  case reflect.Int:
-    return strconv.Itoa(item.(int))
-  case reflect.String:
-    return item.(string)
-  default:
-    return ""
-  }
+	//Needs to be expanded to support more types.
+	switch valType := reflect.TypeOf(item); valType.Kind() {
+	case reflect.Int:
+		return strconv.Itoa(item.(int))
+	case reflect.String:
+		return item.(string)
+	default:
+		return ""
+	}
 }

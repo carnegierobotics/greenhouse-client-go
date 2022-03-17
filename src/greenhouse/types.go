@@ -40,8 +40,10 @@ type Application struct {
 	ProspectDetail        ProspectDetail         `json:"prospect_detail"`
 	ProspectiveDepartment Department             `json:"prospective_department"`
 	ProspectiveOffice     Office                 `json:"prospective_office"`
+	Referrer              TypeTypeValue          `json:"referrer,omitempty"`
 	RejectedAt            string                 `json:"rejected_at"`
 	Source                Source                 `json:"source"`
+	SourceId              int                    `json:"source_id,omitempty"`
 	Status                string                 `json:"status"`
 }
 
@@ -90,16 +92,18 @@ type Approver struct {
 type Attachment struct {
 	Filename    string `json:"filename"`
 	Type        string `json:"type"`
-	Url         string `json:"url"`
+	Url         string `json:"url,omitempty"`
 	Content     string `json:"content,omitempty"`
 	Visibility  string `json:"visibility,omitempty"`
 	ContentType string `json:"content_type,omitempty"`
 }
 
 type Candidate struct {
+	ActivityFeedNotes    []ActivityFeed         `json:"activity_feed_notes"`
 	Addresses            []TypeTypeValue        `json:"addresses"`
 	ApplicationIds       []int                  `json:"application_ids"`
-	Applications         []Application          `json:"applications"`
+	Application          Application            `json:"application,omitempty"`
+	Applications         []Application          `json:"applications,omitempty"`
 	CanEmail             bool                   `json:"can_email"`
 	Company              string                 `json:"company"`
 	Coordinator          User                   `json:"coordinator"`
@@ -107,7 +111,9 @@ type Candidate struct {
 	Educations           []Education            `json:"educations"`
 	EmailAddresses       []TypeTypeValue        `json:"email_addresses"`
 	Employments          []Employment           `json:"employments"`
+	FirstName            string                 `json:"first_name"`
 	KeyedCustomFields    map[string]interface{} `json:"keyed_custom_fields"`
+	LastName             string                 `json:"last_name"`
 	Id                   int                    `json:"id"`
 	IsPrivate            bool                   `json:"is_private"`
 	LinkedUserIds        []int                  `json:"linked_user_ids"`
@@ -211,12 +217,19 @@ type DepartmentUpdateInfo struct {
 type Discipline TypeIdNamePriority
 
 type Education struct {
-	Degree     string `json:"degree"`
-	Discipline string `json:"discipline"`
-	EndDate    string `json:"end_date"`
-	Id         int    `json:"id"`
-	SchoolName string `json:"school_name"`
-	StartDate  string `json:"start_date"`
+	Degree       string `json:"degree,omitempty"`
+	DegreeId     int    `json:"degree_id,omitempty"`
+	Discipline   string `json:"discipline,omitempty"`
+	DisciplineId int    `json:"discipline_id,omitempty"`
+	EndDate      string `json:"end_date,omitempty"`
+	EndMonth     string `json:"end_month,omitempty"`
+	EndYear      string `json:"end_year,omitempty"`
+	Id           int    `json:"id"`
+	SchoolId     int    `json:"school_id,omitempty"`
+	SchoolName   string `json:"school_name,omitempty"`
+	StartDate    string `json:"start_date,omitempty"`
+	StartMonth   int    `json:"start_month,omitempty"`
+	StartYear    int    `json:"start_year,omitempty"`
 }
 
 type EEOC struct {
@@ -243,7 +256,8 @@ type Email struct {
 	Id        int    `json:"id"`
 	Subject   string `json:"subject"`
 	To        string `json:"to"`
-	User      User   `json:"user"`
+	UserId    int    `json:"user_id,omitempty"`
+	User      User   `json:"user,omitempty"`
 }
 
 type EmailTemplate struct {
@@ -441,10 +455,11 @@ type Location struct {
 
 type Note struct {
 	Body       string `json:"body"`
-	CreatedAt  string `json:"created_at"`
+	CreatedAt  string `json:"created_at,omitempty"`
 	Id         int    `json:"id"`
-	Private    bool   `json:"private"`
-	User       User   `json:"user"`
+	Private    bool   `json:"private,omitempty"`
+	User       User   `json:"user,omitempty"`
+	UserId     int    `json:"userid,omitempty"`
 	Visibility string `json:"visibility"`
 }
 
