@@ -9,7 +9,7 @@ import (
 
 func main() {
 	var jobsUrl string
-  var jobsToken string
+	var jobsToken string
 	var harvestUrl string
 	var harvestToken string
 	var onBehalfOf int
@@ -17,7 +17,7 @@ func main() {
 	flag.StringVar(&harvestUrl, "harvest-url", "https://harvest.greenhouse.io", "Greenhouse Harvest API URL")
 	flag.IntVar(&onBehalfOf, "on-behalf-of", 0, "On-Behalf-Of user ID")
 	flag.StringVar(&harvestToken, "harvest-token", "", "Greenhouse Harvest API token")
-  flag.StringVar(&jobsToken, "jobs-token", "", "Greenhouse Job Board API token")
+	flag.StringVar(&jobsToken, "jobs-token", "", "Greenhouse Job Board API token")
 	flag.Parse()
 	if harvestToken == "" {
 		fmt.Printf("Please provide a token.")
@@ -29,22 +29,22 @@ func main() {
 	}
 	harvestClient := greenhouse.Client{BaseUrl: harvestUrl, Token: harvestToken, OnBehalfOf: onBehalfOf}
 	harvestClient.BuildResty()
-  jobs, err := greenhouse.GetAllJobs(&harvestClient)
-  if err != nil {
-    fmt.Printf(err.Error())
-    os.Exit(1)
-  }
-  fmt.Printf("%+v\n", jobs)
+	jobs, err := greenhouse.GetAllJobs(&harvestClient)
+	if err != nil {
+		fmt.Printf(err.Error())
+		os.Exit(1)
+	}
+	fmt.Printf("%+v\n", jobs)
 	job, err := greenhouse.GetJob(&harvestClient, 4003423005)
-  if err != nil {
-    fmt.Printf(err.Error())
-    os.Exit(1)
-  }
+	if err != nil {
+		fmt.Printf(err.Error())
+		os.Exit(1)
+	}
 	fmt.Printf("%+v\n", job)
-  reasons, err := greenhouse.GetAllRejectionReasons(&harvestClient, true, 20)
-  if err != nil {
-    fmt.Printf(err.Error())
-    os.Exit(1)
-  }
-  fmt.Printf("%+v", reasons)
+	reasons, err := greenhouse.GetAllRejectionReasons(&harvestClient, true, 20)
+	if err != nil {
+		fmt.Printf(err.Error())
+		os.Exit(1)
+	}
+	fmt.Printf("%+v", reasons)
 }
