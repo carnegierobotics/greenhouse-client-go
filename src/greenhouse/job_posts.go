@@ -1,35 +1,62 @@
 package greenhouse
 
 import (
+	"context"
 	"errors"
+	"fmt"
+	"strconv"
 )
 
-func GetAllJobPosts(c *Client) (*[]JobPost, error) {
-	return nil, errors.New("GetAllJobPosts not implemented.")
+func GetAllJobPosts(c *Client, live bool, active bool) (*[]JobPost, error) {
+	var obj []JobPost
+	querystring := fmt.Sprintf("live=%s&active=%s", strconv.FormatBool(live), strconv.FormatBool(active))
+	err := MultiGet(c, context.TODO(), "v1/job_posts", querystring, &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
-func GetJobPost(c *Client, postId int) (*JobPost, error) {
-	return nil, errors.New("GetJobPost not implemented.")
+func GetJobPost(c *Client, id int) (*JobPost, error) {
+	var obj JobPost
+	err := SingleGet(c, context.TODO(), fmt.Sprintf("v1/job_posts/%d", id), &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
-func GetAllJobPostsForJob(c *Client, jobId int) (*[]JobPost, error) {
-	return nil, errors.New("GetAllJobPostsForJob not implemented.")
+func GetAllJobPostsForJob(c *Client, id int) (*[]JobPost, error) {
+	var obj []JobPost
+	endpoint := fmt.Sprintf("v1/jobs/%d/job_posts", id)
+	err := MultiGet(c, context.TODO(), endpoint, "", &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
-func GetJobPostForJob(c *Client, jobId int) (*JobPost, error) {
+func GetJobPostForJob(c *Client, id int) (*JobPost, error) {
 	//This should probably never be implemented since Greenhouse supports multiple posts per job as
 	//of 2016.
 	return nil, errors.New("GetJobPostForJob not implemented.")
 }
 
-func GetCustomLocationsForJobPost(c *Client, postId int) (*[]Location, error) {
-	return nil, errors.New("GetCustomLocationsForJobPost not implemented.")
+func GetCustomLocationsForJobPost(c *Client, id int) (*[]Location, error) {
+	var obj []Location
+	endpoint := fmt.Sprintf("v1/job_posts/%d/custom_locations", id)
+	err := MultiGet(c, context.TODO(), endpoint, "", &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
-func UpdateJobPost(c *Client, obj *JobPost) error {
-	return errors.New("UpdateJobPost not implemented.")
+func UpdateJobPost(c *Client, id int, obj *JobPost) error {
+	return Update(c, context.TODO(), fmt.Sprintf("v2/job_posts/%d", id), obj)
 }
 
-func UpdateJobPostStatus(c *Client, postId int, status string) error {
-	return errors.New("UpdateJobPostStatus not implemented.")
+func UpdateJobPostStatus(c *Client, id int, status string) error {
+	obj := map[string]string{"status": status}
+	return Update(c, context.TODO(), fmt.Sprintf("v2/job_posts/%d/status", id), &obj)
 }

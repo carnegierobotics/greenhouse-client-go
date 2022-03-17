@@ -151,10 +151,10 @@ type CustomField struct {
 }
 
 type CustomFieldOption struct {
-	ExternalId string `json:"external_id"`
-	Id         int    `json:"id"`
-	Name       string `json:"name"`
-	Priority   int    `json:"priority"`
+	ExternalId string `json:"external_id,omitempty"`
+	Id         int    `json:"id,omitempty"`
+	Name       string `json:"name,omitempty"`
+	Priority   int    `json:"priority,omitempty"`
 }
 
 type Degree TypeIdNamePriority

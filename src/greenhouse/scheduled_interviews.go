@@ -2,7 +2,6 @@ package greenhouse
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"strconv"
 )
@@ -39,12 +38,12 @@ func GetScheduledInterview(c *Client, id int) (*ScheduledInterview, error) {
 	return &obj, nil
 }
 
-func CreateScheduledInterview() error {
-	return errors.New("CreateScheduledInterview not implemented.")
+func CreateScheduledInterview(c *Client, obj *ScheduledInterview) (int, error) {
+	return Create(c, context.TODO(), "v2/scheduled_interviews", obj)
 }
 
-func UpdateScheduledInterview() error {
-	return errors.New("UpdateScheduledInterview not implemented.")
+func UpdateScheduledInterview(c *Client, id int, obj *ScheduledInterview) error {
+	return Update(c, context.TODO(), fmt.Sprintf("v2/scheduled_interviews/%d", id), obj)
 }
 
 func DeleteScheduledInterview(c *Client, id int) error {

@@ -3,16 +3,28 @@ package greenhouse
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 )
 
-func GetAllJobOpenings(c *Client) (*[]JobOpening, error) {
-	return nil, errors.New("GetAllJobOpenings not implemented.")
+func GetAllJobOpenings(c *Client, id int, status string) (*[]JobOpening, error) {
+	var obj []JobOpening
+	endpoint := fmt.Sprintf("v1/jobs/%d/openings", id)
+	querystring := fmt.Sprintf("status=%s", status)
+	err := MultiGet(c, context.TODO(), endpoint, querystring, &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
 func GetJobOpening(c *Client, jobId int, openingId int) (*JobOpening, error) {
-	return nil, errors.New("GetJobOpening not implemented.")
+	var obj JobOpening
+	endpoint := fmt.Sprintf("v1/jobs/%d/openings", jobId)
+	err := SingleGet(c, context.TODO(), endpoint, &obj)
+	if err != nil {
+		return nil, err
+	}
+	return &obj, nil
 }
 
 func DeleteJobOpenings(c *Client, jobId int, openingIds []int) error {
@@ -23,10 +35,12 @@ func DeleteJobOpenings(c *Client, jobId int, openingIds []int) error {
 	return Delete(c, context.TODO(), fmt.Sprintf("v1/jobs/%d/openings", jobId), jsonBody)
 }
 
-func UpdateJobOpenings(c *Client, jobId int, obj JobOpeningUpdateInfo) error {
-	return errors.New("UpdateJobOpenings not implemented.")
+func UpdateJobOpenings(c *Client, jobId int, openingId int, obj *JobOpeningUpdateInfo) error {
+	endpoint := fmt.Sprintf("v1/jobs/%d/openings/%d", jobId, openingId)
+	return Update(c, context.TODO(), endpoint, obj)
 }
 
-func CreateJobOpenings(c *Client, obj JobOpeningCreateInfo) error {
-	return errors.New("CreateJobOpenings not implemented.")
+func CreateJobOpenings(c *Client, jobId int, obj JobOpeningCreateInfo) (int, error) {
+	endpoint := fmt.Sprintf("v1/jobs/%d/openings", jobId)
+	return Create(c, context.TODO(), endpoint, obj)
 }
