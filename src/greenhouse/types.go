@@ -373,7 +373,7 @@ type Job struct {
 	HiringTeam        map[string][]HiringMember         `json:"hiring_team"`
 	Id                int                               `json:"id"`
 	IsTemplate        bool                              `json:"is_template"`
-	KeyedCustomFields map[string]map[string]interface{} `json:"keyed_custom_fields"`
+	KeyedCustomFields map[string]KeyedCustomField `json:"keyed_custom_fields"`
 	Name              string                            `json:"name"`
 	Notes             string                            `json:"notes"`
 	Offices           []Office                          `json:"offices"`
