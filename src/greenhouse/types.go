@@ -3,18 +3,18 @@ package greenhouse
 import ()
 
 type Activity struct {
-	Body      string `json:"body"`
-	CreatedAt string `json:"created_at"`
+	Body      string `json:"body,omitempty"`
+	CreatedAt string `json:"created_at,omitempty"`
 	Id        int    `json:"id"`
-	Subject   string `json:"subject"`
-	User      User   `json:"user"`
+	Subject   string `json:"subject,omitempty"`
+	User      User   `json:"user,omitempty"`
 }
 
 type ActivityFeed struct {
-	Activities []Activity `json:"activities"`
-	Emails     []Email    `json:"emails"`
+	Activities []Activity `json:"activities,omitempty"`
+	Emails     []Email    `json:"emails,omitempty"`
 	Id         int        `json:"id"`
-	Notes      []Note     `json:"notes"`
+	Notes      []Note     `json:"notes,omitempty"`
 }
 
 type Answer struct {
@@ -24,24 +24,35 @@ type Answer struct {
 
 type Application struct {
 	Answers               []Answer               `json:"answers"`
-	AppliedAt             string                 `json:"applied_at"`
-	Attachments           []Attachment           `json:"attachments"`
+	AppliedAt             string                 `json:"applied_at,omitempty"`
+	Attachments           []Attachment           `json:"attachments,omitempty"`
 	CandidateId           int                    `json:"candidate_id"`
 	CreditedTo            User                   `json:"credited_to"`
 	CurrentStage          Stage                  `json:"current_stage"`
-	CustomFields          map[string]string      `json:"custom_fields"`
+	CustomFields          map[string]string      `json:"custom_fields,omitempty"`
 	Id                    int                    `json:"id"`
+  InitialStageId        int                    `json:"initial_stage_id,omitempty"`
+  JobId                 int                    `json:"job_id"`
+  JobIds                []int                  `json:"job_ids"`
 	Jobs                  []Job                  `json:"jobs"`
 	JobPostId             int                    `json:"job_post_id"`
-	KeyedCustomFields     map[string]interface{} `json:"keyed_custom_fields"`
-	LastActivityAt        string                 `json:"last_activity_at"`
-	Location              Location               `json:"location"`
-	Prospect              bool                   `json:"prospect"`
+	KeyedCustomFields     map[string]KeyedCustomField `json:"keyed_custom_fields,omitempty"`
+	LastActivityAt        string                 `json:"last_activity_at,omitempty"`
+	Location              Location               `json:"location,omitempty"`
+	Prospect              bool                   `json:"prospect,omitempty"`
 	ProspectDetail        ProspectDetail         `json:"prospect_detail"`
+  ProspectOwnerId       int                    `json:"prospect_owner_id"`
+  ProspectPoolId        int                     `json:"prospect_pool_id"`
+  ProspectPoolStageId int                   `json:"prospect_pool_stage_id"`
+  ProspectStageId       int                 `json:"prospect_stage_id"`
 	ProspectiveDepartment Department             `json:"prospective_department"`
+  ProspectiveDepartmentId int                  `json:"prospective_department_id"`
 	ProspectiveOffice     Office                 `json:"prospective_office"`
+  ProspectiveOfficeId   int                    `json:"prospective_office_id"`
 	Referrer              TypeTypeValue          `json:"referrer,omitempty"`
-	RejectedAt            string                 `json:"rejected_at"`
+	RejectedAt            string                 `json:"rejected_at,omitempty"`
+  RejectionDetails      string                 `json:"rejection_details"`
+  RejectionReason       string                 `json:"rejection_reason"`
 	Source                Source                 `json:"source"`
 	SourceId              int                    `json:"source_id,omitempty"`
 	Status                string                 `json:"status"`
@@ -71,6 +82,13 @@ type Approval struct {
 	Version           int             `json:"version"`
 }
 
+type Approver struct {
+	EmailAddresses []string `json:"email_addresses"`
+	EmployeeId     string   `json:"employee_id"`
+	Id             int      `json:"id"`
+	Name           string   `json:"name"`
+}
+
 type ApproverGroup struct {
 	ApprovalsRequired int        `json:"approvals_required"`
 	Approvers         []Approver `json:"approvers"`
@@ -82,27 +100,20 @@ type ApproverGroup struct {
 	ResolvedAt        string     `json:"resolved_at"`
 }
 
-type Approver struct {
-	EmailAddresses []string `json:"email_addresses"`
-	EmployeeId     string   `json:"employee_id"`
-	Id             int      `json:"id"`
-	Name           string   `json:"name"`
-}
-
 type Attachment struct {
+	Content     string `json:"content,omitempty"`
+	ContentType string `json:"content_type,omitempty"`
 	Filename    string `json:"filename"`
 	Type        string `json:"type"`
 	Url         string `json:"url,omitempty"`
-	Content     string `json:"content,omitempty"`
 	Visibility  string `json:"visibility,omitempty"`
-	ContentType string `json:"content_type,omitempty"`
 }
 
 type Candidate struct {
 	ActivityFeedNotes    []ActivityFeed         `json:"activity_feed_notes"`
 	Addresses            []TypeTypeValue        `json:"addresses"`
-	ApplicationIds       []int                  `json:"application_ids"`
 	Application          Application            `json:"application,omitempty"`
+	ApplicationIds       []int                  `json:"application_ids"`
 	Applications         []Application          `json:"applications,omitempty"`
 	CanEmail             bool                   `json:"can_email"`
 	Company              string                 `json:"company"`
@@ -113,9 +124,9 @@ type Candidate struct {
 	Employments          []Employment           `json:"employments"`
 	FirstName            string                 `json:"first_name"`
 	KeyedCustomFields    map[string]interface{} `json:"keyed_custom_fields"`
-	LastName             string                 `json:"last_name"`
 	Id                   int                    `json:"id"`
 	IsPrivate            bool                   `json:"is_private"`
+	LastName             string                 `json:"last_name"`
 	LinkedUserIds        []int                  `json:"linked_user_ids"`
 	PhoneNumbers         []TypeTypeValue        `json:"phone_numbers"`
 	Recruiter            User                   `json:"recruiter"`
@@ -123,6 +134,14 @@ type Candidate struct {
 	Tags                 []string               `json:"tags"`
 	Title                string                 `json:"title"`
 	WebsiteAddresses     []TypeTypeValue        `json:"website_addresses"`
+}
+
+type CandidateApplication struct {
+  Attachments []Attachment `json:"attachments,omitempty"`
+  InitialStageId int `json:"initial_stage_id,omitempty"`
+  JobId int `json:"job_id"`
+  Referrer TypeTypeValue `json:"referrer,omitempty"`
+  SourceId int `json:"source_id,omitempty"`
 }
 
 type CandidateTag TypeIdName
@@ -133,13 +152,16 @@ type CustomField struct {
 	Active              bool                `json:"active"`
 	ApiOnly             bool                `json:"api_only"`
 	CustomFieldOptions  []CustomFieldOption `json:"custom_field_options"`
+  DepartmentIds       []int               `json:"department_ids,omitempty"`
 	Departments         []Department        `json:"departments"`
 	Description         string              `json:"description"`
 	ExposeInJobBoardAPI bool                `json:"expose_in_job_board_api"`
 	FieldType           string              `json:"field_type"`
+  GenerateEmailToken  bool                `json:"generate_email_token"`
 	Id                  int                 `json:"id"`
 	Name                string              `json:"name"`
 	NameKey             string              `json:"name_key"`
+  OfficeIds           []int               `json:"office_ids,omitempty"`
 	Offices             []Office            `json:"offices"`
 	Priority            int                 `json:"priority"`
 	Private             bool                `json:"private"`
@@ -327,6 +349,7 @@ type Interviewer struct {
 	Email          string `json:"email"`
 	ResponseStatus string `json:"response_status"`
 	ScorecardId    int    `json:"scorecard_id"`
+  UserId         int    `json:"user_id"`
 }
 
 type InterviewKit struct {
@@ -449,6 +472,12 @@ type JobStage struct {
 	UpdatedAt  string      `json:"updated_at"`
 }
 
+type KeyedCustomField struct {
+  Name string `json:"name"`
+  Type string `json:"type"`
+  Value string `json:"value"`
+}
+
 type Location struct {
 	Name string `json:"name"`
 }
@@ -511,6 +540,18 @@ type Opening struct {
 	Id           int                 `json:"opening_id"`
 }
 
+type ProspectApplication struct {
+  JobIds []int `json:"job_ids,omitempty"`
+  Prospect bool `json:"prospect"`
+  ProspectiveDepartmentId int `json:"prospective_department_id,omitempty"`
+  ProspectiveOfficeId int `json:"prospective_office_id,omitempty"`
+  ProspectOwnerId int `json:"prospect_owner_id,omitempty"`
+  ProspectPoolId int `json:"prospect_pool_id,omitempty"`
+  ProspectPoolStageId int `json:"prospect_pool_stage_id,omitempty"`
+  Referrer TypeTypeValue `json:"referrer,omitempty"`
+  SourceId int `json:"source_id,omitempty"`
+}
+
 type ProspectDetail struct {
 	ProspectOwner string `json:"prospect_owner"`
 	ProspectPool  string `json:"prospect_pool"`
@@ -562,6 +603,7 @@ type Scorecard struct {
 	CreatedAt             string               `json:"created_at"`
 	Id                    int                  `json:"id"`
 	Interview             string               `json:"interview"`
+  InterviewedAt         string               `json:"interviewed_at"`
 	InterviewStep         Stage                `json:"interview_step"`
 	Interviewer           int                  `json:"interviewer"`
 	OverallRecommendation string               `json:"overall_recommendation"`
@@ -662,8 +704,8 @@ type UserPermission struct {
 
 type UserRole struct {
 	Id   int    `json:"id"`
-	Type string `json:"type"`
 	Name string `json:"name"`
+	Type string `json:"type"`
 }
 
 type UserUpdateInfo struct {
