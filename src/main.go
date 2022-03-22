@@ -1,11 +1,11 @@
 package main
 
 import (
-  "context"
+	"context"
 	"flag"
 	"fmt"
-  "os"
 	"github.com/carnegierobotics/greenhouse-client-go/greenhouse"
+	"os"
 )
 
 func main() {
@@ -20,7 +20,7 @@ func main() {
 	flag.StringVar(&harvestToken, "harvest-token", "", "Greenhouse Harvest API token")
 	flag.StringVar(&jobsToken, "jobs-token", "", "Greenhouse Job Board API token")
 	flag.Parse()
-  ctx := context.TODO()
+	ctx := context.TODO()
 	if harvestToken == "" {
 		fmt.Printf("Please provide a token.")
 		os.Exit(1)
