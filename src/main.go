@@ -31,6 +31,13 @@ func main() {
 	}
 	harvestClient := greenhouse.Client{BaseUrl: harvestUrl, Token: harvestToken, OnBehalfOf: onBehalfOf}
 	harvestClient.BuildResty()
+  candidate, err := greenhouse.GetCandidate(&harvestClient, ctx, 4102866005)
+  if err != nil {
+    fmt.Printf(err.Error())
+    os.Exit(1)
+  }
+  fmt.Printf("%+v\n", candidate)
+  /*
 	jobs, err := greenhouse.GetAllJobs(&harvestClient, ctx)
 	if err != nil {
 		fmt.Printf(err.Error())
@@ -49,4 +56,5 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Printf("%+v", reasons)
+  */
 }

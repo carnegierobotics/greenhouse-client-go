@@ -67,7 +67,7 @@ func SingleGet(c *Client, ctx context.Context, endpoint string, item interface{}
 	}
 	err = json.Unmarshal(resp.Body(), &item)
 	if err != nil {
-		return err
+		return fmt.Errorf("%s. Response was: %+v", err.Error(), string(resp.Body()))
 	}
 	return nil
 }

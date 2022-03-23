@@ -19,7 +19,8 @@ func GetAllCandidates(c *Client, ctx context.Context) (*[]Candidate, error) {
 
 func GetCandidate(c *Client, ctx context.Context, id int) (*Candidate, error) {
 	var obj Candidate
-	err := SingleGet(c, ctx, "v1/candidates", &obj)
+  endpoint := fmt.Sprintf("v1/candidates/%d", id)
+	err := SingleGet(c, ctx, endpoint, &obj)
 	if err != nil {
 		return nil, err
 	}
