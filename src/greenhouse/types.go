@@ -344,7 +344,7 @@ type HiringMemberUpdateInfo struct {
 }
 
 type Interview struct {
-	DefaultInterviewerUsers []User       `json:"default_interviewer_users,omitempty"`
+	DefaultInterviewerUsers []Interviewer       `json:"default_interviewer_users,omitempty"`
 	EstimatedMinutes        int          `json:"estimated_minutes,omitempty"`
 	Id                      int          `json:"id,omitempty"`
 	InterviewKit            *InterviewKit `json:"interview_kit,omitempty"`
