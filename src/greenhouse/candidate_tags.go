@@ -14,6 +14,19 @@ func GetAllCandidateTags(c *Client, ctx context.Context) (*[]CandidateTag, error
 	return &obj, nil
 }
 
+func GetCandidateTag(c *Client, ctx context.Context, id int) (*CandidateTag, error) {
+  list, err := GetAllCandidateTags(c, ctx)
+  if err != nil {
+    return nil, err
+  }
+  for _, item := range *list {
+    if item.Id == id {
+      return &item, nil
+    }
+  }
+  return nil, nil
+}
+
 func CreateCandidateTag(c *Client, ctx context.Context, obj *CandidateTag) (int, error) {
 	return Create(c, ctx, fmt.Sprintf("v1/tags/candidate"), obj)
 }

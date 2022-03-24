@@ -38,11 +38,11 @@ func GetScheduledInterview(c *Client, ctx context.Context, id int) (*ScheduledIn
 	return &obj, nil
 }
 
-func CreateScheduledInterview(c *Client, ctx context.Context, obj *ScheduledInterview) (int, error) {
+func CreateScheduledInterview(c *Client, ctx context.Context, obj *ScheduledInterviewCreateInfo) (int, error) {
 	return Create(c, ctx, "v2/scheduled_interviews", obj)
 }
 
-func UpdateScheduledInterview(c *Client, ctx context.Context, id int, obj *ScheduledInterview) error {
+func UpdateScheduledInterview(c *Client, ctx context.Context, id int, obj *ScheduledInterviewUpdateInfo) error {
 	return Update(c, ctx, fmt.Sprintf("v2/scheduled_interviews/%d", id), obj)
 }
 

@@ -24,10 +24,10 @@ func GetDepartment(c *Client, ctx context.Context, id int) (*Department, error) 
 	return &obj, nil
 }
 
-func CreateDepartment(c *Client, ctx context.Context, obj *DepartmentCreateInfo) (int, error) {
+func CreateDepartment(c *Client, ctx context.Context, obj *Department) (int, error) {
 	return Create(c, ctx, "v1/departments", obj)
 }
 
-func UpdateDepartment(c *Client, ctx context.Context, id int, obj *DepartmentUpdateInfo) error {
+func UpdateDepartment(c *Client, ctx context.Context, id int, obj *Department) error {
 	return Update(c, ctx, fmt.Sprintf("v1/departments/%d", id), obj)
 }

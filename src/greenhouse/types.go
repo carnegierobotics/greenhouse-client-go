@@ -233,15 +233,6 @@ type Department struct {
 	ParentId                   int      `json:"parent_id,omitempty"`
 }
 
-type DepartmentCreateInfo struct {
-	Name     string `json:"name,omitempty"`
-	ParentId int    `json:"parent_id,omitempty"`
-}
-
-type DepartmentUpdateInfo struct {
-	Name string `json:"name,omitempty"`
-}
-
 type Discipline TypeIdNamePriority
 
 type Education struct {
@@ -595,6 +586,23 @@ type ScheduledInterview struct {
 	Start                *ScheduledInterviewDate `json:"start,omitempty"`
 	Status               string                 `json:"status,omitempty"`
 	VideoConferencingUrl string                 `json:"video_conferencing_url,omitempty"`
+}
+
+type ScheduledInterviewCreateInfo struct {
+  ApplicationId int `json:"application_id,omitempty"`
+  End string  `json:"end,omitempty"`
+  ExternalEventId string `json:"external_event_id,omitempty"`
+  Interviewers []Interviewer `json:"interviewers,omitempty"`
+  InterviewId int `json:"interview_id,omitempty"`
+  Start string `json:"start,omitempty"`
+}
+
+type ScheduledInterviewUpdateInfo struct {
+  End string `json:"end,omitempty"`
+  ExternalEventId string `json:"external_event_id,omitempty"`
+  Interviewers []Interviewer `json:"interviewers,omitempty"`
+  Location string `json:"location,omitempty"`
+  Start string `json:"start,omitempty"`
 }
 
 type ScheduledInterviewDate struct {
