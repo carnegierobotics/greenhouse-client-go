@@ -31,30 +31,38 @@ func main() {
 	}
 	harvestClient := greenhouse.Client{BaseUrl: harvestUrl, Token: harvestToken, OnBehalfOf: onBehalfOf}
 	harvestClient.BuildResty()
-  candidate, err := greenhouse.GetCandidate(&harvestClient, ctx, 4102866005)
-  if err != nil {
-    fmt.Printf(err.Error())
-    os.Exit(1)
-  }
-  fmt.Printf("%+v\n", candidate)
-  /*
-	jobs, err := greenhouse.GetAllJobs(&harvestClient, ctx)
+	list, err := greenhouse.GetAllCandidates(&harvestClient, ctx)
 	if err != nil {
 		fmt.Printf(err.Error())
 		os.Exit(1)
 	}
-	fmt.Printf("%+v\n", jobs)
-	job, err := greenhouse.GetJob(&harvestClient, ctx, 4003423005)
-	if err != nil {
-		fmt.Printf(err.Error())
-		os.Exit(1)
-	}
-	fmt.Printf("%+v\n", job)
-	reasons, err := greenhouse.GetAllRejectionReasons(&harvestClient, ctx, true, 20)
-	if err != nil {
-		fmt.Printf(err.Error())
-		os.Exit(1)
-	}
-	fmt.Printf("%+v", reasons)
-  */
+	fmt.Printf("%+v\n", list)
+	/*
+	  candidate, err := greenhouse.GetCandidate(&harvestClient, ctx, 4102866005)
+	  if err != nil {
+	    fmt.Printf(err.Error())
+	    os.Exit(1)
+	  }
+	  fmt.Printf("%+v\n", candidate)
+	*/
+	/*
+		jobs, err := greenhouse.GetAllJobs(&harvestClient, ctx)
+		if err != nil {
+			fmt.Printf(err.Error())
+			os.Exit(1)
+		}
+		fmt.Printf("%+v\n", jobs)
+		job, err := greenhouse.GetJob(&harvestClient, ctx, 4003423005)
+		if err != nil {
+			fmt.Printf(err.Error())
+			os.Exit(1)
+		}
+		fmt.Printf("%+v\n", job)
+		reasons, err := greenhouse.GetAllRejectionReasons(&harvestClient, ctx, true, 20)
+		if err != nil {
+			fmt.Printf(err.Error())
+			os.Exit(1)
+		}
+		fmt.Printf("%+v", reasons)
+	*/
 }
