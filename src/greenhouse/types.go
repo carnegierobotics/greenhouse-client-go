@@ -51,7 +51,7 @@ type Application struct {
 	ProspectiveOfficeId     int                         `json:"prospective_office_id,omitempty"`
 	Referrer                *TypeTypeValue              `json:"referrer,omitempty"`
 	RejectedAt              string                      `json:"rejected_at,omitempty"`
-	RejectionDetails        string                      `json:"rejection_details,omitempty"`
+	RejectionDetails        *RejectionDetails                      `json:"rejection_details,omitempty"`
 	RejectionReason         string                      `json:"rejection_reason,omitempty"`
 	Source                  *Source                     `json:"source,omitempty"`
 	SourceId                int                         `json:"source_id,omitempty"`
@@ -562,6 +562,11 @@ type ProspectPool struct {
 	Id             int     `json:"id,omitempty"`
 	Name           string  `json:"name,omitempty"`
 	ProspectStages []Stage `json:"prospect_stages,omitempty"`
+}
+
+type RejectionDetails struct {
+  CustomFields map[string]string `json:"custom_fields,omitempty"`
+  KeyedCustomFields map[string]KeyedCustomField `json:"keyed_custom_fields,omitempty"`
 }
 
 type RejectionEmail struct {
