@@ -124,6 +124,7 @@ type Candidate struct {
 	Educations           []Education                 `json:"educations,omitempty"`
 	EmailAddresses       []TypeTypeValue             `json:"email_addresses,omitempty"`
 	Employments          []Employment                `json:"employments,omitempty"`
+	ExposeInJobBoard     bool                        `json:"expose_in_job_board,omitempty"`
 	FirstName            string                      `json:"first_name,omitempty"`
 	KeyedCustomFields    map[string]KeyedCustomField `json:"keyed_custom_fields,omitempty"`
 	Id                   int                         `json:"id,omitempty"`
@@ -247,8 +248,8 @@ type Education struct {
 	SchoolId     int    `json:"school_id,omitempty"`
 	SchoolName   string `json:"school_name,omitempty"`
 	StartDate    string `json:"start_date,omitempty"`
-	StartMonth   string    `json:"start_month,omitempty"`
-	StartYear    string    `json:"start_year,omitempty"`
+	StartMonth   string `json:"start_month,omitempty"`
+	StartYear    string `json:"start_year,omitempty"`
 }
 
 type EEOC struct {
@@ -454,7 +455,9 @@ type JobPost struct {
 	InternalContent          string                `json:"internal_content,omitempty"`
 	JobId                    int                   `json:"job_id,omitempty"`
 	Live                     bool                  `json:"live,omitempty"`
+	Location                 string                `json:"location,omitempty"`
 	Questions                []DemographicQuestion `json:"questions,omitempty"`
+	Title                    string                `json:"title,omitempty"`
 	UpdatedAt                string                `json:"updated_at,omitempty"`
 }
 
