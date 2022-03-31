@@ -454,6 +454,7 @@ type JobPost struct {
 	InternalContent          string                `json:"internal_content,omitempty"`
 	JobId                    int                   `json:"job_id,omitempty"`
 	Live                     bool                  `json:"live,omitempty"`
+	Location                 string                `json:"location,omitempty"`
 	Questions                []DemographicQuestion `json:"questions,omitempty"`
 	Title                    string                `json:"title,omitempty"`
 	UpdatedAt                string                `json:"updated_at,omitempty"`
