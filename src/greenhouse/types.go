@@ -247,8 +247,8 @@ type Education struct {
 	SchoolId     int    `json:"school_id,omitempty"`
 	SchoolName   string `json:"school_name,omitempty"`
 	StartDate    string `json:"start_date,omitempty"`
-	StartMonth   string    `json:"start_month,omitempty"`
-	StartYear    string    `json:"start_year,omitempty"`
+	StartMonth   string `json:"start_month,omitempty"`
+	StartYear    string `json:"start_year,omitempty"`
 }
 
 type EEOC struct {
@@ -455,6 +455,7 @@ type JobPost struct {
 	JobId                    int                   `json:"job_id,omitempty"`
 	Live                     bool                  `json:"live,omitempty"`
 	Questions                []DemographicQuestion `json:"questions,omitempty"`
+	Title                    string                `json:"title,omitempty"`
 	UpdatedAt                string                `json:"updated_at,omitempty"`
 }
 
