@@ -41,26 +41,26 @@ func UpdateJobOpenings(c *Client, ctx context.Context, jobId int, openingId int,
 }
 
 func CreateJobOpenings(c *Client, ctx context.Context, jobId int, obj JobOpeningCreateInfo) (*[]int, error) {
-  idList := make([]int, len(obj.Openings), len(obj.Openings))
-  type RespObj struct {
-    Openings []Opening `json:"openings"`
-  }
-  var respObj RespObj
+	idList := make([]int, len(obj.Openings), len(obj.Openings))
+	type RespObj struct {
+		Openings []Opening `json:"openings"`
+	}
+	var respObj RespObj
 	endpoint := fmt.Sprintf("v1/jobs/%d/openings", jobId)
-  jsonBody, err := json.Marshal(obj)
-  if err != nil {
-    return nil, err
-  }
-  resp, err := Post(c, ctx, endpoint, jsonBody)
-  if err != nil {
-    return nil, err
-  }
-  err = json.Unmarshal(resp.Body(), &respObj)
-  if err != nil {
-    return nil, err
-  }
-  for i, item := range respObj.Openings {
-    idList[i] = item.Id
-  }
-  return &idList, nil
+	jsonBody, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := Post(c, ctx, endpoint, jsonBody)
+	if err != nil {
+		return nil, err
+	}
+	err = json.Unmarshal(resp.Body(), &respObj)
+	if err != nil {
+		return nil, err
+	}
+	for i, item := range respObj.Openings {
+		idList[i] = item.Id
+	}
+	return &idList, nil
 }

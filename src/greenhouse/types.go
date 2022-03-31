@@ -124,6 +124,7 @@ type Candidate struct {
 	Educations           []Education                 `json:"educations,omitempty"`
 	EmailAddresses       []TypeTypeValue             `json:"email_addresses,omitempty"`
 	Employments          []Employment                `json:"employments,omitempty"`
+	ExposeInJobBoard     bool                        `json:"expose_in_job_board,omitempty"`
 	FirstName            string                      `json:"first_name,omitempty"`
 	KeyedCustomFields    map[string]KeyedCustomField `json:"keyed_custom_fields,omitempty"`
 	Id                   int                         `json:"id,omitempty"`
