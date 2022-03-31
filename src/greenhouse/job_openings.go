@@ -19,7 +19,7 @@ func GetAllJobOpenings(c *Client, ctx context.Context, id int, status string) (*
 
 func GetJobOpening(c *Client, ctx context.Context, jobId int, openingId int) (*JobOpening, error) {
 	var obj JobOpening
-	endpoint := fmt.Sprintf("v1/jobs/%d/openings", jobId)
+	endpoint := fmt.Sprintf("v1/jobs/%d/openings/%d", jobId, openingId)
 	err := SingleGet(c, ctx, endpoint, &obj)
 	if err != nil {
 		return nil, err
