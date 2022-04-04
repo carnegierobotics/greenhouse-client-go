@@ -20,7 +20,7 @@ func GetCandidateTag(c *Client, ctx context.Context, id int) (*CandidateTag, err
 		return nil, err
 	}
 	for _, item := range *list {
-		if item.Id == id {
+		if *item.Id == id {
 			return &item, nil
 		}
 	}

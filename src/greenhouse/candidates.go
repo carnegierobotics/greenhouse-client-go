@@ -106,13 +106,13 @@ func AnonymizeCandidate(c *Client, ctx context.Context, id int, fields []string)
 	endpoint := fmt.Sprintf("v1/candidates/%d/anonymize?fields=%s", id, strings.Join(fields, ","))
 	resp, err := Put(c, ctx, endpoint, nil)
 	if err != nil {
-		return obj.Id, err
+		return *obj.Id, err
 	}
 	err = json.Unmarshal(resp.Body(), &obj)
 	if err != nil {
-		return obj.Id, err
+		return *obj.Id, err
 	}
-	return obj.Id, nil
+	return *obj.Id, nil
 }
 
 func MergeCandidates(c *Client, ctx context.Context, targetId int, duplicateId int) error {

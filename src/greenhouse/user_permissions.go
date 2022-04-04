@@ -22,7 +22,7 @@ func GetJobPermission(c *Client, ctx context.Context, userId int, permId int) (*
 		return nil, err
 	}
 	for _, item := range *list {
-		if item.Id == permId {
+		if *item.Id == permId {
 			return &item, nil
 		}
 	}
@@ -59,7 +59,7 @@ func GetFutureJobPermission(c *Client, ctx context.Context, userId int, permId i
 		return nil, err
 	}
 	for _, item := range *list {
-		if item.Id == permId {
+		if *item.Id == permId {
 			return &item, nil
 		}
 	}

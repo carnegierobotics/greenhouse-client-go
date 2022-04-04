@@ -60,7 +60,7 @@ func CreateJobOpenings(c *Client, ctx context.Context, jobId int, obj JobOpening
 		return nil, err
 	}
 	for i, item := range respObj.Openings {
-		idList[i] = item.Id
+		idList[i] = *item.Id
 	}
 	return &idList, nil
 }
