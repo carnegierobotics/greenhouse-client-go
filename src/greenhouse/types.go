@@ -325,10 +325,6 @@ type HiringMember struct {
 	LastName    *string `json:"last_name,omitempty"`
 	Name        *string `json:"name,omitempty"`
 	Responsible *bool   `json:"responsible,omitempty"`
-	UserId      *int    `json:"user_id,omitempty"`
-}
-
-type HiringMemberUpdateInfo struct {
 	ResponsibleForActiveCandidates   *bool `json:"responsible_for_active_candidates,omitempty"`
 	ResponsibleForFutureCandidates   *bool `json:"responsible_for_future_candidates,omitempty"`
 	ResponsibleForInactiveCandidates *bool `json:"responsible_for_inactive_candidates,omitempty"`
