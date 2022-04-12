@@ -28,14 +28,9 @@ func DeleteApplication(c *Client, ctx context.Context, id int) error {
 	return Delete(c, ctx, fmt.Sprintf("v1/applications/%d", id), nil)
 }
 
-func AddApplicationToCandidate(c *Client, ctx context.Context, id int, obj *Application) error {
+func AddApplicationToCandidate(c *Client, ctx context.Context, id int, obj *Application) (int, error) {
 	endpoint := fmt.Sprintf("v1/candidates/%d/applications", id)
-	jsonBody, err := json.Marshal(obj)
-	if err != nil {
-		return err
-	}
-	_, err = Post(c, ctx, endpoint, jsonBody)
-	return err
+	return Create(c, ctx, endpoint, obj)
 }
 
 func UpdateApplication(c *Client, ctx context.Context, id int, obj *Application) error {
