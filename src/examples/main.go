@@ -31,22 +31,24 @@ func main() {
 	}
 	harvestClient := greenhouse.Client{BaseUrl: harvestUrl, Token: harvestToken, OnBehalfOf: onBehalfOf}
 	harvestClient.BuildResty()
-  item, err := greenhouse.GetJobHiringTeam(&harvestClient, ctx, 4003423005)
-  if err != nil {
-    fmt.Printf(err.Error())
-    os.Exit(1)
-  }
-  fmt.Printf("%+v\n", item)
   /*
-	list, err := greenhouse.GetAllCandidates(&harvestClient, ctx)
+	item, err := greenhouse.GetJobHiringTeam(&harvestClient, ctx, 123)
 	if err != nil {
 		fmt.Printf(err.Error())
 		os.Exit(1)
 	}
-	fmt.Printf("%+v\n", list)
+	fmt.Printf("%+v\n", item)
   */
 	/*
-	  candidate, err := greenhouse.GetCandidate(&harvestClient, ctx, 4102866005)
+		list, err := greenhouse.GetAllCandidates(&harvestClient, ctx)
+		if err != nil {
+			fmt.Printf(err.Error())
+			os.Exit(1)
+		}
+		fmt.Printf("%+v\n", list)
+	*/
+	/*
+	  candidate, err := greenhouse.GetCandidate(&harvestClient, ctx, 123)
 	  if err != nil {
 	    fmt.Printf(err.Error())
 	    os.Exit(1)
@@ -60,7 +62,7 @@ func main() {
 			os.Exit(1)
 		}
 		fmt.Printf("%+v\n", jobs)
-		job, err := greenhouse.GetJob(&harvestClient, ctx, 4003423005)
+		job, err := greenhouse.GetJob(&harvestClient, ctx, 123)
 		if err != nil {
 			fmt.Printf(err.Error())
 			os.Exit(1)
