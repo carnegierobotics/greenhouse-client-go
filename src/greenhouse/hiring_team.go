@@ -27,7 +27,7 @@ func GetJobHiringTeam(c *Client, ctx context.Context, id int) (*map[string][]Hir
 		return nil, err
 	}
 	if !resp.IsSuccess() {
-		return nil, fmt.Errorf("Error getting hiring team: %s", err.Error())
+		return nil, fmt.Errorf("Error getting hiring team: %d\n", id)
 	}
 	var obj map[string][]HiringMember
 	err = json.Unmarshal(resp.Body(), &obj)
