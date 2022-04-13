@@ -14,11 +14,17 @@ func main() {
 	var harvestUrl string
 	var harvestToken string
 	var onBehalfOf int
+  var retryCount int
+  var retryWait int64
+  var retryMaxWait int64
 	flag.StringVar(&jobsUrl, "jobs-url", "https://boards-api.greenhouse.io", "Greenhouse Job Board API URL")
 	flag.StringVar(&harvestUrl, "harvest-url", "https://harvest.greenhouse.io", "Greenhouse Harvest API URL")
 	flag.IntVar(&onBehalfOf, "on-behalf-of", 0, "On-Behalf-Of user ID")
 	flag.StringVar(&harvestToken, "harvest-token", "", "Greenhouse Harvest API token")
 	flag.StringVar(&jobsToken, "jobs-token", "", "Greenhouse Job Board API token")
+  flag.IntVar(&retryCount, "retry-count", 5, "Client retry count")
+  flag.Int64Var(&retryWait, "retry-wait", 5, "Client retry wait.")
+  flag.Int64Var(&retryMaxWait, "retry-max-wait", 30, "Client retry max wait.")
 	flag.Parse()
 	ctx := context.TODO()
 	if harvestToken == "" {
@@ -33,9 +39,9 @@ func main() {
 		BaseUrl:      harvestUrl,
 		Token:        harvestToken,
 		OnBehalfOf:   onBehalfOf,
-		RetryCount:   5,
-		RetryWait:    5,
-		RetryMaxWait: 30,
+		RetryCount:   retryCount,
+		RetryWait:    retryWait,
+		RetryMaxWait: retryMaxWait,
 	}
 	harvestClient.BuildResty()
 	item, err := greenhouse.GetJobHiringTeam(&harvestClient, ctx, 123)
