@@ -29,16 +29,21 @@ func main() {
 		fmt.Printf("Please provide a On-Behalf-Of user.")
 		os.Exit(1)
 	}
-	harvestClient := greenhouse.Client{BaseUrl: harvestUrl, Token: harvestToken, OnBehalfOf: onBehalfOf}
+	harvestClient := greenhouse.Client{
+		BaseUrl:      harvestUrl,
+		Token:        harvestToken,
+		OnBehalfOf:   onBehalfOf,
+		RetryCount:   5,
+		RetryWait:    5,
+		RetryMaxWait: 30,
+	}
 	harvestClient.BuildResty()
-  /*
 	item, err := greenhouse.GetJobHiringTeam(&harvestClient, ctx, 123)
 	if err != nil {
 		fmt.Printf(err.Error())
 		os.Exit(1)
 	}
 	fmt.Printf("%+v\n", item)
-  */
 	/*
 		list, err := greenhouse.GetAllCandidates(&harvestClient, ctx)
 		if err != nil {

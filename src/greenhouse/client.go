@@ -28,10 +28,13 @@ import (
 )
 
 type Client struct {
-	BaseUrl    string
-	Token      string
-	OnBehalfOf int
-	Client     *resty.Client
+	BaseUrl      string
+	Token        string
+	OnBehalfOf   int
+	RetryCount   int
+	RetryWait    int
+	RetryMaxWait int
+	Client       *resty.Client
 	// At some point, also need to implement the job board API stuff.
 }
 
@@ -50,8 +53,8 @@ func (c *Client) BuildResty() error {
 		AddRetryCondition(
 			func(r *resty.Response, err error) bool { return r.StatusCode() == http.StatusTooManyRequests },
 		).
-		SetRetryCount(5).
-		SetRetryWaitTime(5 * time.Second).
-		SetRetryMaxWaitTime(30 * time.Second)
+		SetRetryCount(c.RetryCount).
+		SetRetryWaitTime(time.Duration(c.RetryWait) * time.Second).
+		SetRetryMaxWaitTime(time.Duration(c.RetryMaxWait) * time.Second)
 	return nil
 }
