@@ -53,9 +53,15 @@ func (c *Client) BuildResty() error {
 		SetHeader("On-Behalf-Of", strconv.Itoa(c.OnBehalfOf)).
 		AddRetryCondition(
 			func(r *resty.Response, err error) bool { return r.StatusCode() == http.StatusTooManyRequests },
-		).
-		SetRetryCount(c.RetryCount).
-		SetRetryWaitTime(time.Duration(rand.Int63n(c.RetryWait)) * time.Second).
-		SetRetryMaxWaitTime(time.Duration(rand.Int63n(c.RetryMaxWait)) * time.Second)
+		)
+  if c.RetryCount > 0 {
+		c.Client.SetRetryCount(c.RetryCount)
+  }
+  if c.RetryWait > 0 {
+		c.Client.SetRetryWaitTime(time.Duration(rand.Int63n(c.RetryWait)) * time.Second)
+  }
+  if c.RetryMaxWait > 0 {
+		c.Client.SetRetryMaxWaitTime(time.Duration(rand.Int63n(c.RetryMaxWait)) * time.Second)
+  }
 	return nil
 }
