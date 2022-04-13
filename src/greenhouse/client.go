@@ -32,8 +32,8 @@ type Client struct {
 	Token        string
 	OnBehalfOf   int
 	RetryCount   int
-	RetryWait    int
-	RetryMaxWait int
+	RetryWait    int64
+	RetryMaxWait int64
 	Client       *resty.Client
 	// At some point, also need to implement the job board API stuff.
 }
