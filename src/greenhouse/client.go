@@ -21,6 +21,7 @@ import (
 	"fmt"
 	// "encoding/json"
 	"github.com/go-resty/resty/v2"
+  "math/rand"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -54,7 +55,7 @@ func (c *Client) BuildResty() error {
 			func(r *resty.Response, err error) bool { return r.StatusCode() == http.StatusTooManyRequests },
 		).
 		SetRetryCount(c.RetryCount).
-		SetRetryWaitTime(time.Duration(c.RetryWait) * time.Second).
-		SetRetryMaxWaitTime(time.Duration(c.RetryMaxWait) * time.Second)
+		SetRetryWaitTime(time.Duration(rand.Int63n(c.RetryWait)) * time.Second).
+		SetRetryMaxWaitTime(time.Duration(rand.Int63n(c.RetryMaxWait)) * time.Second)
 	return nil
 }
