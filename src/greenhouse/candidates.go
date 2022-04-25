@@ -42,6 +42,26 @@ func GetCandidate(c *Client, ctx context.Context, id int) (*Candidate, error) {
 	return &obj, nil
 }
 
+func GetCandidateByName(c *Client, ctx context.Context, firstName string, lastName string) (*Candidate, error) {
+  found := make([]Candidate, 0)
+  list, err := GetAllCandidates(c, ctx)
+  if err != nil {
+    return nil, err
+  }
+  for _, candidate := range *list {
+    if *candidate.FirstName == firstName && *candidate.LastName == lastName {
+      found = append(found, candidate)
+    }
+  }
+  if len(found) < 1 {
+    return nil, nil
+  } else if len(found) > 1 {
+    return nil, fmt.Errorf("Found multiple matching candidates.")
+  } else {
+    return &found[0], nil
+  }
+}
+
 func DeleteCandidate(c *Client, ctx context.Context, id int) error {
 	return Delete(c, ctx, fmt.Sprintf("v1/candidates/%d", id), nil)
 }
