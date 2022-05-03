@@ -19,6 +19,8 @@ import (
 	"context"
 )
 
+// GetAllDegrees retrieves a list of all degrees.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-degrees
 func GetAllDegrees(c *Client, ctx context.Context) (*[]Degree, error) {
 	var obj []Degree
 	err := MultiGet(c, ctx, "v1/degrees", "", &obj)
@@ -28,6 +30,8 @@ func GetAllDegrees(c *Client, ctx context.Context) (*[]Degree, error) {
 	return &obj, nil
 }
 
+// GetAllDisciplines retrieves a list of all disciplines.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-disciplines
 func GetAllDisciplines(c *Client, ctx context.Context) (*[]Discipline, error) {
 	var obj []Discipline
 	err := MultiGet(c, ctx, "v1/disciplines", "", &obj)
@@ -37,6 +41,8 @@ func GetAllDisciplines(c *Client, ctx context.Context) (*[]Discipline, error) {
 	return &obj, nil
 }
 
+// GetAllSchoolds retrieves a list of all schools.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-schools
 func GetAllSchools(c *Client, ctx context.Context) (*[]School, error) {
 	var obj []School
 	err := MultiGet(c, ctx, "v1/schools", "", &obj)

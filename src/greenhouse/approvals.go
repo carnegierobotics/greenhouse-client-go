@@ -21,6 +21,8 @@ import (
 	"fmt"
 )
 
+// ListApprovalsForJob lists all approvals for a job.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-approvals-for-job
 func ListApprovalsForJob(c *Client, ctx context.Context, id int) (*[]Approval, error) {
 	var obj []Approval
 	err := MultiGet(c, ctx, fmt.Sprintf("v1/jobs/%d/approval_flows", id), "", &obj)
@@ -30,6 +32,8 @@ func ListApprovalsForJob(c *Client, ctx context.Context, id int) (*[]Approval, e
 	return &obj, nil
 }
 
+// RetrieveApprovalFlow retrieves an approval flow by ID.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-retrieve-approval-flow
 func RetrieveApprovalFlow(c *Client, ctx context.Context, id int) (*Approval, error) {
 	var obj Approval
 	err := SingleGet(c, ctx, fmt.Sprintf("v1/approval_flows/%d", id), &obj)
@@ -39,6 +43,8 @@ func RetrieveApprovalFlow(c *Client, ctx context.Context, id int) (*Approval, er
 	return &obj, nil
 }
 
+// RequestApprovals requests approvals as part of an approval flow.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#post-request-approvals
 func RequestApprovals(c *Client, ctx context.Context, id int) error {
 	var obj []byte
 	endpoint := fmt.Sprintf("v1/approval_flows/%d/request_approvals", id)
@@ -46,6 +52,8 @@ func RequestApprovals(c *Client, ctx context.Context, id int) error {
 	return err
 }
 
+// PendingApprovalsForUser retrieves all pending approvals for a user.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-pending-approvals-for-user
 func PendingApprovalsForUser(c *Client, ctx context.Context, id int) (*[]Approval, error) {
 	var obj []Approval
 	endpoint := fmt.Sprintf("v1/users/%d/pending_approvals", id)
@@ -56,6 +64,8 @@ func PendingApprovalsForUser(c *Client, ctx context.Context, id int) (*[]Approva
 	return &obj, nil
 }
 
+// ReplaceApproverInApproverGroup replaces a single approver in an approver group.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#put-replace-an-approver-in-an-approver-group
 func ReplaceApproverInApproverGroup(c *Client, ctx context.Context, group int, oldUser int, newUser int) error {
 	endpoint := fmt.Sprintf("v1/approver_groups/%d/replace_approvers", group)
 	replace := map[string]int{"remove_user_id": oldUser, "add_user_id": newUser}
@@ -67,6 +77,8 @@ func ReplaceApproverInApproverGroup(c *Client, ctx context.Context, group int, o
 	return err
 }
 
+// CreateReplaceApprovalFlow creates or replaces an approval workflow.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#put-create-or-replace-an-approval-flow
 func CreateReplaceApprovalFlow(c *Client, ctx context.Context, job int, obj *Approval) (int, error) {
 	endpoint := fmt.Sprintf("v1/jobs/%d/approval_flows", job)
 	return Create(c, ctx, endpoint, obj)

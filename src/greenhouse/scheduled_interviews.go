@@ -21,6 +21,8 @@ import (
 	"strconv"
 )
 
+// GetAllScheduledInterviews retrieves a list of all scheduled interviews for an organization.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-scheduled-interviews
 func GetAllScheduledInterviews(c *Client, ctx context.Context, actionable bool) (*[]ScheduledInterview, error) {
 	var obj []ScheduledInterview
 	querystring := fmt.Sprintf("&actionable=%s", strconv.FormatBool(actionable))
@@ -32,6 +34,8 @@ func GetAllScheduledInterviews(c *Client, ctx context.Context, actionable bool) 
 	return &obj, nil
 }
 
+// GetScheduledInterviewsForApplication retrieves a list of all scheduled interviews for an application.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-scheduled-interviews-for-application
 func GetScheduledInterviewsForApplication(c *Client, ctx context.Context, id int, actionable bool) (*[]ScheduledInterview, error) {
 	var obj []ScheduledInterview
 	querystring := fmt.Sprintf("&actionable=%s", strconv.FormatBool(actionable))
@@ -43,6 +47,8 @@ func GetScheduledInterviewsForApplication(c *Client, ctx context.Context, id int
 	return &obj, nil
 }
 
+// GetScheduledInterview retrieves a scheduled interview by ID.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-retrieve-scheduled-interview
 func GetScheduledInterview(c *Client, ctx context.Context, id int) (*ScheduledInterview, error) {
 	var obj ScheduledInterview
 	endpoint := fmt.Sprintf("v1/scheduled_interviews/%d", id)
@@ -53,14 +59,20 @@ func GetScheduledInterview(c *Client, ctx context.Context, id int) (*ScheduledIn
 	return &obj, nil
 }
 
+// CreateScheduledInterview creates a new scheduled interview.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#post-create-scheduled-interview
 func CreateScheduledInterview(c *Client, ctx context.Context, obj *ScheduledInterviewCreateInfo) (int, error) {
 	return Create(c, ctx, "v2/scheduled_interviews", obj)
 }
 
+// UpdateScheduledInterview updates a scheduled interview's properties.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#patch-update-scheduled-interview
 func UpdateScheduledInterview(c *Client, ctx context.Context, id int, obj *ScheduledInterviewUpdateInfo) error {
 	return Update(c, ctx, fmt.Sprintf("v2/scheduled_interviews/%d", id), obj)
 }
 
+// DeleteScheduledInterview deletes a scheduled interview.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#delete-remove-scheduled-interview
 func DeleteScheduledInterview(c *Client, ctx context.Context, id int) error {
 	return Delete(c, ctx, fmt.Sprintf("v1/scheduled_interviews/%d", id), nil)
 }

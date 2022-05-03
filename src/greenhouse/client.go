@@ -28,6 +28,7 @@ import (
 	"time"
 )
 
+// Client creates an API client.
 type Client struct {
 	BaseUrl      string
 	Token        string
@@ -39,6 +40,7 @@ type Client struct {
 	// At some point, also need to implement the job board API stuff.
 }
 
+// BuildResty builds a Resty client.
 func (c *Client) BuildResty() error {
 	u, err := url.ParseRequestURI(c.BaseUrl)
 	if err != nil {

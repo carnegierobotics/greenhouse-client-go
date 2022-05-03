@@ -20,6 +20,8 @@ import (
 	"fmt"
 )
 
+// GetAllJobStages retrieves a list of all job stages for an organization.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-job-stages
 func GetAllJobStages(c *Client, ctx context.Context) (*[]JobStage, error) {
 	var obj []JobStage
 	err := MultiGet(c, ctx, "v1/job_stages", "", &obj)
@@ -29,6 +31,8 @@ func GetAllJobStages(c *Client, ctx context.Context) (*[]JobStage, error) {
 	return &obj, nil
 }
 
+// GetJobStagesForJob retrieves a list of stages for a job.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-job-stages-for-job
 func GetJobStagesForJob(c *Client, ctx context.Context, id int) (*[]JobStage, error) {
 	var obj []JobStage
 	endpoint := fmt.Sprintf("v1/jobs/%d/stages", id)
@@ -39,6 +43,8 @@ func GetJobStagesForJob(c *Client, ctx context.Context, id int) (*[]JobStage, er
 	return &obj, nil
 }
 
+// GetJobStage retrieves a job stage by ID.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-retrieve-job-stage
 func GetJobStage(c *Client, ctx context.Context, id int) (*JobStage, error) {
 	var obj JobStage
 	endpoint := fmt.Sprintf("v1/job_stages/%d", id)

@@ -20,6 +20,8 @@ import (
 	"fmt"
 )
 
+// GetAllOffices retrieves a list of all offices for an organization.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-offices
 func GetAllOffices(c *Client, ctx context.Context) (*[]Office, error) {
 	var obj []Office
 	err := MultiGet(c, ctx, "v1/offices", "", &obj)
@@ -29,6 +31,8 @@ func GetAllOffices(c *Client, ctx context.Context) (*[]Office, error) {
 	return &obj, nil
 }
 
+// GetOffice retrieves an office by ID.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-retrieve-office
 func GetOffice(c *Client, ctx context.Context, id int) (*Office, error) {
 	var obj Office
 	endpoint := fmt.Sprintf("v1/offices/%d", id)
@@ -39,10 +43,14 @@ func GetOffice(c *Client, ctx context.Context, id int) (*Office, error) {
 	return &obj, nil
 }
 
+// CreateOffice creates a new office.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#post-add-office
 func CreateOffice(c *Client, ctx context.Context, obj *OfficeCreateInfo) (int, error) {
 	return Create(c, ctx, "v1/offices", obj)
 }
 
+// UpdateOffice updates an office's properties.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#patch-edit-office
 func UpdateOffice(c *Client, ctx context.Context, id int, obj *OfficeUpdateInfo) error {
 	return Update(c, ctx, fmt.Sprintf("v1/offices/%d", id), obj)
 }

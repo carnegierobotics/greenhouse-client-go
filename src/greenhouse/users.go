@@ -21,6 +21,8 @@ import (
 	"fmt"
 )
 
+// GetAllUsers retrieves a list of all users for an organization.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-users
 func GetAllUsers(c *Client, ctx context.Context) (*[]User, error) {
 	var obj []User
 	err := MultiGet(c, ctx, "v1/users", "", &obj)
@@ -30,6 +32,8 @@ func GetAllUsers(c *Client, ctx context.Context) (*[]User, error) {
 	return &obj, nil
 }
 
+// GetUser retrieves a single user by ID.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-retrieve-user
 func GetUser(c *Client, ctx context.Context, id int) (*User, error) {
 	var obj User
 	endpoint := fmt.Sprintf("v1/users/%d", id)
@@ -40,30 +44,43 @@ func GetUser(c *Client, ctx context.Context, id int) (*User, error) {
 	return &obj, nil
 }
 
+// CreateUser creates a new user.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#post-add-user
 func CreateUser(c *Client, ctx context.Context, obj *UserCreateInfo) (int, error) {
 	return Create(c, ctx, "v1/users", obj)
 }
 
+// EnableUser enables a user.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#patch-enable-user
 func EnableUser(c *Client, ctx context.Context, id int) error {
 	lookupInfo := GetLookupInfo(id)
 	_, err := Patch(c, ctx, "v2/users/enable", lookupInfo)
 	return err
 }
 
+// DisableUser disables a user.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#patch-disable-user
 func DisableUser(c *Client, ctx context.Context, id int) error {
 	lookupInfo := GetLookupInfo(id)
 	_, err := Patch(c, ctx, "v2/users/disable", lookupInfo)
 	return err
 }
 
+// UpdateUser updates a user's properties.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#patch-edit-user
 func UpdateUser(c *Client, ctx context.Context, id int, obj *UserUpdateInfo) error {
 	return Update(c, ctx, fmt.Sprintf("v1/users/%d", id), obj)
 }
 
+// GetLookupInfo formats a user lookup. Currently this can only be done by ID, although
+// Greenhouse also supports other attributes, such as name.
 func GetLookupInfo(id int) []byte {
 	return []byte(fmt.Sprintf("{\"user\":{\"user_id\":%d}}", id))
 }
 
+// ChangeUserPermissionLevel changes a user's permission level. It currently only supports changing
+// to Basic.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#patch-change-user-permission-level
 func ChangeUserPermissionLevel(c *Client, ctx context.Context, user *User, level string) error {
 	endpoint := fmt.Sprintf("v1/users/permission_level")
 	jsonBody, err := json.Marshal(map[string]interface{}{"user": user, "level": level})
@@ -74,6 +91,8 @@ func ChangeUserPermissionLevel(c *Client, ctx context.Context, user *User, level
 	return err
 }
 
+// AddEmailAddressToUser adds an email address to a user.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#post-add-e-mail-address-to-user
 func AddEmailAddressToUser(c *Client, ctx context.Context, userId int, obj *UserEmailUpdateInfo) error {
 	jsonBody, err := json.Marshal(obj)
 	if err != nil {

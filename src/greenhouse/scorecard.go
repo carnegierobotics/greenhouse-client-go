@@ -20,6 +20,8 @@ import (
 	"fmt"
 )
 
+// GetAllScorecards retrieves a list of all scorecards for an organization.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-scorecards
 func GetAllScorecards(c *Client, ctx context.Context) (*[]Scorecard, error) {
 	var obj []Scorecard
 	err := MultiGet(c, ctx, "v1/scorecards", "", &obj)
@@ -29,6 +31,8 @@ func GetAllScorecards(c *Client, ctx context.Context) (*[]Scorecard, error) {
 	return &obj, nil
 }
 
+// GetScorecardsForApplication retrieves a list of all scorecards for an application.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-scorecards-for-application
 func GetScorecardsForApplication(c *Client, ctx context.Context, id int) (*[]Scorecard, error) {
 	var obj []Scorecard
 	endpoint := fmt.Sprintf("v1/applications/%d/scorecards", id)
@@ -39,6 +43,8 @@ func GetScorecardsForApplication(c *Client, ctx context.Context, id int) (*[]Sco
 	return &obj, nil
 }
 
+// GetScorecard retrieves a scorecard by ID.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-retrieve-scorecard
 func GetScorecard(c *Client, ctx context.Context, id int) (*Scorecard, error) {
 	var obj Scorecard
 	endpoint := fmt.Sprintf("v1/scorecards/%d", id)

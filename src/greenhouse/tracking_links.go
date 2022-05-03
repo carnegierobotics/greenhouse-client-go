@@ -21,6 +21,8 @@ import (
 	"fmt"
 )
 
+// GetTrackingLinkData retrieves link data for a specified token.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-tracking-link-data-for-token
 func GetTrackingLinkData(c *Client, ctx context.Context, token string) (*TrackingLink, error) {
 	var obj TrackingLink
 	endpoint := fmt.Sprintf("v1/%s/%s", "tracking_links", token)

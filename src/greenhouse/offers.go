@@ -20,6 +20,8 @@ import (
 	"fmt"
 )
 
+// GetAllOffers retrieves a list of all offers made by an organization.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-offers
 func GetAllOffers(c *Client, ctx context.Context) (*[]Offer, error) {
 	var obj []Offer
 	err := MultiGet(c, ctx, "v1/offers", "", &obj)
@@ -29,6 +31,8 @@ func GetAllOffers(c *Client, ctx context.Context) (*[]Offer, error) {
 	return &obj, nil
 }
 
+// GetAllOffersForApplication retrieves a list of all offers made for an application.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-offers-for-application
 func GetAllOffersForApplication(c *Client, ctx context.Context, id int) (*[]Offer, error) {
 	var obj []Offer
 	err := MultiGet(c, ctx, fmt.Sprintf("v1/applications/%d/offers", id), "", &obj)
@@ -38,6 +42,8 @@ func GetAllOffersForApplication(c *Client, ctx context.Context, id int) (*[]Offe
 	return &obj, nil
 }
 
+// GetCurrentOfferForApplication retrieves the current offer for an application.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-retrieve-current-offer-for-application
 func GetCurrentOfferForApplication(c *Client, ctx context.Context, id int) (*Offer, error) {
 	var obj Offer
 	endpoint := fmt.Sprintf("v1/applications/%d/offers/current_offer", id)
@@ -48,6 +54,8 @@ func GetCurrentOfferForApplication(c *Client, ctx context.Context, id int) (*Off
 	return &obj, nil
 }
 
+// GetOffer retrieves an offer by ID.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-retrieve-offer
 func GetOffer(c *Client, ctx context.Context, id int) (*Offer, error) {
 	var obj Offer
 	endpoint := fmt.Sprintf("v1/offers/%d", id)
@@ -58,6 +66,8 @@ func GetOffer(c *Client, ctx context.Context, id int) (*Offer, error) {
 	return &obj, nil
 }
 
+// UpdateCurrentOffer updates the current offer for an application.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#patch-update-current-offer
 func UpdateCurrentOffer(c *Client, ctx context.Context, id int, obj *Offer) error {
 	endpoint := fmt.Sprintf("v1/applications/%d/offers/current_offer", id)
 	return Update(c, ctx, endpoint, obj)

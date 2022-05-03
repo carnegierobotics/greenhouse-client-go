@@ -20,6 +20,8 @@ import (
 	"fmt"
 )
 
+// GetAllProspectPools retrieves a list of all prospect pools for an organization.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-prospect-pools
 func GetAllProspectPools(c *Client, ctx context.Context) (*[]ProspectPool, error) {
 	var obj []ProspectPool
 	err := MultiGet(c, ctx, "v1/prospect_pools", "", &obj)
@@ -29,6 +31,8 @@ func GetAllProspectPools(c *Client, ctx context.Context) (*[]ProspectPool, error
 	return &obj, nil
 }
 
+// GetProspectPool retrieves a prospect pool by ID.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-retrieve-prospect-pool
 func GetProspectPool(c *Client, ctx context.Context, id int) (*ProspectPool, error) {
 	var obj ProspectPool
 	endpoint := fmt.Sprintf("v1/prospect_pools/%d", id)

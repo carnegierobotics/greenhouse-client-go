@@ -28,10 +28,12 @@ import (
 	"strings"
 )
 
+// RespObj represents a response object.
 type RespObj struct {
 	Id int `json:"id"`
 }
 
+// Post performs a POST against the specified endpoint.
 func Post(c *Client, ctx context.Context, endpoint string, jsonBody []byte) (*resty.Response, error) {
 	req := c.Client.R().SetContext(ctx)
 	if jsonBody != nil {
@@ -47,6 +49,7 @@ func Post(c *Client, ctx context.Context, endpoint string, jsonBody []byte) (*re
 	return resp, nil
 }
 
+// Create performs a POST and returns the ID of the created object.
 func Create(c *Client, ctx context.Context, endpoint string, item interface{}) (int, error) {
 	var respObj RespObj
 	jsonBody, err := json.Marshal(item)
@@ -64,6 +67,7 @@ func Create(c *Client, ctx context.Context, endpoint string, item interface{}) (
 	return respObj.Id, nil
 }
 
+// Get performs a GET against the specified endpoint.
 func Get(c *Client, ctx context.Context, endpoint string) (*resty.Response, error) {
 	resp, err := c.Client.R().SetContext(ctx).Get(endpoint)
 	if err != nil {
@@ -75,6 +79,7 @@ func Get(c *Client, ctx context.Context, endpoint string) (*resty.Response, erro
 	return resp, nil
 }
 
+// SingleGet performs a GET to retrieve a single object.
 func SingleGet(c *Client, ctx context.Context, endpoint string, item interface{}) error {
 	resp, err := Get(c, ctx, endpoint)
 	if err != nil {
@@ -87,6 +92,7 @@ func SingleGet(c *Client, ctx context.Context, endpoint string, item interface{}
 	return nil
 }
 
+// MultiGet performs a GET to retrieve a list of objects, handling pagination in the process.
 func MultiGet(c *Client, ctx context.Context, endpoint string, querystring string, obj interface{}) error {
 	allItems := make([]map[string]interface{}, 0)
 	for {
@@ -128,6 +134,7 @@ func MultiGet(c *Client, ctx context.Context, endpoint string, querystring strin
 	return nil
 }
 
+// Exists checks whether the specified object exists at the specified endpoint.
 func Exists(c *Client, ctx context.Context, endpoint string) (bool, error) {
 	resp, err := Get(c, ctx, endpoint)
 	if err != nil && resp.IsSuccess() {
@@ -136,6 +143,7 @@ func Exists(c *Client, ctx context.Context, endpoint string) (bool, error) {
 	return err == nil, err
 }
 
+// Patch performs a PATCH against the specified endpoint.
 func Patch(c *Client, ctx context.Context, endpoint string, jsonBody []byte) (*resty.Response, error) {
 	req := c.Client.R().SetContext(ctx)
 	if jsonBody != nil {
@@ -151,6 +159,7 @@ func Patch(c *Client, ctx context.Context, endpoint string, jsonBody []byte) (*r
 	return resp, nil
 }
 
+// Put performs a PUT against the specified endpoint.
 func Put(c *Client, ctx context.Context, endpoint string, jsonBody []byte) (*resty.Response, error) {
 	req := c.Client.R().SetContext(ctx)
 	if jsonBody != nil {
@@ -166,6 +175,7 @@ func Put(c *Client, ctx context.Context, endpoint string, jsonBody []byte) (*res
 	return resp, nil
 }
 
+// Update performs a Patch against the specified endpoint, handling object marshalling in the process.
 func Update(c *Client, ctx context.Context, endpoint string, item interface{}) error {
 	jsonBody, err := json.Marshal(item)
 	if err != nil {
@@ -178,6 +188,7 @@ func Update(c *Client, ctx context.Context, endpoint string, item interface{}) e
 	return nil
 }
 
+// Delete performs a DELETE against the specified endpoint.
 func Delete(c *Client, ctx context.Context, endpoint string, jsonBody []byte) error {
 	req := c.Client.R().SetContext(ctx)
 	if jsonBody != nil {
@@ -193,6 +204,7 @@ func Delete(c *Client, ctx context.Context, endpoint string, jsonBody []byte) er
 	return nil
 }
 
+// GenerateQuerystring generates a querystring from a list of k-v pairs.
 func GenerateQuerystring(params map[string]interface{}) (*string, error) {
 	var querystring string
 	for key, value := range params {
@@ -205,6 +217,8 @@ func GenerateQuerystring(params map[string]interface{}) (*string, error) {
 	return &querystring, nil
 }
 
+// Convert (in theory) should be able to handle object type conversions. It was
+// never really implemented and should be removed in future releases.
 func Convert(item interface{}) string {
 	//Needs to be expanded to support more types.
 	switch valType := reflect.TypeOf(item); valType.Kind() {

@@ -20,6 +20,8 @@ import (
 	"fmt"
 )
 
+// GetAllEmailTemplates retrieves a list of all email templates.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-email-templates
 func GetAllEmailTemplates(c *Client, ctx context.Context) (*[]EmailTemplate, error) {
 	var obj []EmailTemplate
 	err := MultiGet(c, ctx, "v1/email_templates", "", &obj)
@@ -29,6 +31,8 @@ func GetAllEmailTemplates(c *Client, ctx context.Context) (*[]EmailTemplate, err
 	return &obj, nil
 }
 
+// GetEmailTemplate retrieves an email template by ID.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-retrieve-email-template
 func GetEmailTemplate(c *Client, ctx context.Context, id int) (*EmailTemplate, error) {
 	var obj EmailTemplate
 	err := SingleGet(c, ctx, fmt.Sprintf("v1/email_templates/%d", id), &obj)

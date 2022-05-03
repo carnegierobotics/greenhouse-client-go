@@ -20,6 +20,8 @@ import (
 	"fmt"
 )
 
+// GetAllDepartments retrieves a list of all departments.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-departments
 func GetAllDepartments(c *Client, ctx context.Context) (*[]Department, error) {
 	var obj []Department
 	err := MultiGet(c, ctx, "v1/departments", "", &obj)
@@ -29,6 +31,8 @@ func GetAllDepartments(c *Client, ctx context.Context) (*[]Department, error) {
 	return &obj, nil
 }
 
+// GetDepartment retrieves a single department by ID.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-retrieve-department
 func GetDepartment(c *Client, ctx context.Context, id int) (*Department, error) {
 	var obj Department
 	endpoint := fmt.Sprintf("v1/departments/%d", id)
@@ -39,10 +43,14 @@ func GetDepartment(c *Client, ctx context.Context, id int) (*Department, error) 
 	return &obj, nil
 }
 
+// CreateDepartment creates a department.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#post-add-department
 func CreateDepartment(c *Client, ctx context.Context, obj *Department) (int, error) {
 	return Create(c, ctx, "v1/departments", obj)
 }
 
+// UpdateDepartment updates a department's properties.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#patch-edit-department
 func UpdateDepartment(c *Client, ctx context.Context, id int, obj *Department) error {
 	return Update(c, ctx, fmt.Sprintf("v1/departments/%d", id), obj)
 }

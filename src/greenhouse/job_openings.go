@@ -21,6 +21,8 @@ import (
 	"fmt"
 )
 
+// GetAllJobOpenings retrieves a list of all openings for a job.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-job-openings
 func GetAllJobOpenings(c *Client, ctx context.Context, id int, status string) (*[]JobOpening, error) {
 	var obj []JobOpening
 	endpoint := fmt.Sprintf("v1/jobs/%d/openings", id)
@@ -32,6 +34,8 @@ func GetAllJobOpenings(c *Client, ctx context.Context, id int, status string) (*
 	return &obj, nil
 }
 
+// GetJobOpening retrieves an opening by ID.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-single-opening-for-job
 func GetJobOpening(c *Client, ctx context.Context, jobId int, openingId int) (*JobOpening, error) {
 	var obj JobOpening
 	endpoint := fmt.Sprintf("v1/jobs/%d/openings/%d", jobId, openingId)
@@ -42,6 +46,8 @@ func GetJobOpening(c *Client, ctx context.Context, jobId int, openingId int) (*J
 	return &obj, nil
 }
 
+// DeleteJobOpenings deletes openings from a job.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#delete-destroy-openings
 func DeleteJobOpenings(c *Client, ctx context.Context, jobId int, openingIds []int) error {
 	jsonBody, err := json.Marshal(map[string][]int{"ids": openingIds})
 	if err != nil {
@@ -50,11 +56,15 @@ func DeleteJobOpenings(c *Client, ctx context.Context, jobId int, openingIds []i
 	return Delete(c, ctx, fmt.Sprintf("v1/jobs/%d/openings", jobId), jsonBody)
 }
 
+// UpdateJobOpenings updates the openings for a job.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#patch-edit-openings
 func UpdateJobOpenings(c *Client, ctx context.Context, jobId int, openingId int, obj *JobOpeningUpdateInfo) error {
 	endpoint := fmt.Sprintf("v1/jobs/%d/openings/%d", jobId, openingId)
 	return Update(c, ctx, endpoint, obj)
 }
 
+// CreateJobOpenings adds openings to a job.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#post-create-new-openings
 func CreateJobOpenings(c *Client, ctx context.Context, jobId int, obj JobOpeningCreateInfo) (*[]int, error) {
 	idList := make([]int, len(obj.Openings), len(obj.Openings))
 	type RespObj struct {

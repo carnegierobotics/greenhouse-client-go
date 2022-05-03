@@ -21,6 +21,8 @@ import (
 	"strconv"
 )
 
+// GetAllRejectionReasons retrieves a list of all rejection reasons for an organization.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-rejection-reasons
 func GetAllRejectionReasons(c *Client, ctx context.Context, include_defaults bool, per_page int) (*[]RejectionReason, error) {
 	var obj []RejectionReason
 	querystring := fmt.Sprintf("per_page=%d&include_defaults=%s", per_page, strconv.FormatBool(include_defaults))

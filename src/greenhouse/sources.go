@@ -19,6 +19,8 @@ import (
 	"context"
 )
 
+// GetAllSources retrieves a list of all sources for an organization, grouped by strategy.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-sources
 func GetAllSources(c *Client, ctx context.Context) (*[]Source, error) {
 	var obj []Source
 	err := MultiGet(c, ctx, "v1/sources", "", &obj)

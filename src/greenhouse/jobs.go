@@ -20,6 +20,8 @@ import (
 	"fmt"
 )
 
+// GetAllJobs gets a list of all jobs for an organization.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-jobs
 func GetAllJobs(c *Client, ctx context.Context) (*[]Job, error) {
 	var obj []Job
 	err := MultiGet(c, ctx, "v1/jobs", "", &obj)
@@ -29,6 +31,8 @@ func GetAllJobs(c *Client, ctx context.Context) (*[]Job, error) {
 	return &obj, nil
 }
 
+// GetJob retrieves a job by ID.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-retrieve-job
 func GetJob(c *Client, ctx context.Context, id int) (*Job, error) {
 	var obj Job
 	err := SingleGet(c, ctx, fmt.Sprintf("v1/jobs/%d", id), &obj)
@@ -38,10 +42,14 @@ func GetJob(c *Client, ctx context.Context, id int) (*Job, error) {
 	return &obj, nil
 }
 
+// CreateJob creates a new job.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#post-create-job
 func CreateJob(c *Client, ctx context.Context, obj *JobCreateInfo) (int, error) {
 	return Create(c, ctx, "v1/jobs", obj)
 }
 
+// UpdateJob updates a job's properties.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#patch-update-job
 func UpdateJob(c *Client, ctx context.Context, id int, obj *JobUpdateInfo) error {
 	return Update(c, ctx, fmt.Sprintf("v1/jobs/%d", id), obj)
 }

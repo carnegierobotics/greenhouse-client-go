@@ -21,6 +21,8 @@ import (
 	"fmt"
 )
 
+// GetJobHiringTeam retrieves the hiring team for a job.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-hiring-team
 func GetJobHiringTeam(c *Client, ctx context.Context, id int) (*map[string][]HiringMember, error) {
 	resp, err := c.Client.R().SetContext(ctx).Get(fmt.Sprintf("v1/jobs/%d/hiring_team", id))
 	if err != nil {
@@ -34,6 +36,8 @@ func GetJobHiringTeam(c *Client, ctx context.Context, id int) (*map[string][]Hir
 	return &obj, nil
 }
 
+// UpdateJobHiringTeam replaces a job's hiring team.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#put-replace-hiring-team
 func UpdateJobHiringTeam(c *Client, ctx context.Context, id int, obj *map[string][]HiringMember) error {
 	jsonBody, err := json.Marshal(obj)
 	if err != nil {
@@ -43,7 +47,9 @@ func UpdateJobHiringTeam(c *Client, ctx context.Context, id int, obj *map[string
 	return err
 }
 
-//This is a more atomic operation; instead of replacing an entire team, you can work on one member.
+// UpdateHiringTeamMembers adds members to a hiring team. This is a more atomic operation; instead of
+// replacing an entire team, you can work on one member.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#post-add-hiring-team-members
 func UpdateHiringTeamMembers(c *Client, ctx context.Context, id int, obj *map[string][]HiringMember) error {
 	jsonBody, err := json.Marshal(obj)
 	if err != nil {
@@ -53,7 +59,9 @@ func UpdateHiringTeamMembers(c *Client, ctx context.Context, id int, obj *map[st
 	return err
 }
 
-//This is a more atomic operation; instead of replacing an entire team, you can work on one member.
+// DeleteHiringTeamMembers removes members from a hiring team. This is a more atomic operation; instead of
+// replacing an entire team, you can work on one member.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#delete-remove-hiring-team-member
 func DeleteHiringTeamMembers(c *Client, ctx context.Context, id int, obj *map[string][]int) error {
 	jsonBody, err := json.Marshal(obj)
 	if err != nil {

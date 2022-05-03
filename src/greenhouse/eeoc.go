@@ -20,6 +20,8 @@ import (
 	"fmt"
 )
 
+// GetAllEEOC retrieves a list of all EEOC data.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-eeoc
 func GetAllEEOC(c *Client, ctx context.Context) (*[]EEOC, error) {
 	var obj []EEOC
 	endpoint := "v1/eeoc"
@@ -30,6 +32,8 @@ func GetAllEEOC(c *Client, ctx context.Context) (*[]EEOC, error) {
 	return &obj, nil
 }
 
+// GetEEOCForApplication retrieves EEOC data for an application.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-retrieve-eeoc-data-for-application
 func GetEEOCForApplication(c *Client, ctx context.Context, applicationId int) (*EEOC, error) {
 	var obj EEOC
 	endpoint := fmt.Sprintf("v1/applications/%d", applicationId)

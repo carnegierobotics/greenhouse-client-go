@@ -21,6 +21,8 @@ import (
 	"fmt"
 )
 
+// GetJobPermissions retrieves a list of all permissions for a user.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-job-permissions
 func GetJobPermissions(c *Client, ctx context.Context, id int) (*[]UserPermission, error) {
 	var obj []UserPermission
 	endpoint := fmt.Sprintf("v1/users/%d/permissions/jobs", id)
@@ -31,6 +33,7 @@ func GetJobPermissions(c *Client, ctx context.Context, id int) (*[]UserPermissio
 	return &obj, nil
 }
 
+// GetJobPermission retrieves a single permission by ID.
 func GetJobPermission(c *Client, ctx context.Context, userId int, permId int) (*UserPermission, error) {
 	list, err := GetJobPermissions(c, ctx, userId)
 	if err != nil {
@@ -44,6 +47,8 @@ func GetJobPermission(c *Client, ctx context.Context, userId int, permId int) (*
 	return nil, nil
 }
 
+// DeleteJobPermission deletes a user's job permission.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#delete-remove-a-job-permission
 func DeleteJobPermission(c *Client, ctx context.Context, jobId int, permId int) error {
 	endpoint := fmt.Sprintf("v1/users/%d/permissions/jobs", jobId)
 	jsonBody, err := json.Marshal(map[string]int{"job_permission_id": permId})
@@ -53,11 +58,15 @@ func DeleteJobPermission(c *Client, ctx context.Context, jobId int, permId int) 
 	return Delete(c, ctx, endpoint, jsonBody)
 }
 
+// CreateJobPermission adds a job permission to a user.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#put-add-a-job-permission
 func CreateJobPermission(c *Client, ctx context.Context, id int, obj *UserPermission) (int, error) {
 	endpoint := fmt.Sprintf("v1/users/%d/permissions/jobs", id)
 	return Create(c, ctx, endpoint, obj)
 }
 
+// GetFutureJobPermissions retrieves a list of a user's future job permissions.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-future-job-permissions
 func GetFutureJobPermissions(c *Client, ctx context.Context, id int) (*[]FutureJobPermission, error) {
 	var obj []FutureJobPermission
 	endpoint := fmt.Sprintf("v1/users/%d/permissions/future_jobs", id)
@@ -68,6 +77,7 @@ func GetFutureJobPermissions(c *Client, ctx context.Context, id int) (*[]FutureJ
 	return &obj, nil
 }
 
+// GetFutureJobPermission retrieves a single future job permission by ID.
 func GetFutureJobPermission(c *Client, ctx context.Context, userId int, permId int) (*FutureJobPermission, error) {
 	list, err := GetFutureJobPermissions(c, ctx, userId)
 	if err != nil {
@@ -81,6 +91,8 @@ func GetFutureJobPermission(c *Client, ctx context.Context, userId int, permId i
 	return nil, nil
 }
 
+// DeleteFutureJobPermission deletes a user's future job permission.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#delete-remove-a-future-job-permission
 func DeleteFutureJobPermission(c *Client, ctx context.Context, id int, permId int) error {
 	endpoint := fmt.Sprintf("v1/users/%d/permissions/future_jobs", id)
 	jsonBody, err := json.Marshal(map[string]int{"future_job_permission_id": permId})
@@ -90,6 +102,8 @@ func DeleteFutureJobPermission(c *Client, ctx context.Context, id int, permId in
 	return Delete(c, ctx, endpoint, jsonBody)
 }
 
+// CreateFutureJobPermission adds a future job permission to a user.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#put-add-a-future-job-permission
 func CreateFutureJobPermission(c *Client, ctx context.Context, id int, obj *FutureJobPermission) (int, error) {
 	endpoint := fmt.Sprintf("v1/users/%d/permissions/future_jobs", id)
 	return Create(c, ctx, endpoint, obj)

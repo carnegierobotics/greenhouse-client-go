@@ -19,6 +19,8 @@ import (
 	"context"
 )
 
+// GetAllUserRoles retrieves a list of all roles that can be assigned to a user.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#the-user-role-object
 func GetAllUserRoles(c *Client, ctx context.Context) (*[]UserRole, error) {
 	var obj []UserRole
 	err := MultiGet(c, ctx, "v1/user_roles", "", &obj)

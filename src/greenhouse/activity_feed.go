@@ -20,6 +20,8 @@ import (
 	"fmt"
 )
 
+// GetActivityFeed retrieves an activity feed for a candidate.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-retrieve-activity-feed
 func GetActivityFeed(c *Client, ctx context.Context, id int) (*ActivityFeed, error) {
 	var obj ActivityFeed
 	endpoint := fmt.Sprintf("v1/candidates/%d/activity_feed", id)

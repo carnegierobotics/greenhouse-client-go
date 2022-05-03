@@ -20,6 +20,8 @@ import (
 	"fmt"
 )
 
+// GetAllCloseReasons retrieves a list of all close reasons.
+// Greenhouse API docs: https://developers.greenhouse.io/harvest.html#get-list-close-reasons
 func GetAllCloseReasons(c *Client, ctx context.Context) (*[]CloseReason, error) {
 	var obj []CloseReason
 	err := MultiGet(c, ctx, "v1/close_reasons", "", &obj)
@@ -29,6 +31,7 @@ func GetAllCloseReasons(c *Client, ctx context.Context) (*[]CloseReason, error) 
 	return &obj, nil
 }
 
+// GetCloseReason gets a close reason by ID.
 func GetCloseReason(c *Client, ctx context.Context, id int) (*CloseReason, error) {
 	var obj CloseReason
 	endpoint := fmt.Sprintf("v1/close_reasons/%d", id)
