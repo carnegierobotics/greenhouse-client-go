@@ -13,6 +13,7 @@ greenhouse-client-go is distributed in the hope that it will be useful, but WITH
 
 You should have received a copy of the GNU General Public License along with greenhouse-client-go. If not, see <https://www.gnu.org/licenses/>.
 */
+
 package greenhouse
 
 import ()
