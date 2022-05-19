@@ -1,4 +1,7 @@
 # greenhouse-client-go
+
+[![Go Reference](https://pkg.go.dev/badge/github.com/carnegierobotics/greenhouse-client-go.svg)](https://pkg.go.dev/github.com/carnegierobotics/greenhouse-client-go)
+
 This library provides a Go client for the Greenhouse [Harvest](https://developers.greenhouse.io/harvest.html#introduction) and [Job Board](https://developers.greenhouse.io/job-board.html)\* APIs.
 
 \* The Job Board API has not yet been added to this library. 
@@ -89,3 +92,7 @@ err := greenhouse.UpdateRejectionReason(&client, ctx, applicationId, newReasonId
 ```go
 err := greenhouse.UnrejectApplication(&client, ctx, applicationId)
 ```
+
+## Links
+[Greenhouse Harvest API](https://developers.greenhouse.io/harvest.html#introduction)
+[Greenhouse Job Board API](https://developers.greenhouse.io/job-board.html)
