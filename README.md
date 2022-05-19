@@ -94,5 +94,5 @@ err := greenhouse.UnrejectApplication(&client, ctx, applicationId)
 ```
 
 ## Links
-[Greenhouse Harvest API](https://developers.greenhouse.io/harvest.html#introduction)  
-[Greenhouse Job Board API](https://developers.greenhouse.io/job-board.html)
+- [Greenhouse Harvest API](https://developers.greenhouse.io/harvest.html#introduction)  
+- [Greenhouse Job Board API](https://developers.greenhouse.io/job-board.html)
